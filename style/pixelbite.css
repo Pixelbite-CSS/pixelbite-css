@@ -1,0 +1,38 @@
+:root {
+    --primary-color: #5920B0;
+    --secondary-color: #9575C6;
+    --success-color: #60D130;
+    --danger-color: #D13030;
+    --warning-color: #DFAF2A;
+    --info-color: #26C7E7;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.flex, .flexCeneter, .flexMiddle {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 12px;
+}
+
+.flexCeneter {
+    justify-content: center;
+}
+
+.flexMiddle {
+    align-items: center;
+}
+
+.fullWidth {width: 100%}
+.fullHeight {height: 100%}
+.windowWidth {width: 100vw}
+.windowHeight {height: 100vh}

@@ -70,7 +70,7 @@ window.addEventListener("load", async () => {
     if (loaders.length > 0) {
         for (let i = 0; i < loaders.length; i++) {
             loaders[i].style.opacity = '0';
-            await sleep(100);
+            await sleep(400);
             loaders[i].style.display = 'none';
         }
     }

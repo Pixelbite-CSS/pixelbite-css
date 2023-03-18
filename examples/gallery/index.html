@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gallery example</title>
+    <link rel="stylesheet" href="../../style/pixelbite.css">
+</head>
+<body>
+<div class="w-100% windowHeight">
+    <div class="toggle-header hidden of-hidden w-100% p-16px-0 bg-white20 flex c-white100">
+        <div class="auto-width flex flexRow flexAlignItems-flex_start flexJustifyContent-space_between">
+            <div class="w-1000px flex flexColumn flexJustifyContent-flex_start flexAlignItems-flex_start">
+                <h4 class="fw-600">About</h4>
+                <a href="#" class="c-white80 td-none">Home</a>
+                <a href="#" class="c-white80 td-none">Projects</a>
+            </div>
+            <div class="w-1000px flex flexColumn flexJustifyContent-flex_start flexAlignItems-flex_end">
+                <h4 class="fw-600">Contact</h4>
+                <a href="#" class="c-white100">Follow on Twitter</a>
+                <a href="#" class="c-white100">Like on Facebook</a>
+                <a href="#" class="c-white100">Email me</a>
+            </div>
+        </div>
+    </div>
+    <div class="w-100% p-16px-0 bg-white20 flex">
+        <div class="auto-width flex flexRow flexJustifyContent-space_between">
+            <a class="c-white100 fs-24px fw-bold td-none flex flexCenter flexMiddle g-8px">
+                <svg class="fill-white100 h-24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M220.6 121.2L271.1 96 448 96v96H333.2c-21.9-15.1-48.5-24-77.2-24s-55.2 8.9-77.2 24H64V128H192c9.9 0 19.7-2.3 28.6-6.8zM0 128V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H271.1c-9.9 0-19.7 2.3-28.6 6.8L192 64H160V48c0-8.8-7.2-16-16-16H80c-8.8 0-16 7.2-16 16l0 16C28.7 64 0 92.7 0 128zM168 304a88 88 0 1 1 176 0 88 88 0 1 1 -176 0z"/></svg>
+                Gallery
+            </a>
+            <button onclick="toggleElement('toggle-header')" class="buttonOutline bc-white80 c-white80 p-8px-10px flex flexCenter flexMiddle">
+                <svg class="fill-white800 h-18px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg>
+            </button>
+        </div>
+    </div>
+    <div class="w-100% flexColumn p-64px-32px">
+        <div class="auto-width ta-center flexCenter flexColumn">
+            <h1>Gallery example</h1>
+            <div class="w-720px fs-18px p-10px-0-14px c-white60 loremIpsum-6">
+            </div>
+        </div>
+        <div class="flexMiddle g-4px">
+            <button onclick="href('#footer')">Primary button</button>
+            <button onclick="href('#footer')" id="text" class="buttonOutline c-custom50 bc-custom50">Custom button</button>
+        </div>
+    </div>
+    <div class="w-100% flexCenter flexMiddle bg-white96">
+        <div class="auto-width fs-18px p-64px-0 flex flexWrap flexMiddle flexCenter">
+            <div class="w-330px p-10px">
+                <div class="modal">
+                    <img class="ar-4/3" src="https://images.unsplash.com/photo-1455659817273-f96807779a8a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" width="100%" alt=""/>
+                    <div class="w-100% p-16px">
+                        <h4>Placeholder Title</h4>
+                        <div class="textOverflow loremIpsum-2"></div>
+                        <a href="#">Read more</a>
+                    </div>
+                    <div class="w-100% p-16px">
+                        <a href="#" class="label c-green30 bc-green30">Photo</a>
+                        <a href="#" class="label c-red30 bc-red30">🔥 Hot</a>
+                    </div>
+                </div>
+            </div>
+            <div class="w-330px p-10px">
+                <div class="modal">
+                    <img class="ar-4/3" src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" width="100%" alt=""/>
+                    <div class="w-100% p-16px">
+                        <h4>Placeholder Title</h4>
+                        <div class="textOverflow loremIpsum-2">
+                        </div>
+                        <a href="#">Read more</a>
+                    </div>
+                    <div class="w-100% p-16px">
+                        <a href="#" class="label c-green30 bc-green30">Photo</a>
+                        <a href="#" class="label c-red30 bc-red30">🔥 Hot</a>
+                    </div>
+                </div>
+            </div>
+            <div class="w-330px p-10px">
+                <div class="modal">
+                    <img class="ar-4/3" src="https://images.unsplash.com/photo-1483519396903-1ef292f4974a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" width="100%" alt=""/>
+                    <div class="w-100% p-16px">
+                        <h4>Placeholder Title</h4>
+                        <div class="textOverflow loremIpsum-2">
+                        </div>
+                        <a href="#">Read more</a>
+                    </div>
+                    <div class="w-100% p-16px">
+                        <a href="#" class="label c-green30 bc-green30">Blog</a>
+                        <a href="#" class="label c-red30 bc-red30">🔥 Hot</a>
+                    </div>
+                </div>
+            </div>
+            <div class="w-330px p-10px">
+                <div class="modal">
+                    <img class="ar-4/3" src="https://images.unsplash.com/photo-1618093802644-a6f3ce270789?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80" width="100%" alt=""/>
+                    <div class="w-100% p-16px">
+                        <h4>Placeholder Title</h4>
+                        <div class="textOverflow loremIpsum-2">
+                        </div>
+                        <a href="#">Read more</a>
+                    </div>
+                    <div class="w-100% p-16px">
+                        <a href="#" class="label c-green30 bc-green30">Photo</a>
+                        <a href="#" class="label c-blue30 bc-blue30">⏱️ Recent</a>
+                    </div>
+                </div>
+            </div>
+            <div class="w-330px p-10px">
+                <div class="modal">
+                    <img class="ar-4/3" src="https://images.unsplash.com/photo-1533598313300-ac574e6dd10d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=830&q=80" width="100%" alt=""/>
+                    <div class="w-100% p-16px">
+                        <h4>Placeholder Title</h4>
+                        <div class="textOverflow loremIpsum-2">
+                        </div>
+                        <a href="#">Read more</a>
+                    </div>
+                    <div class="w-100% p-16px">
+                        <a href="#" class="label c-green30 bc-green30">Photo</a>
+                        <a href="#" class="label c-blue30 bc-blue30">⏱️ Recent</a>
+                    </div>
+                </div>
+            </div>
+            <div class="w-330px p-10px">
+                <div class="modal">
+                    <img class="ar-4/3" src="https://images.unsplash.com/photo-1566398309714-31ec975783a8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=881&q=80" width="100%" alt=""/>
+                    <div class="w-100% p-16px">
+                        <h4>Placeholder Title</h4>
+                        <div class="textOverflow loremIpsum-2">
+                        </div>
+                        <a href="#">Read more</a>
+                    </div>
+                    <div class="w-100% p-16px">
+                        <a href="#" class="label c-green30 bc-green30">Blog</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="w-100% flexCenter flexMiddle p-42px bg-white10" id="footer">
+        <p class="c-white40">
+            Made possible with <a class="c-white40" href="https://github.com/Pixelbite-CSS">Pixelbite-CSS</a>
+        </p>
+    </div>
+</div>
+<div class="loader loader-page flexCenter flexMiddle">
+    <div class="loader-icon"></div>
+</div>
+<script src="../../script/pixelbite.js"></script>
+<script>
+    changeVariable('--primary-color', '#f5a40f')
+    changeVariable('--secondary-color', '#f5da6e')
+    addColorHsl('custom',40,100)
+</script>
+</body>
+</html>

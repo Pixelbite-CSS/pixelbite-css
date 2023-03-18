@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Blog example</title>
+    <link rel="stylesheet" href="../../style/pixelbite.css">
+</head>
+<body>
+<div class="w-100% windowHeight">
+    <div class="w-100% p-16px-0 bg-white100 flex fixed shadow">
+        <div class="auto-width flex flexRow flexJustifyContent-space_between header g-16px">
+            <a class="c-white100 fs-24px fw-bold td-none c-custom30 flex flexCenter flexMiddle g-8px">
+                <svg class="fill-custom30 h-24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M249.6 471.5c10.8 3.8 22.4-4.1 22.4-15.5V78.6c0-4.2-1.6-8.4-5-11C247.4 52 202.4 32 144 32C93.5 32 46.3 45.3 18.1 56.1C6.8 60.5 0 71.7 0 83.8V454.1c0 11.9 12.8 20.2 24.1 16.5C55.6 460.1 105.5 448 144 448c33.9 0 79 14 105.6 23.5zm76.8 0C353 462 398.1 448 432 448c38.5 0 88.4 12.1 119.9 22.6c11.3 3.8 24.1-4.6 24.1-16.5V83.8c0-12.1-6.8-23.3-18.1-27.6C529.7 45.3 482.5 32 432 32c-58.4 0-103.4 20-123 35.6c-3.3 2.6-5 6.8-5 11V456c0 11.4 11.7 19.3 22.4 15.5z"/></svg>
+                Blog
+            </a>
+            <div class="flex flexAlignItems-right g-20px">
+                <a class="fw-600 td-none c-custom20" href="#">Home</a>
+                <a class="fw-600 td-none c-custom20" href="#">Blog</a>
+                <a class="fw-600 td-none c-custom20" href="#">About</a>
+                <a class="fw-600 td-none c-custom20" href="#">Contact</a>
+            </div>
+        </div>
+    </div>
+    <div class="w-100% flexColumn">
+        <div class="slideshow w-100% minH-500px">
+            <div class="slide flex flexCenter flexMiddle flexAlignItems-flex_end flexJustifyContent-left w-100% minH-500px">
+                <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt=""/>
+                <div class="auto-width flex flexColumn flexJustifyContent-left flexAlignItems-flex_start p-64px-48px ta-left">
+                    <h1 class="c-custom20 loremIpsum-1 textOverflow"></h1>
+                    <div class="p-0-0-20px">
+                        <div class="loremIpsum-2 c-custom10"></div>
+                    </div>
+                    <button onclick="href('#')" class="bg-custom20">Read more</button>
+                </div>
+            </div>
+            <div class="slide flex flexCenter flexMiddle flexAlignItems-flex_end flexJustifyContent-left w-100% minH-500px">
+                <img src="https://images.unsplash.com/photo-1551739440-5dd934d3a94a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80" alt=""/>
+                <div class="auto-width flex flexColumn flexJustifyContent-left flexAlignItems-flex_start p-64px-48px ta-left">
+                    <h1 class="c-custom20 loremIpsum-1 textOverflow"></h1>
+                    <div class="p-0-0-20px">
+                        <div class="loremIpsum-2 c-custom10"></div>
+                    </div>
+                    <button onclick="href('#')" class="bg-custom20">Read article</button>
+                </div>
+            </div>
+            <div class="slide flex flexCenter flexMiddle flexAlignItems-flex_end flexJustifyContent-left w-100% minH-500px">
+                <img src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt=""/>
+                <div class="auto-width flex flexColumn flexJustifyContent-left flexAlignItems-flex_start p-64px-48px ta-left">
+                    <h1 class="c-custom20 loremIpsum-1 textOverflow"></h1>
+                    <div class="p-0-0-20px">
+                        <div class="loremIpsum-2 c-custom10"></div>
+                    </div>
+                    <button onclick="href('#')" class="bg-custom20">Read article</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="w-100%">
+        <div class="auto-width auto-size flex flexCenter flexAlignItems-flex_start flexWrap g-8px p-32px-22px">
+            <div class="w-70% flex flexRow flexWrap flexMiddle flexCenter">
+                <div class="w-400px flex flexAlignItems-flex_start flexColumn modal-hover p-8px h-510px">
+                    <img class="ar-4/3 br-4px" src="https://images.unsplash.com/photo-1448932223592-d1fc686e76ea?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80">
+                    <h3 class="pt-14px fw-700 c-custom20 loremIpsum-1 textOverflow"></h3>
+                    <div class="loremIpsum-2 c-custom20 o-.6 textOverflow"></div>
+                    <button class="buttonOutline c-custom20 border-1px-solid-custom20 mt-14px" onclick="href('#')">Read more</button>
+                </div>
+                <div class="w-400px flex flexAlignItems-flex_start flexColumn modal-hover p-8px h-510px">
+                    <img class="ar-4/3 br-4px" src="https://images.unsplash.com/photo-1485988412941-77a35537dae4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1196&q=80">
+                    <h3 class="pt-14px fw-700 c-custom20 loremIpsum-1 textOverflow"></h3>
+                    <div class="loremIpsum-2 c-custom20 o-.6 textOverflow"></div>
+                    <button class="buttonOutline c-custom20 border-1px-solid-custom20 mt-14px" onclick="href('#')">Read more</button>
+                </div>
+            </div>
+            <div class="w-28% flex flexColumn flexMiddle flexCenter g-22px p-4px-12px">
+                <div class="w-100% flex flexAlignItems-flex_start flexColumn">
+                    <h4 class="fw-700 c-custom20 loremIpsum-1 textOverflow"></h4>
+                    <div class="loremIpsum-2 textOverflow fs-16px c-custom20 o-.6 o"></div>
+                    <a class="c-custom20" href="#">Read more...</a>
+                </div>
+                <div class="w-100% flex flexAlignItems-flex_start flexColumn">
+                    <h4 class="fw-700 c-custom20 loremIpsum-1 textOverflow"></h4>
+                    <div class="loremIpsum-2 textOverflow fs-16px c-custom20 o-.6"></div>
+                    <a class="c-custom20" href="#">Read more...</a>
+                </div>
+                <div class="w-100% flex flexAlignItems-flex_start flexColumn">
+                    <h4 class="fw-700 c-custom20 loremIpsum-1 textOverflow"></h4>
+                    <div class="loremIpsum-2 textOverflow fs-16px c-custom20 o-.6"></div>
+                    <a class="c-custom20" href="#">Read more...</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="w-100% flexCenter flexMiddle">
+        <div class="auto-width flex flexColumn p-32px-22px g-12px">
+            <div class="w-100% flex flexMiddle flexJustifyContent-space_between">
+                <h3 class="c-custom20">Recent topics</h3>
+                <button onclick="href('#')" class="buttonOutline c-custom20 border-1px-solid-custom20">See more</button>
+            </div>
+            <div class="w-100% flexWrap flex flexCenter g-10px">
+                <div class="w-270px flex flexAlignItems-flex_start flexColumn modal-hover p-8px h-340px">
+                    <img class="ar-16/9 br-4px" src="https://images.unsplash.com/photo-1531538606174-0f90ff5dce83?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80">
+                    <h4 class="pt-14px fw-700 c-custom20 textOverflow loremIpsum-1"></h4>
+                    <div class="loremIpsum-2 c-custom20 o-.6 textOverflow"></div>
+                    <a class="c-custom20" href="#">Read more...</a>
+                </div>
+                <div class="w-270px flex flexAlignItems-flex_start flexColumn modal-hover p-8px h-340px">
+                    <img class="ar-16/9 br-4px" src="https://images.unsplash.com/photo-1573496358349-d97974b2339b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80">
+                    <h4 class="pt-14px fw-700 c-custom20 textOverflow loremIpsum-1"></h4>
+                    <div class="loremIpsum-2 c-custom20 o-.6 textOverflow"></div>
+                    <a class="c-custom20" href="#">Read more...</a>
+                </div>
+                <div class="w-270px flex flexAlignItems-flex_start flexColumn modal-hover p-8px h-340px">
+                    <img class="ar-16/9 br-4px" src="https://images.unsplash.com/photo-1555421689-491a97ff2040?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80">
+                    <h4 class="pt-14px fw-700 c-custom20 textOverflow loremIpsum-1"></h4>
+                    <div class="loremIpsum-2 c-custom20 o-.6 textOverflow"></div>
+                    <a class="c-custom20" href="#">Read more...</a>
+                </div>
+                <div class="w-270px flex flexAlignItems-flex_start flexColumn modal-hover p-8px h-340px">
+                    <img class="ar-16/9 br-4px" src="https://images.unsplash.com/photo-1485988412941-77a35537dae4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1196&q=80">
+                    <h4 class="pt-14px fw-700 c-custom20 textOverflow loremIpsum-1"></h4>
+                    <div class="loremIpsum-2 c-custom20 o-.6 textOverflow"></div>
+                    <a class="c-custom20" href="#">Read more...</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="w-100% flexCenter flexMiddle p-42px bg-white10" id="footer">
+        <p class="c-white40">
+            Made possible with <a class="c-white40" href="https://github.com/Pixelbite-CSS">Pixelbite-CSS</a>
+        </p>
+    </div>
+</div>
+<div class="loader loader-page flexCenter flexMiddle">
+    <div class="loader-line"></div>
+</div>
+<script src="../../script/pixelbite.js"></script>
+<script>
+    addColorHsl('custom',200,100)
+</script>
+</body>
+</html>

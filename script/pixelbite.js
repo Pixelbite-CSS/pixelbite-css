@@ -8,7 +8,7 @@ const class_library = [
     ['pr', 'padding-right'],
     ['m', 'margin'],
     ['mt', 'margin-top'],
-    ['md', 'margin-down'],
+    ['mb', 'margin-bottom'],
     ['ml', 'margin-left'],
     ['mr', 'margin-right'],
     ['g', 'gap'],

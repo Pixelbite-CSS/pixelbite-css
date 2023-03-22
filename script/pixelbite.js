@@ -52,18 +52,27 @@ const class_library = [
     ['right', 'right'],
 ]
 
+let aliasClasses = []
+
+const addAliasClass = (alias, string_of_classes) => {
+    let classes_array = string_of_classes.split(' ')
+    aliasClasses.push([alias, classes_array])
+}
+
 const styleColor = (propertyValue) => {
     return getComputedStyle(document.documentElement).getPropertyValue(propertyValue)
 }
 
-const color_library = [
-    ['primary', styleColor('--primary-color')],
-    ['secondary', styleColor('--secondary-color')],
-    ['success', styleColor('--success-color')],
-    ['danger', styleColor('--danger-color')],
-    ['warning', styleColor('--warning-color')],
-    ['info', styleColor('--info-color')],
-]
+const color_library = () => {
+    return [
+        ['primary', styleColor('--primary-color')],
+        ['secondary', styleColor('--secondary-color')],
+        ['success', styleColor('--success-color')],
+        ['danger', styleColor('--danger-color')],
+        ['warning', styleColor('--warning-color')],
+        ['info', styleColor('--info-color')],
+    ]
+}
 
 let color_library_hsl = [
     ['white', 0, '0%'],
@@ -215,6 +224,7 @@ const classGenerator = () => {
     const elements = document.getElementsByTagName('*')
     for (let i = 0; i < elements.length; i++) {
         let element = elements[i]
+        aliasClassReplace(element)
         element.classList.forEach((element_class) => {
             for (let j = 0; j < class_library.length; j++) {
                 let element_class_split = element_class.split('-');
@@ -229,10 +239,14 @@ const classGenerator = () => {
                 }
                 if (element_class_split[0].includes('foreach:')) {
                     element_class_split[0] = element_class_split[0].replace('foreach:', '')
+                    let elementsOfElement = element.getElementsByTagName('*')
                     if (element_class_split[0] === class_library[j][0]) {
-                        let elementsOfElement = element.getElementsByTagName('*')
                         for (let k = 0; k < elementsOfElement.length; k++) {
                             elementsOfElement[k].style.cssText += class_library[j][1] + ':' + classSplitToString(element_class_split, 1) + ';'
+                        }
+                    } else {
+                        for (let k = 0; k < elementsOfElement.length; k++) {
+                            elementsOfElement[k].classList.add(element_class)
                         }
                     }
                 } if (element_class_split[0] === class_library[j][0]) {
@@ -260,13 +274,27 @@ const generateFloatInput = (element) => {
     }
 }
 
+const aliasClassReplace = (element) => {
+    let x = element.classList
+    for (let i = 0; i < x.length; i++) {
+        for (let j = 0; j < aliasClasses.length; j++) {
+            if (aliasClasses[j][0] === x[i]) {
+                for (let k = 0; k < aliasClasses[j][1].length; k++) {
+                    element.classList.add(aliasClasses[j][1][k])
+                }
+            }
+        }
+    }
+}
+
 const classSplitToString = (array, startPosition) => {
     if (array) {
+        let colors = color_library()
         let a = ""
         for (let i = startPosition; i < array.length; i++) {
-            for (let j = 0; j < color_library.length; j++) {
-                if (array[i] === color_library[j][0]) {
-                    array[i] = color_library[j][1]
+            for (let j = 0; j < colors.length; j++) {
+                if (array[i] === colors[j][0]) {
+                    array[i] = colors[j][1]
                 }
             }
             for (let j = 0; j < color_library_hsl.length; j++) {

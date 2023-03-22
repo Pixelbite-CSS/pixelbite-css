@@ -33,6 +33,7 @@ html, body {
 
 a {
     color: var(--primary-color);
+    fill: var(--primary-color);
     transition: color .2s, transform .2s, text-decoration .2s, opacity .2s;
 }
 
@@ -59,6 +60,10 @@ pre {
     border-radius: 4px;
     width: 100%;
     border: 1px solid var(--secondary-color);
+    font-family: var(--font-mono-family);
+}
+
+code {
     font-family: var(--font-mono-family);
 }
 
@@ -119,6 +124,13 @@ input:focus {
     top: .2rem;
     left: .86rem;
     transform: scale(.9);
+}
+
+.sticky {
+    top: 0;
+    left: 0;
+    position: sticky;
+    position: -webkit-sticky;
 }
 
 span {
@@ -544,6 +556,10 @@ img {
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
+    }
+
+    .sticky {
+        position: relative;
     }
 }
 

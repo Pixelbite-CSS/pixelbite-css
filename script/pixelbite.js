@@ -46,6 +46,10 @@ const class_library = [
     ['gridColumns', 'grid-template-columns'],
     ['gridRows', 'grid-template-rows'],
     ['shadow', 'box-shadow'],
+    ['top', 'top'],
+    ['bottom', 'bottom'],
+    ['left', 'left'],
+    ['right', 'right'],
 ]
 
 const styleColor = (propertyValue) => {

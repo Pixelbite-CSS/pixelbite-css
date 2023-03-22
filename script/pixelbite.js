@@ -3,7 +3,7 @@ const class_library = [
     ['p', 'padding'],
     ['o', 'opacity'],
     ['pt', 'padding-top'],
-    ['pd', 'padding-down'],
+    ['pb', 'padding-bottom'],
     ['pl', 'padding-left'],
     ['pr', 'padding-right'],
     ['m', 'margin'],
@@ -129,11 +129,24 @@ let loremIpsum = [
     "Genetrixs sunt adiurators de nobilis exemplar.",
 ]
 
+let darkmode = false
+
 window.addEventListener("load", async () => {
     await checkLoremIpsum()
+    darkmode = getCookie('darkmode')
     checkChange(0)
     slideshowGenerator()
 })
+
+const changeThemeMode = async () => {
+    if (darkmode === '0') {
+        darkmode = '1'
+        setCookie('darkmode', '1', 365)
+    } else {
+        darkmode = '0'
+        setCookie('darkmode', '0', 365)
+    }
+}
 
 const checkLoaders = async () => {
     let loaders = document.getElementsByClassName('loader')
@@ -161,8 +174,13 @@ const checkLoremIpsum = () => {
     }
 }
 
+let changeDelay = 500
+const changeClassUpdateDelay = (ms) => {
+    changeDelay = ms
+}
+
 const checkChange = async (instances) => {
-    await sleep(500)
+    await sleep(changeDelay)
     await classGenerator()
     if (instances <= 0) checkLoaders()
     await checkChange(instances + 1)
@@ -200,21 +218,39 @@ const classGenerator = () => {
                 if (splitToString.includes('_')) {
                     element_class_split[1] = splitToString.replace('_', '-')
                 }
-                if (element_class_split[0] === class_library[j][0]) {
+                if (darkmode === '1') {
+                    if (element_class_split[0].includes('dark:')) {
+                        element_class_split[0] = element_class_split[0].replace('dark:', '')
+                    }
+                }
+                if (element_class_split[0].includes('foreach:')) {
+                    element_class_split[0] = element_class_split[0].replace('foreach:', '')
+                    if (element_class_split[0] === class_library[j][0]) {
+                        let elementsOfElement = element.getElementsByTagName('*')
+                        for (let k = 0; k < elementsOfElement.length; k++) {
+                            elementsOfElement[k].style.cssText += class_library[j][1] + ':' + classSplitToString(element_class_split, 1) + ';'
+                        }
+                    }
+                } if (element_class_split[0] === class_library[j][0]) {
                     element.style.cssText += class_library[j][1] + ':' + classSplitToString(element_class_split, 1) + ';'
                 }
             }
         })
-        if (element.classList.contains("floatInput")) {
-            if (element.getElementsByClassName('input') && element.getElementsByClassName('label')) {
-                if (element.getElementsByClassName('input') && element.getElementsByTagName('label')) {
-                    let inputs = element.getElementsByTagName('input')
-                    let input = inputs[0]
-                    let labels = element.getElementsByTagName('label')
-                    let label = labels[0]
-                    if (input.value) label.classList.add('inputhastext')
-                    else if (label.classList.contains('inputhastext')) label.classList.remove('inputhastext')
-                }
+        updateSearchbars()
+        generateFloatInput(element)
+    }
+}
+
+const generateFloatInput = (element) => {
+    if (element.classList.contains("floatInput")) {
+        if (element.getElementsByClassName('input') && element.getElementsByClassName('label')) {
+            if (element.getElementsByClassName('input') && element.getElementsByTagName('label')) {
+                let inputs = element.getElementsByTagName('input')
+                let input = inputs[0]
+                let labels = element.getElementsByTagName('label')
+                let label = labels[0]
+                if (input.value) label.classList.add('inputhastext')
+                else if (label.classList.contains('inputhastext')) label.classList.remove('inputhastext')
             }
         }
     }
@@ -289,4 +325,39 @@ const slideshowSlide = async (index, slideshow, slides) => {
     if (index >= slides.length - 1) index = -1
     await sleep(5000)
     await slideshowSlide(index + 1, slideshow, slides)
+}
+
+const setCookie = (name, value, days_to_expiration) => {
+    const d = new Date()
+    d.setTime(d.getTime() + (days_to_expiration * 24 * 60 * 60 * 1000))
+    let expires = "expires="+ d.toUTCString()
+    document.cookie = name + "=" + value + ";" + expires + ";path=/"
+}
+
+const getCookie = (name) => {
+    let n = name + "="
+    let decodedCookie = decodeURIComponent(document.cookie)
+    let ca = decodedCookie.split(';')
+    for(let i = 0; i <ca.length; i++) {
+        let c = ca[i]
+        while (c.charAt(0) === ' ') { c = c.substring(1) }
+        if (c.indexOf(n) === 0) return c.substring(n.length, c.length)
+    }
+    return ""
+}
+
+const updateSearchbars = () => {
+    let searchbars = document.getElementsByClassName('searchbar')
+    for (let i = 0; i < searchbars.length; i++) {
+        let search = searchbars[i].getElementsByClassName('search')[0]
+        let searchValue = search.value.toLowerCase();
+        let searchValues = searchbars[i].getElementsByClassName('search-values')[0].getElementsByTagName('div')
+        for (let j = 0; j < searchValues.length; j++) {
+            if (searchValues[j].innerText.toLowerCase().includes(searchValue) && searchValue) {
+                searchValues[j].style.display = 'flex'
+            } else {
+                searchValues[j].style.display = 'none'
+            }
+        }
+    }
 }

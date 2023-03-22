@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Post example</title>
+    <link rel="stylesheet" href="../../style/pixelbite.css">
+</head>
+<body>
+<div class="w-100% bg-white100 dark:bg-black20 dark:c-white100">
+    <div class="w-100% flex">
+        <div class="auto-width flexRow p-32px-22px g-12px">
+            <div class="flex flexLeft">
+                <button onclick="href('#')" class="buttonHoverDark buttonOutline b-none flexCenter flexMiddle br-50% w-48px h-48px p-0">
+                    <svg class="fill-white0 dark:fill-white100 h-24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 12.5-12.5 32.8 0 45.3L562.7 256l-89.4 89.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z"/></svg>
+                </button>
+            </div>
+            <div class="w-100% auto-menu flexRow flexSpaceBetween">
+                <button class="auto-menu-button bg-transparent b-1px-solid-primary" onclick="toggleElement('toggle-menu')">
+                    <svg class="fill-white10 dark:fill-white100 h-24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg>
+                </button>
+                <div class="toggle-menu flexRow g-12px">
+                    <button onclick="href('#')" class="buttonHoverDark buttonOutline b-none c-white0 dark:c-white100">Home</button>
+                    <button onclick="href('#')" class="buttonHoverDark buttonOutline b-none c-white0 dark:c-white100">Posts</button>
+                    <button onclick="href('#')" class="buttonHoverDark buttonOutline b-none c-white0 dark:c-white100">About</button>
+                    <button onclick="href('#')" class="buttonHoverDark buttonOutline b-none c-white0 dark:c-white100">Contact</button>
+                </div>
+                <button class="toggle-menu buttonHoverDark flexCenter flexMiddle br-50px w-42px h-42px p-0" onclick="changeThemeMode()">
+                    <svg class="fill-white100 h-20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 384c9.6-31.9 29.5-59.1 49.2-86.2l0 0c5.2-7.1 10.4-14.2 15.4-21.4c19.8-28.5 31.4-63 31.4-100.3C352 78.8 273.2 0 176 0S0 78.8 0 176c0 37.3 11.6 71.9 31.4 100.3c5 7.2 10.2 14.3 15.4 21.4l0 0C66.5 324.9 86.4 352.1 96 384H256zM176 512c44.2 0 80-35.8 80-80V416H96v16c0 44.2 35.8 80 80 80zM96 176c0 8.8-7.2 16-16 16s-16-7.2-16-16c0-61.9 50.1-112 112-112c8.8 0 16 7.2 16 16s-7.2 16-16 16c-44.2 0-80 35.8-80 80z"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="w-100% pb-20px">
+        <div class="auto-width auto-size flexRow flexCenter flexAlignItems-flex_start flexWrap c-white10 dark:c-white100 g-32px">
+            <div class="w-600px flexLeft flexColumn g-12px">
+                <h1 class="loremIpsum-1"></h1>
+                <img class="w-100% br-8px" src="https://images.unsplash.com/photo-1501854140801-50d01698950b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1275&q=80"/>
+                <span class="ta-left">Image is from <a class="c-white10 dark:c-white100" href="https://unsplash.com">unsplash.com</a></span>
+                <div class="paragraph loremIpsum-18"></div>
+                <pre><code>p { color: red; }
+body { background-color: #eee; }</code></pre>
+                <div class="paragraph loremIpsum-32"></div>
+            </div>
+            <div class="w-300px flexColumn flexCenter ta-center g-12px">
+                <img class="w-100% ar-1/1 br-50%" src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"/>
+                <h3>Hi, my name is Carlos</h3>
+                <div class="paragraph loremIpsum-3"></div>
+                <div class="flexCenter flexMiddle flexRow">
+                    <button onclick="href('#')" class="buttonHoverDark buttonOutline b-none flexCenter flexMiddle br-50% w-48px h-48px p-0">
+                        <svg class="fill-white0 dark:fill-white100 h-24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+                    </button>
+                    <button onclick="href('#')" class="buttonHoverDark buttonOutline b-none flexCenter flexMiddle br-50% w-48px h-48px p-0">
+                        <svg class="fill-white0 dark:fill-white100 h-24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"/></svg>
+                    </button>
+                    <button onclick="href('#')" class="buttonHoverDark buttonOutline b-none flexCenter flexMiddle br-50% w-48px h-48px p-0">
+                        <svg class="fill-white0 dark:fill-white100 h-24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="loader loader-page flexCenter flexMiddle">
+    <div class="loader-line"></div>
+</div>
+<script src="../../script/pixelbite.js"></script>
+<script>
+
+</script>
+</body>
+</html>

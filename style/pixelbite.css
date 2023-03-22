@@ -489,7 +489,10 @@ img {
 }
 
 .loader-line {
-    background: url("../assets/loader.png");
+    background:-webkit-repeating-linear-gradient(45deg, #ffffff 0%, #ffffff 33%, #dedede 33%, #dedede 66%, #ffffff 66%, #ffffff 100%);
+    background:-o-repeating-linear-gradient(45deg, #ffffff 0%, #ffffff 33%, #dedede 33%, #dedede 66%, #ffffff 66%, #ffffff 100%);
+    background:-moz-repeating-linear-gradient(45deg, #ffffff 0%, #ffffff 33%, #dedede 33%, #dedede 66%, #ffffff 66%, #ffffff 100%);
+    background:repeating-linear-gradient(45deg, #ffffff 0%, #ffffff 33%, #dedede 33%, #dedede 66%, #ffffff 66%, #ffffff 100%);
     background-size: 24px;
     width: 200px;
     height: 8px;

@@ -54,7 +54,7 @@ h5 {font-size: 18px;}
 
 pre {
     padding: 16px 22px;
-    background: rgba(128, 128, 128, .1);
+    background: rgba(128, 128, 128, .02);
     overflow: auto;
     color: var(--secondary-color);
     border-radius: 4px;

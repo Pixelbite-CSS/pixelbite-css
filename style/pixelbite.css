@@ -67,6 +67,15 @@ code {
     font-family: var(--font-mono-family);
 }
 
+table {
+    border-collapse:collapse;
+    border-spacing:0;
+}
+
+table td {
+    border: 1px solid black;
+}
+
 button {
     position: relative;
     padding: .6rem 1rem;

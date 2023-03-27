@@ -50,6 +50,7 @@ const class_library = [
     ['bottom', 'bottom'],
     ['left', 'left'],
     ['right', 'right'],
+    ['zIndex', 'z-index'],
 ]
 
 let aliasClasses = []

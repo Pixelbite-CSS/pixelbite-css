@@ -143,12 +143,46 @@ let loremIpsum = [
     "Genetrixs sunt adiurators de nobilis exemplar.",
 ]
 
+let custom_components = []
+
+const setCustomComponents = () => {
+    let elements = document.getElementsByTagName('*')
+    for (let i = 0; i < elements.length; i++) {
+        let element = elements[i]
+        if (element.tagName.toUpperCase().includes('COMPONENT:')) {
+            let element_component_name = element.tagName.replace('COMPONENT:', '').toUpperCase()
+            for (let j = 0; j < custom_components.length; j++) {
+                if (custom_components[j][0].toUpperCase() === element_component_name) {
+                    includeHtmlToAnElement(element, custom_components[j][1])
+                }
+            }
+        }
+    }
+}
+
+const addCustomComponent = (component_name, component_path) => {
+    custom_components.push([component_name, component_path])
+}
+
+const includeHtmlToAnElement = (element, path) => {
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState === 4) {
+            if (this.status === 200) {element.innerHTML = this.responseText;}
+            if (this.status === 404) {element.innerHTML = "Page not found.";}
+        }
+    }
+    xhttp.open("GET", path, true);
+    xhttp.send();
+}
+
 let darkmode = false
 
 window.addEventListener("load", async () => {
     await checkLoremIpsum()
     darkmode = getCookie('darkmode')
     checkChange(0)
+    setCustomComponents()
     slideshowGenerator()
 })
 

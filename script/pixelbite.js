@@ -143,33 +143,33 @@ let loremIpsum = [
     "Genetrixs sunt adiurators de nobilis exemplar.",
 ]
 
-let custom_components = []
-
 const setCustomComponents = () => {
     let elements = document.getElementsByTagName('*')
     for (let i = 0; i < elements.length; i++) {
         let element = elements[i]
-        if (element.tagName.toUpperCase().includes('COMPONENT:')) {
-            let element_component_name = element.tagName.replace('COMPONENT:', '').toUpperCase()
-            for (let j = 0; j < custom_components.length; j++) {
-                if (custom_components[j][0].toUpperCase() === element_component_name) {
-                    includeHtmlToAnElement(element, custom_components[j][1])
-                }
-            }
+        if (element.tagName.toUpperCase().includes('COMPONENT')) {
+            let element_attributes = element.getAttributeNames()
+            includeHtmlToAnElement(element, element.getAttribute('path'), element_attributes)
         }
     }
 }
 
-const addCustomComponent = (component_name, component_path) => {
-    custom_components.push([component_name, component_path])
-}
-
-const includeHtmlToAnElement = (element, path) => {
+const includeHtmlToAnElement = (element, path, attributes) => {
     let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState === 4) {
-            if (this.status === 200) {element.innerHTML = this.responseText;}
-            if (this.status === 404) {element.innerHTML = "Page not found.";}
+            if (this.status === 200) {
+                let response = this.responseText + ''
+                for (let i = 0; i < attributes.length; i++) {
+                    let attribute = attributes[i]
+                    let attribute_syntax = '${' + attributes[i] + '}'
+                    if (response.includes(attribute_syntax)) {
+                        response = response.replace(attribute_syntax, element.getAttribute(attribute))
+                    }
+                }
+                element.innerHTML = response
+            }
+            if (this.status === 404) {element.innerHTML = "Component not found.";}
         }
     }
     xhttp.open("GET", path, true);

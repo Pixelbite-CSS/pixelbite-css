@@ -6,12 +6,15 @@
     <title>Custom component test</title>
     <link rel="stylesheet" href="./../style/pixelbite.css">
 </head>
-<body>
-<component:example></component:example>
-<div></div>
+<body class="c-white0 dark:c-white100 bg-white100 dark:bg-white0">
+<button class="fixed top-auto left-auto right-50px bottom-140px" onclick="href('#header')">Go Back Up</button>
+<button class="fixed top-auto left-auto right-50px bottom-95px" onclick="changeThemeMode()">Change Theme</button>
+<button class="fixed top-auto left-auto right-50px bottom-50px" onclick="href('#footer')">Go Back Down</button>
+<div class="auto-width" id="header">
+    <component path="./components/example.html" header="Help me"></component>
+    <div class="loremIpsum-100"></div>
+    <span id="footer"></span>
+</div>
 <script src="./../script/pixelbite.js"></script>
-<script>
-    addCustomComponent('example', './components/example.html')
-</script>
 </body>
 </html>

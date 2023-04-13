@@ -165,6 +165,7 @@ const includeHtmlToAnElement = (element, path, attributes) => {
                     let attribute_syntax = '${' + attributes[i] + '}'
                     if (response.includes(attribute_syntax)) {
                         response = response.replace(attribute_syntax, element.getAttribute(attribute))
+                        element.removeAttribute(attribute)
                     }
                 }
                 element.innerHTML = response

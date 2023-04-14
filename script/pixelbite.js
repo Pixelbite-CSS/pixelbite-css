@@ -145,8 +145,12 @@ let loremIpsum = [
 
 const setCustomComponents = () => {
     let elements = document.getElementsByTagName('*')
-    for (let i = 0; i < elements.length; i++) {
-        let element = elements[i]
+    customComponentsCheck(elements)
+}
+
+const customComponentsCheck = (array) => {
+    for (let i = 0; i < array.length; i++) {
+        let element = array[i]
         if (element.tagName.toUpperCase().includes('COMPONENT')) {
             let element_attributes = element.getAttributeNames()
             includeHtmlToAnElement(element, element.getAttribute('path'), element_attributes)
@@ -170,6 +174,9 @@ const includeHtmlToAnElement = (element, path, attributes) => {
                     }
                 }
                 element.innerHTML = response
+                if (element.getElementsByTagName('COMPONENT')) {
+                    customComponentsCheck(element.getElementsByTagName('COMPONENT'))
+                }
             }
             if (this.status === 404) {
                 let toggleClass = 'toggle-' + randomString(32)

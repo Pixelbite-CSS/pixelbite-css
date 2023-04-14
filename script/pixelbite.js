@@ -155,6 +155,7 @@ const setCustomComponents = () => {
 }
 
 const includeHtmlToAnElement = (element, path, attributes) => {
+    if (!path) path = 'null'
     let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState === 4) {
@@ -170,7 +171,17 @@ const includeHtmlToAnElement = (element, path, attributes) => {
                 }
                 element.innerHTML = response
             }
-            if (this.status === 404) {element.innerHTML = "Component not found.";}
+            if (this.status === 404) {
+                let toggleClass = 'toggle-' + randomString(32)
+                let toggleClassMore = 'toggle-' + randomString(32)
+                element.innerHTML =
+                '<div class="' + toggleClass + ' fw-500 p-14px-20px bg-warning br-4px m-4px pr-48px">' +
+                    '<code>Component not found [path=' + path + ']<br></code>' +
+                    '<code onclick="toggleElement(\'' + toggleClassMore + '\')"> - see more details</code><br>' +
+                    '<code class="' + toggleClassMore + ' hidden">' + xhttp.getAllResponseHeaders() + '</code>' +
+                    '<button class="close-x" onclick="toggleElement(\'' + toggleClass + '\')"></button>' +
+                '</div>'
+            }
         }
     }
     xhttp.open("GET", path, true);
@@ -237,6 +248,17 @@ const checkChange = async (instances) => {
 
 const sleep = (ms) => {
     return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+function randomString(length) {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let counter = 0;
+    while (counter < length) {
+        result += randomFromArray(characters);
+        counter += 1;
+    }
+    return result;
 }
 
 const randomFromArray = (array) => {

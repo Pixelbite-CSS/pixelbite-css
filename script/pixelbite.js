@@ -159,6 +159,10 @@ const customComponentsCheck = (array, relativePath) => {
     }
 }
 
+function replaceAll(string, search, replace) {
+    return string.split(search).join(replace);
+}
+
 const includeHtmlToAnElement = (element, path, attributes) => {
     if (!path) path = 'null'
     let relativePathSplit = path.split('/')
@@ -175,7 +179,8 @@ const includeHtmlToAnElement = (element, path, attributes) => {
                     let attribute = attributes[i]
                     let attribute_syntax = '${' + attributes[i] + '}'
                     if (response.includes(attribute_syntax)) {
-                        response = response.replace(attribute_syntax, element.getAttribute(attribute))
+                        // response = response.replace(attribute_syntax, element.getAttribute(attribute))
+                        response = replaceAll(response, attribute_syntax, element.getAttribute(attribute))
                         element.removeAttribute(attribute)
                     }
                 }

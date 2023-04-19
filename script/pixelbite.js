@@ -64,7 +64,7 @@ const styleColor = (propertyValue) => {
     return getComputedStyle(document.documentElement).getPropertyValue(propertyValue)
 }
 
-const color_library = () => {
+let color_library = () => {
     return [
         ['primary', styleColor('--primary-color')],
         ['secondary', styleColor('--secondary-color')],

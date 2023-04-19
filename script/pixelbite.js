@@ -148,18 +148,24 @@ const setCustomComponents = () => {
     customComponentsCheck(elements)
 }
 
-const customComponentsCheck = (array) => {
+const customComponentsCheck = (array, relativePath) => {
+    if (!relativePath) relativePath = ''
     for (let i = 0; i < array.length; i++) {
         let element = array[i]
         if (element.tagName.toUpperCase().includes('COMPONENT')) {
             let element_attributes = element.getAttributeNames()
-            includeHtmlToAnElement(element, element.getAttribute('path'), element_attributes)
+            includeHtmlToAnElement(element, relativePath + element.getAttribute('path'), element_attributes)
         }
     }
 }
 
 const includeHtmlToAnElement = (element, path, attributes) => {
     if (!path) path = 'null'
+    let relativePathSplit = path.split('/')
+    let relativePath = ''
+    for (let i = 0; i < relativePathSplit.length - 1; i++) {
+        relativePath += relativePathSplit[i] + '/'
+    }
     let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState === 4) {
@@ -175,7 +181,7 @@ const includeHtmlToAnElement = (element, path, attributes) => {
                 }
                 element.innerHTML = response
                 if (element.getElementsByTagName('COMPONENT')) {
-                    customComponentsCheck(element.getElementsByTagName('COMPONENT'))
+                    customComponentsCheck(element.getElementsByTagName('COMPONENT'), relativePath)
                 }
             }
             if (this.status === 404) {
@@ -184,8 +190,8 @@ const includeHtmlToAnElement = (element, path, attributes) => {
                 element.innerHTML =
                 '<div class="' + toggleClass + ' fw-500 p-14px-20px bg-warning br-4px m-4px pr-48px">' +
                     '<code>Component not found [path=' + path + ']<br></code>' +
-                    '<code onclick="toggleElement(\'' + toggleClassMore + '\')"> - see more details</code><br>' +
-                    '<code class="' + toggleClassMore + ' hidden">' + xhttp.getAllResponseHeaders() + '</code>' +
+                    '<code class="' + toggleClassMore + '" onclick="toggleElement(\'' + toggleClassMore + '\')"> - see more details</code>' +
+                    '<code class="' + toggleClassMore + ' hidden" onclick="toggleElement(\'' + toggleClassMore + '\')">- see less details<br>' + xhttp.getAllResponseHeaders() + '</code>' +
                     '<button class="close-x" onclick="toggleElement(\'' + toggleClass + '\')"></button>' +
                 '</div>'
             }

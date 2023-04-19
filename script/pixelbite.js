@@ -325,7 +325,20 @@ const classGenerator = () => {
                             elementsOfElement[k].classList.add(element_class)
                         }
                     }
-                } if (element_class_split[0] === class_library[j][0]) {
+                }
+                if (element_class_split[0].includes('max') && element_class_split[0].includes(':')) {
+                    let size = element_class_split[0].split(':')[0].replace('max', '').replace(':', '').replace('px', '')
+                    if (size <= window.innerWidth) {
+                        element_class_split[0] = element_class_split[0].split(':')[1]
+                    }
+                }
+                if (element_class_split[0].includes('min') && element_class_split[0].includes(':')) {
+                    let size = element_class_split[0].split(':')[0].replace('min', '').replace(':', '').replace('px', '')
+                    if (size >= window.innerWidth) {
+                        element_class_split[0] = element_class_split[0].split(':')[1]
+                    }
+                }
+                if (element_class_split[0] === class_library[j][0]) {
                     element.style.cssText += class_library[j][1] + ':' + classSplitToString(element_class_split, 1) + ';'
                 }
             }

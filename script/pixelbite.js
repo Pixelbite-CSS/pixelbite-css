@@ -428,15 +428,24 @@ const changeVariable = (variable, value) => {
     document.documentElement.style.setProperty(variable, value);
 }
 
-const slideshowGenerator = () => {
+let beforeSlideshows = []
+
+const slideshowGenerator = async () => {
     let slideshows = document.getElementsByClassName('slideshow')
-    if (slideshows.length > 0) {
-        for (let i = 0; i < slideshows.length; i++) {
-            let slideshow = slideshows[i]
-            let slides = slideshow.getElementsByClassName('slide')
-            slideshowSlide(0, slideshow, slides)
+    if (slideshows !== beforeSlideshows) {
+        if (slideshows.length > 0) {
+            for (let i = 0; i < slideshows.length; i++) {
+                if(!beforeSlideshows.includes(slideshows[i])) {
+                    let slideshow = slideshows[i]
+                    let slides = slideshow.getElementsByClassName('slide')
+                    slideshowSlide(0, slideshow, slides)
+                }
+            }
+            beforeSlideshows = slideshows
         }
     }
+    await sleep(1000)
+    await slideshowGenerator()
 }
 
 const slideshowSlide = async (index, slideshow, slides) => {

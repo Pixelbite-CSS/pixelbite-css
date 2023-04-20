@@ -7,5 +7,15 @@
   </div>
 </div>
 <div class="w-100%">
-  <div class="auto-width p-32px">${code and stuff}</div>
+  <div class="auto-width g-12px p-32px flex max1000:flexDirection-row min1000:flexDirection-column">
+    <div class="b-1px-solid-rgba(128,128,128,.2) dark:b-1px-solid-primary br-8px w-400px">
+      <div class="bbottom-1px-solid-rgba(128,128,128,.2) dark:bbottom-1px-solid-primary w-100% p-12px flexRow flexBottom g-12px">
+        <div class="br-50% bg-rgba(128,128,128,.2) dark:bg-primary ar-1/1 h-8px"></div>
+        <div class="br-50% bg-rgba(128,128,128,.2) dark:bg-primary ar-1/1 h-8px"></div>
+        <div class="br-50% bg-rgba(128,128,128,.2) dark:bg-primary ar-1/1 h-8px"></div>
+      </div>
+      <div class="p-12px">${code}</div>
+    </div>
+    <pre><code>${codetext}</code></pre>
+  </div>
 </div>

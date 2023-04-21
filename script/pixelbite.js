@@ -60,7 +60,7 @@ const styleColor = (propertyValue) => {
 var pixelbite = {
     classes: class_library,
     theme: {
-        colors: {
+        variables: {
             primary: styleColor('--primary-color').toString(),
             secondary: styleColor('--secondary-color').toString(),
             danger: styleColor('--danger-color').toString(),
@@ -68,7 +68,7 @@ var pixelbite = {
             warning: styleColor('--warning-color').toString(),
             success: styleColor('--success-color').toString(),
         },
-        customColors: {
+        colors: {
             white: [0, '0%'],
             gray: [0, '0%'],
             black: [0, '0%'],
@@ -289,7 +289,17 @@ window.onload = () => {
     classGenerator()
 }
 
+const changeRootVariable = (variable, value) => {
+    document.documentElement.style.setProperty(variable, value);
+}
+
 const classGenerator = () => {
+    if (pixelbite.theme.variables.primary !== document.documentElement.style.getPropertyValue('--primary-color')) {changeRootVariable('--primary-color', pixelbite.theme.variables.primary)}
+    if (pixelbite.theme.variables.secondary !== document.documentElement.style.getPropertyValue('--secondary-color')) {changeRootVariable('--secondary-color', pixelbite.theme.variables.primary)}
+    if (pixelbite.theme.variables.success !== document.documentElement.style.getPropertyValue('--success-color')) {changeRootVariable('--success-color', pixelbite.theme.variables.primary)}
+    if (pixelbite.theme.variables.info !== document.documentElement.style.getPropertyValue('--info-color')) {changeRootVariable('--info-color', pixelbite.theme.variables.primary)}
+    if (pixelbite.theme.variables.danger !== document.documentElement.style.getPropertyValue('--danger-color')) {changeRootVariable('--danger-color', pixelbite.theme.variables.primary)}
+    if (pixelbite.theme.variables.warning !== document.documentElement.style.getPropertyValue('--warning-color')) {changeRootVariable('--warning-color', pixelbite.theme.variables.primary)}
     const elements = document.getElementsByTagName('*')
     for (let i = 0; i < elements.length; i++) {
         let element = elements[i]
@@ -372,8 +382,8 @@ const aliasClassReplace = (element) => {
 
 const classSplitToString = (array, startPosition) => {
     if (array) {
-        let colors = getObjectValues(pixelbite.theme.colors)
-        let color_library_hsl = getObjectValues(pixelbite.theme.customColors)
+        let colors = getObjectValues(pixelbite.theme.variables)
+        let color_library_hsl = getObjectValues(pixelbite.theme.colors)
         let a = ""
         for (let i = startPosition; i < array.length; i++) {
             for (let j = 0; j < colors.length; j++) {
@@ -389,7 +399,7 @@ const classSplitToString = (array, startPosition) => {
             }
             a += array[i] + " "
         }
-        return a.trim()
+        return a
     } else return ""
 }
 

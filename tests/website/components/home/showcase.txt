@@ -1,0 +1,32 @@
+<div class="w-100%">
+    <div class="auto-width flex max1000:flexDirection-row min1000:flexDirection-column p-42px-32px g-12px">
+      <div class="toggle-popup w-600px h-100% bg-white100 br-6px ov-hidden shadow">
+        <div class="flexCenter flexMiddle p-98px-10px c-white0 fs-20px">
+          Error 404
+        </div>
+        <div class="flexRow">
+          <button class="w-50% buttonOutline fw-400 p-12px c-info b-0 btop-1px-solid-info br-0" onclick="toggleElement('toggle-popup')">
+            Cancel
+          </button>
+          <button class="w-50% buttonOutline fw-400 p-12px c-info b-0 btop-1px-solid-info bleft-1px-solid-info br-0"onclick="toggleElement('toggle-popup')">
+            Okay
+          </button>
+        </div>
+        <button class="close-x" onclick="toggleElement('toggle-popup')"></button>
+      </div>
+      <pre><code>&lt;div class="<code class="c-info" style="color: rgb(38, 199, 231);">toggle-popup w-100% bg-white100 br-6px ov-hidden</code>"&gt;
+    &lt;div class="<code class="c-info" style="color: rgb(38, 199, 231);">flexCenter flexMiddle p-48px-10px c-white0 fs-20px</code>"&gt;
+        Error 404
+    &lt;/div&gt;
+    &lt;div class="<code class="c-info" style="color: rgb(38, 199, 231);">flexRow</code>"&gt;
+        &lt;button class="<code class="c-info" style="color: rgb(38, 199, 231);">w-50% buttonOutline fw-400 p-12px c-info b-0 btop-1px-solid-info br-0</code>" onclick="<code class="c-info" style="color: rgb(38, 199, 231);">toggleElement('toggle-popup')</code>"&gt;
+            Cancel
+        &lt;/button&gt;
+        &lt;button class="<code class="c-info" style="color: rgb(38, 199, 231);">w-50% buttonOutline fw-400 p-12px c-info b-0 btop-1px-solid-info bleft-1px-solid-info br-0</code>"onclick="<code class="c-info" style="color: rgb(38, 199, 231);">toggleElement('toggle-popup')</code>"&gt;
+            Okay
+        &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;button class="<code class="c-info" style="color: rgb(38, 199, 231);">close-x</code>" onclick="<code class="c-info" style="color: rgb(38, 199, 231);">toggleElement('toggle-popup')</code>"&gt;&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+</div>

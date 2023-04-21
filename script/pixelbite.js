@@ -403,6 +403,15 @@ const addSignature = () => {
     document.body.appendChild(comment);
 }
 
+const debugmode = (boolean) => {
+    if (boolean) {
+        let elements = document.getElementsByTagName('*')
+        for (let i = 0; i < elements.length; i++) {
+            elements[i].setAttribute('contenteditable', 'true')
+        }
+    }
+}
+
 const href = (location) => {
     window.location.href = location
 }

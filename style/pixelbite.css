@@ -24,6 +24,10 @@
     outline: 1px solid var(--secondary-color);
 }
 
+code:focus {
+    outline: none;
+}
+
 html, body {
     margin: 0;
     padding: 0;

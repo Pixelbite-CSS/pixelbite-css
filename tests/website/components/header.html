@@ -1,8 +1,9 @@
 <div class="w-100% flexRow flexSpaceBetween p-24px flexCenter">
-    <a href="${indexpath}" class="td-none fs-22px fw-600 c-white0 dark:c-white100">
+    <a href="${indexpath}" class="td-none fs-22px fw-600 c-white0 dark:c-white100 flexCenter flexMiddle g-6px">
+        <svg class="h-24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M275.2 38.4c-10.6-8-25-8.5-36.3-1.5S222 57.3 224.6 70.3l9.7 48.6c-19.4 9-36.9 19.9-52.4 31.5c-15.3 11.5-29 23.9-40.7 36.3L48.1 132.4c-12.5-7.3-28.4-5.3-38.7 4.9S-3 163.3 4.2 175.9L50 256 4.2 336.1c-7.2 12.6-5 28.4 5.3 38.6s26.1 12.2 38.7 4.9l93.1-54.3c11.8 12.3 25.4 24.8 40.7 36.3c15.5 11.6 33 22.5 52.4 31.5l-9.7 48.6c-2.6 13 3.1 26.3 14.3 33.3s25.6 6.5 36.3-1.5l77.6-58.2c54.9-4 101.5-27 137.2-53.8c39.2-29.4 67.2-64.7 81.6-89.5c5.8-9.9 5.8-22.2 0-32.1c-14.4-24.8-42.5-60.1-81.6-89.5c-35.8-26.8-82.3-49.8-137.2-53.8L275.2 38.4zM384 256a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/></svg>
         PixelbiteCSS
     </a>
-    <div class="flex g-8px min750:d-none max750:d-flex">
+    <div class="flex g-8px min800:d-none max800:d-flex">
         <button class="bg-transparent buttonHoverDark c-white0 dark:c-white100" onclick="href('${docspath}')">Docs</button>
         <button class="bg-transparent buttonHoverDark c-white0 dark:c-white100" onclick="href('${componentspath}')">Components</button>
         <button class="bg-transparent buttonHoverDark c-white0 dark:c-white100" onclick="href('${newspath}')">News</button>
@@ -16,11 +17,11 @@
             </a>
         </div>
     </div>
-    <a class="min750:d-flex max750:d-none">
+    <a class="min800:d-flex max800:d-none">
         <svg class="fill-white0 dark:fill-white100 h-20px" onclick="toggleElement('toggleMobileMenu')" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M64 360a56 56 0 1 0 0 112 56 56 0 1 0 0-112zm0-160a56 56 0 1 0 0 112 56 56 0 1 0 0-112zM120 96A56 56 0 1 0 8 96a56 56 0 1 0 112 0z"/></svg>
     </a>
 </div>
-<div class="min750:d-flex max750:d-none hidden toggleMobileMenu flexColumn b-1px-solid-rgba(128,128,128,.2) dark:b-1px-solid-primary bg-white99 dark:bg-purple10 p-4px">
+<div class="min800:d-flex max800:d-none hidden toggleMobileMenu flexColumn b-1px-solid-rgba(128,128,128,.2) dark:b-1px-solid-primary bg-white99 dark:bg-purple10 p-4px">
     <button class="bg-transparent buttonHoverDark c-white0 dark:c-white100 w-100% ta-left" onclick="href('${docspath}')">Docs</button>
     <button class="bg-transparent buttonHoverDark c-white0 dark:c-white100 w-100% ta-left" onclick="href('${componentspath}')">Components</button>
     <button class="bg-transparent buttonHoverDark c-white0 dark:c-white100 w-100% ta-left" onclick="href('${newspath}')">News</button>

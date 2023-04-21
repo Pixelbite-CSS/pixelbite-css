@@ -53,95 +53,88 @@ const class_library = [
     ['zIndex', 'z-index'],
 ]
 
-let aliasClasses = []
-
-const addAliasClass = (alias, string_of_classes) => {
-    let classes_array = string_of_classes.split(' ')
-    aliasClasses.push([alias, classes_array])
-}
-
 const styleColor = (propertyValue) => {
-    return getComputedStyle(document.documentElement).getPropertyValue(propertyValue)
+    return getComputedStyle(document.documentElement).getPropertyValue(propertyValue).toString()
 }
 
-let color_library = () => {
-    return [
-        ['primary', styleColor('--primary-color')],
-        ['secondary', styleColor('--secondary-color')],
-        ['success', styleColor('--success-color')],
-        ['danger', styleColor('--danger-color')],
-        ['warning', styleColor('--warning-color')],
-        ['info', styleColor('--info-color')],
-    ]
+var pixelbite = {
+    classes: class_library,
+    theme: {
+        colors: {
+            primary: styleColor('--primary-color').toString(),
+            secondary: styleColor('--secondary-color').toString(),
+            danger: styleColor('--danger-color').toString(),
+            info: styleColor('--info-color').toString(),
+            warning: styleColor('--warning-color').toString(),
+            success: styleColor('--success-color').toString(),
+        },
+        customColors: {
+            white: [0, '0%'],
+            gray: [0, '0%'],
+            black: [0, '0%'],
+            red: [0, '100%'],
+            orange: [36, '100%'],
+            yellow: [59, '100%'],
+            green: [108, '100%'],
+            teal: [154, '100%'],
+            cyan: [182, '100%'],
+            blue: [235, '100%'],
+            purple: [275, '100%'],
+            pink: [300, '100%'],
+        }
+    },
+    aliases: {},
+    loremIpsum: [
+        "Hercle, species primus!",
+        "Indexs volare, tanquam emeritis nix.",
+        "Festus bulla vix locuss barcas est.",
+        "Domuss sunt equisos de flavum cedrium.",
+        "A falsis, diatria emeritis clabulare.",
+        "Medicinas sunt menss de pius nuclear vexatum iacere.",
+        "Verpas sunt plasmators de brevis pes.",
+        "Placidus, alter nuclear vexatum iaceres patienter talem de nobilis, noster cursus.",
+        "Ubi est azureus castor?",
+        "Cum abnoba resistere, omnes hilotaees examinare pius, emeritis poetaes.",
+        "Ubi est bi-color lanista?",
+        "Stellas prarere in ostravia!",
+        "Ausus peregrinationess, tanquam talis mensa.",
+        "Est teres deus, cesaris.",
+        "Est dexter animalis, cesaris.",
+        "Finis albus eleates est.",
+        "Bassus consilium interdum captiss accentor est.",
+        "Fuga noceres, tanquam castus racana.",
+        "Contencio, byssus, et tata.",
+        "Sunt guttuses gratia ferox, velox decores.",
+        "Elogium mirabilis abactor est.",
+        "Nunquam magicae mensa.",
+        "Pol, a bene historia.",
+        "Ubi est raptus acipenser?",
+        "Mensa, ratione, et vortex.",
+        "Rumors cantare!",
+        "Decors volare!",
+        "Fluctuss peregrinationes!",
+        "Cum agripeta credere, omnes silvaes transferre domesticus, clemens sectames.",
+        "Lapsus de domesticus era, manifestum lanista!",
+        "Cur clabulare ridetis?",
+        "Deuss observare, tanquam albus domus.",
+        "A falsis, planeta rusticus visus.",
+        "Primus seculas ducunt ad orgia.",
+        "Pol, a bene guttus, magnum glos!",
+        "Ortum satis ducunt ad fortis candidatus.",
+        "Neuter, alter fraticinidas unus attrahendam de teres, fortis rumor.",
+        "Devatios ortum!",
+        "Cadunt saepe ducunt ad primus imber.",
+        "Ubi est camerarius species?",
+        "Vae.",
+        "Genetrixs sunt adiurators de nobilis exemplar.",
+    ],
+    update: 500
+
 }
 
-let color_library_hsl = [
-    ['white', 0, '0%'],
-    ['black', 0, '0%'],
-    ['red', 0, '100%'],
-    ['orange', 36, '100%'],
-    ['yellow', 59, '100%'],
-    ['greenyellow', 74, '100%'],
-    ['green', 108, '100%'],
-    ['teal', 154, '100%'],
-    ['cyan', 182, '100%'],
-    ['blue', 235, '100%'],
-    ['purple', 275, '100%'],
-    ['pink', 300, '100%'],
-]
-
-const addColorHsl = (name, hue, saturation) => {
-    if (saturation.toString().includes('%')) {
-        color_library_hsl.push([name, hue, saturation])
-    } else {
-        color_library_hsl.push([name, hue, saturation + '%'])
-    }
+const getObjectValues = (object) => {
+    return Object.entries(object)
 }
-
-let loremIpsum = [
-    "Hercle, species primus!",
-    "Indexs volare, tanquam emeritis nix.",
-    "Festus bulla vix locuss barcas est.",
-    "Domuss sunt equisos de flavum cedrium.",
-    "A falsis, diatria emeritis clabulare.",
-    "Medicinas sunt menss de pius nuclear vexatum iacere.",
-    "Verpas sunt plasmators de brevis pes.",
-    "Placidus, alter nuclear vexatum iaceres patienter talem de nobilis, noster cursus.",
-    "Ubi est azureus castor?",
-    "Cum abnoba resistere, omnes hilotaees examinare pius, emeritis poetaes.",
-    "Ubi est bi-color lanista?",
-    "Stellas prarere in ostravia!",
-    "Ausus peregrinationess, tanquam talis mensa.",
-    "Est teres deus, cesaris.",
-    "Est dexter animalis, cesaris.",
-    "Finis albus eleates est.",
-    "Bassus consilium interdum captiss accentor est.",
-    "Fuga noceres, tanquam castus racana.",
-    "Contencio, byssus, et tata.",
-    "Sunt guttuses gratia ferox, velox decores.",
-    "Elogium mirabilis abactor est.",
-    "Nunquam magicae mensa.",
-    "Pol, a bene historia.",
-    "Ubi est raptus acipenser?",
-    "Mensa, ratione, et vortex.",
-    "Rumors cantare!",
-    "Decors volare!",
-    "Fluctuss peregrinationes!",
-    "Cum agripeta credere, omnes silvaes transferre domesticus, clemens sectames.",
-    "Lapsus de domesticus era, manifestum lanista!",
-    "Cur clabulare ridetis?",
-    "Deuss observare, tanquam albus domus.",
-    "A falsis, planeta rusticus visus.",
-    "Primus seculas ducunt ad orgia.",
-    "Pol, a bene guttus, magnum glos!",
-    "Ortum satis ducunt ad fortis candidatus.",
-    "Neuter, alter fraticinidas unus attrahendam de teres, fortis rumor.",
-    "Devatios ortum!",
-    "Cadunt saepe ducunt ad primus imber.",
-    "Ubi est camerarius species?",
-    "Vae.",
-    "Genetrixs sunt adiurators de nobilis exemplar.",
-]
 
 const setCustomComponents = () => {
     let elements = document.getElementsByTagName('*')
@@ -249,20 +242,16 @@ const checkLoremIpsum = () => {
             let element_class_split = element_class.split('-');
             if (element_class_split[0] === "loremIpsum") {
                 for (let k = 0; k < element_class_split[1]; k++) {
-                    elements[i].innerHTML += randomFromArray(loremIpsum) + " "
+                    elements[i].innerHTML += randomFromArray(getObjectValues(pixelbite.loremIpsum)) + " "
                 }
             }
         })
     }
 }
 
-let changeDelay = 500
-const changeClassUpdateDelay = (ms) => {
-    changeDelay = ms
-}
 
 const checkChange = async (instances) => {
-    await sleep(changeDelay)
+    await sleep(pixelbite.update)
     await classGenerator()
     if (instances <= 0) checkLoaders()
     await checkChange(instances + 1)
@@ -370,6 +359,7 @@ const generateFloatInput = (element) => {
 const aliasClassReplace = (element) => {
     let x = element.classList
     for (let i = 0; i < x.length; i++) {
+        let aliasClasses = getObjectValues(pixelbite.aliases)
         for (let j = 0; j < aliasClasses.length; j++) {
             if (aliasClasses[j][0] === x[i]) {
                 for (let k = 0; k < aliasClasses[j][1].length; k++) {
@@ -382,7 +372,8 @@ const aliasClassReplace = (element) => {
 
 const classSplitToString = (array, startPosition) => {
     if (array) {
-        let colors = color_library()
+        let colors = getObjectValues(pixelbite.theme.colors)
+        let color_library_hsl = getObjectValues(pixelbite.theme.customColors)
         let a = ""
         for (let i = startPosition; i < array.length; i++) {
             for (let j = 0; j < colors.length; j++) {
@@ -392,7 +383,7 @@ const classSplitToString = (array, startPosition) => {
             }
             for (let j = 0; j < color_library_hsl.length; j++) {
                 if (array[i].includes(color_library_hsl[j][0])) {
-                    array[i] = array[i].replace(color_library_hsl[j][0], "hsl(" + color_library_hsl[j][1] + "," + color_library_hsl[j][2] + ",")
+                    array[i] = array[i].replace(color_library_hsl[j][0], "hsl(" + color_library_hsl[j][1][0] + "," + color_library_hsl[j][1][1] + ",")
                     array[i] += "%)"
                 }
             }

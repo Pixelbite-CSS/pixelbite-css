@@ -57,14 +57,35 @@ h4 {font-size: 22px;}
 h5 {font-size: 18px;}
 
 pre {
+    overflow: auto;
+    color: var(--secondary-color);
+    width: 100%;
+    font-family: var(--font-mono-family);
+    counter-reset: line;
+}
+
+.codeblock {
     padding: 16px 22px;
     background: rgba(128, 128, 128, .02);
     overflow: auto;
-    color: var(--secondary-color);
     border-radius: 4px;
-    width: 100%;
     border: 1px solid var(--secondary-color);
-    font-family: var(--font-mono-family);
+}
+
+pre span {
+    counter-increment: line;
+    font: var(--font-mono-family);
+    text-align: right;
+}
+
+pre span::before {
+    content: counter(line);
+    display: inline-block;
+    width: 1em;
+    margin-right: 1em;
+    color: rgba(128,128,128,.6);
+    font: var(--font-mono-family);
+    -webkit-user-select: none;
 }
 
 code {
@@ -144,11 +165,6 @@ input:focus {
     left: 0;
     position: sticky;
     position: -webkit-sticky;
-}
-
-span {
-    font-size: 12px;
-    opacity: .6;
 }
 
 img {

@@ -129,7 +129,6 @@ var pixelbite = {
         "Genetrixs sunt adiurators de nobilis exemplar.",
     ],
     update: 500
-
 }
 
 const getObjectValues = (object) => {

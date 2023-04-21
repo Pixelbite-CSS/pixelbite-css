@@ -192,11 +192,15 @@ const includeHtmlToAnElement = (element, path, attributes) => {
             if (this.status === 404) {
                 let toggleClass = 'toggle-' + randomString(32)
                 let toggleClassMore = 'toggle-' + randomString(32)
+                let detailsString = '';
+                for (let i = 0; i < attributes.length; i++) {
+                    detailsString += '[' + attributes[i] + '="' + element.getAttribute(attributes[i]).replaceAll('<', '&lt;') + '"], <br>'
+                }
                 element.innerHTML =
                 '<div class="' + toggleClass + ' fw-500 p-14px-20px bg-warning br-4px m-4px pr-48px">' +
                     '<code>Component not found [path=' + path + ']<br></code>' +
                     '<code class="' + toggleClassMore + '" onclick="toggleElement(\'' + toggleClassMore + '\')"> - see more details</code>' +
-                    '<code class="' + toggleClassMore + ' hidden" onclick="toggleElement(\'' + toggleClassMore + '\')">- see less details<br>' + xhttp.getAllResponseHeaders() + '</code>' +
+                    '<code class="' + toggleClassMore + ' hidden"><code onclick="toggleElement(\'' + toggleClassMore + '\')">- see less details</code><br>' + detailsString + '</code>' +
                     '<button class="close-x" onclick="toggleElement(\'' + toggleClass + '\')"></button>' +
                 '</div>'
             }

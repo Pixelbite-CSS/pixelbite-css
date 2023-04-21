@@ -407,8 +407,10 @@ const debugmode = (boolean) => {
     }
 }
 
-const href = (location) => {
-    window.location.href = location
+const href = (location, newWindow) => {
+    if (newWindow) newWindow = '_blank'
+    else newWindow = '_self'
+    window.open(location, newWindow)
 }
 
 const toggleElement = (element_class) => {

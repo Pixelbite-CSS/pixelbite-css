@@ -252,6 +252,7 @@ const checkLoremIpsum = () => {
                 for (let k = 0; k < element_class_split[1]; k++) {
                     elements[i].innerHTML += randomFromArray(getObjectValues(pixelbite.loremIpsum))[1] + " "
                 }
+                elements[i].classList.remove(element_class)
             }
         })
     }
@@ -302,6 +303,7 @@ const changeRootVariable = (variable, value) => {
 }
 
 const classGenerator = () => {
+    checkLoremIpsum()
     if (pixelbite.theme.variables.primary !== document.documentElement.style.getPropertyValue('--primary-color')) {changeRootVariable('--primary-color', pixelbite.theme.variables.primary)}
     if (pixelbite.theme.variables.secondary !== document.documentElement.style.getPropertyValue('--secondary-color')) {changeRootVariable('--secondary-color', pixelbite.theme.variables.secondary)}
     if (pixelbite.theme.variables.success !== document.documentElement.style.getPropertyValue('--success-color')) {changeRootVariable('--success-color', pixelbite.theme.variables.success)}

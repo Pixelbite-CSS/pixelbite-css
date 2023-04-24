@@ -29,6 +29,7 @@ const class_library = [
     ['br', 'border-radius'],
     ['bg', 'background'],
     ['ta', 'text-align'],
+    ['ff', 'font-family'],
     ['fs', 'font-size'],
     ['fw', 'font-weight'],
     ['td', 'text-decoration'],
@@ -53,7 +54,7 @@ const class_library = [
     ['zIndex', 'z-index'],
 ]
 
-const styleColor = (propertyValue) => {
+const getRootVariable = (propertyValue) => {
     return getComputedStyle(document.documentElement).getPropertyValue(propertyValue).toString()
 }
 
@@ -61,12 +62,14 @@ var pixelbite = {
     classes: class_library,
     theme: {
         variables: {
-            primary: styleColor('--primary-color').toString(),
-            secondary: styleColor('--secondary-color').toString(),
-            danger: styleColor('--danger-color').toString(),
-            info: styleColor('--info-color').toString(),
-            warning: styleColor('--warning-color').toString(),
-            success: styleColor('--success-color').toString(),
+            primary: getRootVariable('--primary-color').toString(),
+            secondary: getRootVariable('--secondary-color').toString(),
+            danger: getRootVariable('--danger-color').toString(),
+            info: getRootVariable('--info-color').toString(),
+            warning: getRootVariable('--warning-color').toString(),
+            success: getRootVariable('--success-color').toString(),
+            fontPrimary: getRootVariable('--font-family').toString(),
+            fontMonospace: getRootVariable('--font-mono-family').toString(),
         },
         colors: {
             white: [0, '0%'],

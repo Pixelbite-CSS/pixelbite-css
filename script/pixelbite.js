@@ -59,14 +59,8 @@ const getRootVariable = (propertyValue) => {
 }
 
 const putCustomFontIntoCSS = (name, url) => {
-    var newStyle = document.createElement('style');
-    newStyle.appendChild(document.createTextNode("\
-@font-face {\
-    font-family: " + name + ";\
-    src: " + url + " format('yourFontFormat');\
-}\
-"));
-
+    let newStyle = document.createElement('style');
+    newStyle.appendChild(document.createTextNode("@font-face {font-family: " + name + "; src: " + url + ";}"));
     document.head.appendChild(newStyle);
 }
 
@@ -309,11 +303,13 @@ const changeRootVariable = (variable, value) => {
 
 const classGenerator = () => {
     if (pixelbite.theme.variables.primary !== document.documentElement.style.getPropertyValue('--primary-color')) {changeRootVariable('--primary-color', pixelbite.theme.variables.primary)}
-    if (pixelbite.theme.variables.secondary !== document.documentElement.style.getPropertyValue('--secondary-color')) {changeRootVariable('--secondary-color', pixelbite.theme.variables.primary)}
-    if (pixelbite.theme.variables.success !== document.documentElement.style.getPropertyValue('--success-color')) {changeRootVariable('--success-color', pixelbite.theme.variables.primary)}
-    if (pixelbite.theme.variables.info !== document.documentElement.style.getPropertyValue('--info-color')) {changeRootVariable('--info-color', pixelbite.theme.variables.primary)}
-    if (pixelbite.theme.variables.danger !== document.documentElement.style.getPropertyValue('--danger-color')) {changeRootVariable('--danger-color', pixelbite.theme.variables.primary)}
-    if (pixelbite.theme.variables.warning !== document.documentElement.style.getPropertyValue('--warning-color')) {changeRootVariable('--warning-color', pixelbite.theme.variables.primary)}
+    if (pixelbite.theme.variables.secondary !== document.documentElement.style.getPropertyValue('--secondary-color')) {changeRootVariable('--secondary-color', pixelbite.theme.variables.secondary)}
+    if (pixelbite.theme.variables.success !== document.documentElement.style.getPropertyValue('--success-color')) {changeRootVariable('--success-color', pixelbite.theme.variables.success)}
+    if (pixelbite.theme.variables.info !== document.documentElement.style.getPropertyValue('--info-color')) {changeRootVariable('--info-color', pixelbite.theme.variables.info)}
+    if (pixelbite.theme.variables.danger !== document.documentElement.style.getPropertyValue('--danger-color')) {changeRootVariable('--danger-color', pixelbite.theme.variables.danger)}
+    if (pixelbite.theme.variables.warning !== document.documentElement.style.getPropertyValue('--warning-color')) {changeRootVariable('--warning-color', pixelbite.theme.variables.warning)}
+    if (pixelbite.theme.variables.fontPrimary !== document.documentElement.style.getPropertyValue('--font-family')) {changeRootVariable('--font-family', pixelbite.theme.variables.fontPrimary)}
+    if (pixelbite.theme.variables.fontMonospace !== document.documentElement.style.getPropertyValue('--font-mono-family')) {changeRootVariable('--font-mono-family', pixelbite.theme.variables.fontMonospace)}
     const elements = document.getElementsByTagName('*')
     for (let i = 0; i < elements.length; i++) {
         let element = elements[i]
@@ -386,8 +382,9 @@ const aliasClassReplace = (element) => {
         let aliasClasses = getObjectValues(pixelbite.aliases)
         for (let j = 0; j < aliasClasses.length; j++) {
             if (aliasClasses[j][0] === x[i]) {
-                for (let k = 0; k < aliasClasses[j][1].length; k++) {
-                    element.classList.add(aliasClasses[j][1][k])
+                let classSplit = aliasClasses[j][1].split(' ')
+                for (let k = 0; k < classSplit.length; k++) {
+                    element.classList.add(classSplit[k])
                 }
             }
         }
@@ -401,13 +398,13 @@ const classSplitToString = (array, startPosition) => {
         let a = ""
         for (let i = startPosition; i < array.length; i++) {
             for (let j = 0; j < variables.length; j++) {
+                if (variables[j][1].includes('url(')) {
+                    let fontName = 'font-' + randomString(32)
+                    let varia = pixelbite.theme.variables
+                    putCustomFontIntoCSS(fontName, variables[j][1])
+                    varia[variables[j][0]] = fontName
+                }
                 if (array[i] === variables[j][0]) {
-                    if (variables[j][1].includes('url(')) {
-                        let fontName = 'font-' + randomString(32)
-                        let varia = pixelbite.theme.variables
-                        putCustomFontIntoCSS(fontName, variables[j][1])
-                        varia[variables[j][0]] = fontName
-                    }
                     array[i] = variables[j][1]
                 }
             }

@@ -58,6 +58,18 @@ const getRootVariable = (propertyValue) => {
     return getComputedStyle(document.documentElement).getPropertyValue(propertyValue).toString()
 }
 
+const putCustomFontIntoCSS = (name, url) => {
+    var newStyle = document.createElement('style');
+    newStyle.appendChild(document.createTextNode("\
+@font-face {\
+    font-family: " + name + ";\
+    src: " + url + " format('yourFontFormat');\
+}\
+"));
+
+    document.head.appendChild(newStyle);
+}
+
 var pixelbite = {
     classes: class_library,
     theme: {
@@ -244,7 +256,7 @@ const checkLoremIpsum = () => {
             let element_class_split = element_class.split('-');
             if (element_class_split[0] === "loremIpsum") {
                 for (let k = 0; k < element_class_split[1]; k++) {
-                    elements[i].innerHTML += randomFromArray(getObjectValues(pixelbite.loremIpsum)) + " "
+                    elements[i].innerHTML += randomFromArray(getObjectValues(pixelbite.loremIpsum))[1] + " "
                 }
             }
         })
@@ -384,13 +396,19 @@ const aliasClassReplace = (element) => {
 
 const classSplitToString = (array, startPosition) => {
     if (array) {
-        let colors = getObjectValues(pixelbite.theme.variables)
+        let variables = getObjectValues(pixelbite.theme.variables)
         let color_library_hsl = getObjectValues(pixelbite.theme.colors)
         let a = ""
         for (let i = startPosition; i < array.length; i++) {
-            for (let j = 0; j < colors.length; j++) {
-                if (array[i] === colors[j][0]) {
-                    array[i] = colors[j][1]
+            for (let j = 0; j < variables.length; j++) {
+                if (array[i] === variables[j][0]) {
+                    if (variables[j][1].includes('url(')) {
+                        let fontName = 'font-' + randomString(32)
+                        let varia = pixelbite.theme.variables
+                        putCustomFontIntoCSS(fontName, variables[j][1])
+                        varia[variables[j][0]] = fontName
+                    }
+                    array[i] = variables[j][1]
                 }
             }
             for (let j = 0; j < color_library_hsl.length; j++) {

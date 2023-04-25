@@ -51,6 +51,9 @@ const class_library = [
     ['bottom', 'bottom'],
     ['left', 'left'],
     ['right', 'right'],
+    ['ws', 'word-spacing'],
+    ['ls', 'letter-spacing'],
+    ['lh', 'line-height'],
     ['zIndex', 'z-index'],
 ]
 
@@ -164,7 +167,7 @@ function replaceAll(string, search, replace) {
     return string.split(search).join(replace);
 }
 
-const includeHtmlToAnElement = (element, path, attributes) => {
+const includeHtmlToAnElement = async (element, path, attributes) => {
     if (!path) path = 'null'
     let relativePathSplit = path.split('/')
     let relativePath = ''
@@ -172,10 +175,26 @@ const includeHtmlToAnElement = (element, path, attributes) => {
         relativePath += relativePathSplit[i] + '/'
     }
     let xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = async function () {
         if (this.readyState === 4) {
             if (this.status === 200) {
                 let response = this.responseText + ''
+                let objectPath = element.getAttribute('objectPath')
+                let object;
+                if (objectPath) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = function () {
+                        if (this.readyState === 4 && this.status === 200) {
+                            object = JSON.parse(this.responseText);
+                        }
+                    };
+                    xhr.open("GET", objectPath, true);
+                    xhr.send();
+                    while (!object) {
+                        await sleep(100)
+                    }
+                    // TODO: add object support
+                }
                 for (let i = 0; i < attributes.length; i++) {
                     let attribute = attributes[i]
                     let attribute_syntax = '${' + attributes[i] + '}'
@@ -198,12 +217,12 @@ const includeHtmlToAnElement = (element, path, attributes) => {
                     detailsString += '[' + attributes[i] + '="' + element.getAttribute(attributes[i]).replaceAll('<', '&lt;') + '"], <br>'
                 }
                 element.innerHTML =
-                '<div class="' + toggleClass + ' fw-500 p-14px-20px bg-warning br-4px m-4px pr-48px">' +
+                    '<div class="' + toggleClass + ' fw-500 p-14px-20px bg-warning br-4px m-4px pr-48px">' +
                     '<code>Component not found [path=' + path + ']<br></code>' +
                     '<code class="' + toggleClassMore + '" onclick="toggleElement(\'' + toggleClassMore + '\')"> - see more details</code>' +
                     '<code class="' + toggleClassMore + ' hidden"><code onclick="toggleElement(\'' + toggleClassMore + '\')">- see less details</code><br>' + detailsString + '</code>' +
                     '<button class="close-x" onclick="toggleElement(\'' + toggleClass + '\')"></button>' +
-                '</div>'
+                    '</div>'
             }
         }
     }
@@ -511,18 +530,29 @@ const getCookie = (name) => {
     return ""
 }
 
+let searchbarsBefore = []
+
 const updateSearchbars = () => {
-    let searchbars = document.getElementsByClassName('searchbar')
-    for (let i = 0; i < searchbars.length; i++) {
-        let search = searchbars[i].getElementsByClassName('search')[0]
-        let searchValue = search.value.toLowerCase();
-        let searchValues = searchbars[i].getElementsByClassName('search-values')[0].getElementsByTagName('div')
-        for (let j = 0; j < searchValues.length; j++) {
-            if (searchValues[j].innerText.toLowerCase().includes(searchValue) && searchValue) {
-                searchValues[j].style.display = 'flex'
-            } else {
+    if (searchbarsBefore.length !== document.getElementsByClassName('searchbar').length) {
+        let searchbars = document.getElementsByClassName('searchbar')
+        for (let i = 0; i < searchbars.length; i++) {
+            let search = searchbars[i].getElementsByClassName('search')[0]
+            let searchValues = searchbars[i].getElementsByClassName('search-values')[0].getElementsByTagName('div')
+            for (let j = 0; j < searchValues.length; j++) {
                 searchValues[j].style.display = 'none'
+
             }
-        }
+            search.oninput = () => {
+                let searchValue = search.value.toLowerCase();
+                let searchValues = searchbars[i].getElementsByClassName('search-values')[0].getElementsByTagName('div')
+                for (let j = 0; j < searchValues.length; j++) {
+                    if (searchValues[j].innerText.toLowerCase().includes(searchValue) && searchValue) {
+                        searchValues[j].style.display = 'flex'
+                    } else {
+                        searchValues[j].style.display = 'none'
+                    }
+                }
+            }
+        } searchbarsBefore = searchbars
     }
 }

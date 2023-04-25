@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&display=swap');
 
 :root {
     --font-family: 'Poppins', sans-serif;
-    --font-mono-family: 'Anonymous Pro', monospace;
+    --font-mono-family: 'Fira Mono', monospace;
     --primary-color: #5920B0;
     --secondary-color: #9575C6;
     --success-color: #60D130;
@@ -76,9 +76,10 @@ pre span {
     counter-increment: line;
     font: var(--font-mono-family);
     text-align: right;
+    position: relative;
 }
 
-pre span::before {
+pre.numberedLines span::before {
     content: counter(line);
     display: inline-block;
     width: 1em;
@@ -92,6 +93,18 @@ code {
     font-family: var(--font-mono-family);
 }
 
+pre span.highlight::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: inset 0 20px 42px -30px var(--info-color), inset 0 -20px 42px -30px var(--info-color), inset 4px 0 0 var(--info-color);
+    opacity: 1;
+    z-index: -1;
+}
+
 table {
     border-collapse:collapse;
     border-spacing:0;
@@ -99,6 +112,10 @@ table {
 
 table td {
     border: 1px solid black;
+}
+
+.pointer {
+    cursor: pointer;
 }
 
 button {
@@ -440,6 +457,10 @@ img {
     position: relative;
 }
 
+.searchbar > input {
+    width: 100%;
+}
+
 .searchbar > div {
     width: 100%;
     transition: .2s;
@@ -469,15 +490,12 @@ img {
     background: white;
     padding: 8px 16px;
     transition: background-color .2s;
+    box-shadow: inset 0 -20px 20px rgba(128,128,128,.07);
     cursor: pointer;
 }
 
-.search-values > div:nth-child(2n) {
-    background: rgba(240, 240, 240, 1);
-}
-
 .search-values > div:hover {
-    background: rgba(220, 220, 220, 1);
+    background: rgba(233, 233, 233, 1);
 }
 
 .line {
@@ -589,9 +607,9 @@ img {
 }
 
 @media only screen and (max-width: 900px) {
-    * {
-        overflow-x: hidden;
-    }
+    /** {*/
+    /*    overflow-x: hidden;*/
+    /*}*/
 
     .sticky {
         position: relative;

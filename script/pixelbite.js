@@ -366,7 +366,7 @@ window.onload = () => {
         "font-size:18px;font-weight:bold"
     )
     console.log(
-        "%cMore information or documentation can be found on our GitHub\nhttps://github.com/Pixelbite-CSS",
+        "%cMore information can be found on our website or GitHub\nhttps://pixelbite-css.github.io, https://github.com/Pixelbite-CSS",
         "font-weight:bold"
     )
     addSignature()

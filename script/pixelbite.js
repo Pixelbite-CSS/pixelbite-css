@@ -188,7 +188,11 @@ const includeHtmlToAnElement = async (element, path, attributes) => {
                         let objectRequest = new XMLHttpRequest();
                         objectRequest.onreadystatechange = function () {
                             if (this.readyState === 4 && this.status === 200) {
-                                object = JSON.parse(this.responseText);
+                                try {
+                                    object = JSON.parse(this.responseText);
+                                } catch (error) {
+                                    console.error('PixelBite: Your "' + objectName + '[object]" has syntax error.')
+                                }
                             }
                         };
                         objectRequest.open("GET", objectPath, true);

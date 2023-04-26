@@ -174,29 +174,59 @@ const includeHtmlToAnElement = async (element, path, attributes) => {
     for (let i = 0; i < relativePathSplit.length - 1; i++) {
         relativePath += relativePathSplit[i] + '/'
     }
-    let xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = async function () {
+    let componentRequest = new XMLHttpRequest();
+    componentRequest.onreadystatechange = async function () {
         if (this.readyState === 4) {
             if (this.status === 200) {
                 let response = this.responseText + ''
-                let objectPath = element.getAttribute('objectPath')
-                let object;
-                if (objectPath) {
-                    var xhr = new XMLHttpRequest();
-                    xhr.onreadystatechange = function () {
-                        if (this.readyState === 4 && this.status === 200) {
-                            object = JSON.parse(this.responseText);
-                        }
-                    };
-                    xhr.open("GET", objectPath, true);
-                    xhr.send();
-                    while (!object) {
-                        await sleep(100)
-                    }
-                    // TODO: add object support
-                }
                 for (let i = 0; i < attributes.length; i++) {
                     let attribute = attributes[i]
+                    if (attribute.includes('[object]')) {
+                        let object = ''
+                        let objectName = attribute.replace('[object]', '')
+                        let objectPath = element.getAttribute(attribute)
+                        let objectRequest = new XMLHttpRequest();
+                        objectRequest.onreadystatechange = function () {
+                            if (this.readyState === 4 && this.status === 200) {
+                                object = JSON.parse(this.responseText);
+                            }
+                        };
+                        objectRequest.open("GET", objectPath, true);
+                        objectRequest.send();
+                        while (!object) {
+                            await sleep(100)
+                        }
+                        const regex = /\$\{for\((.*?)\)\}/g;
+                        const objectFors = [];
+                        let match;
+                        while ((match = regex.exec(response)) !== null) {
+                            const value = match[1];
+                            objectFors.push('${for(' + value + ')}');
+                        }
+                        for (let j = 0; j < objectFors.length; j++) {
+                            if (objectFors[j].includes('${for(')) {
+                                let objectForSplit = objectFors[j].substring(6, objectFors[j].length - 2).split('::')
+                                let string = ''
+                                for (let k = 0; k < eval(objectForSplit[0]); k++) {
+                                    string += replaceAll(objectForSplit[1], '[i]', '[' + k + ']')
+                                }
+                                response = replaceAll(response, objectFors[j], string)
+                            }
+                        }
+                        let objectStrings = response.match(/\${(.*?)}/g);
+                        for (let j = 0; j < objectStrings.length; j++) {
+                            if (objectStrings[j].includes(objectName)) {
+                                let objectString = objectStrings[j].replace('${', '').replace('}', '')
+                                try {
+                                    let value = eval(objectString)
+                                    response = replaceAll(response, objectStrings[j], value)
+                                } catch (error) {
+                                    response = replaceAll(response, objectStrings[j], '')
+                                    console.error('PixelBite: Cannot read property from "' + objectName + '[object]" (reading "' + objectStrings[j] + '"), please check if value in the object exists.')
+                                }
+                            }
+                        }
+                    }
                     let attribute_syntax = '${' + attributes[i] + '}'
                     if (response.includes(attribute_syntax)) {
                         // response = response.replace(attribute_syntax, element.getAttribute(attribute))
@@ -226,8 +256,8 @@ const includeHtmlToAnElement = async (element, path, attributes) => {
             }
         }
     }
-    xhttp.open("GET", path, true);
-    xhttp.send();
+    componentRequest.open("GET", path, true);
+    componentRequest.send();
 }
 
 let darkmode = false

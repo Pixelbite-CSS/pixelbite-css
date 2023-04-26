@@ -203,26 +203,30 @@ const includeHtmlToAnElement = async (element, path, attributes) => {
                             const value = match[1];
                             objectFors.push('${for(' + value + ')}');
                         }
-                        for (let j = 0; j < objectFors.length; j++) {
-                            if (objectFors[j].includes('${for(')) {
-                                let objectForSplit = objectFors[j].substring(6, objectFors[j].length - 2).split('::')
-                                let string = ''
-                                for (let k = 0; k < eval(objectForSplit[0]); k++) {
-                                    string += replaceAll(objectForSplit[1], '[i]', '[' + k + ']')
+                        if (objectFors) {
+                            for (let j = 0; j < objectFors.length; j++) {
+                                if (objectFors[j].includes('${for(')) {
+                                    let objectForSplit = objectFors[j].substring(6, objectFors[j].length - 2).split('::')
+                                    let string = ''
+                                    for (let k = 0; k < eval(objectForSplit[0]); k++) {
+                                        string += replaceAll(objectForSplit[1], '[i]', '[' + k + ']')
+                                    }
+                                    response = replaceAll(response, objectFors[j], string)
                                 }
-                                response = replaceAll(response, objectFors[j], string)
                             }
                         }
                         let objectStrings = response.match(/\${(.*?)}/g);
-                        for (let j = 0; j < objectStrings.length; j++) {
-                            if (objectStrings[j].includes(objectName)) {
-                                let objectString = objectStrings[j].replace('${', '').replace('}', '')
-                                try {
-                                    let value = eval(objectString)
-                                    response = replaceAll(response, objectStrings[j], value)
-                                } catch (error) {
-                                    response = replaceAll(response, objectStrings[j], '')
-                                    console.error('PixelBite: Cannot read property from "' + objectName + '[object]" (reading "' + objectStrings[j] + '"), please check if value in the object exists.')
+                        if (objectStrings) {
+                            for (let j = 0; j < objectStrings.length; j++) {
+                                if (objectStrings[j].includes(objectName)) {
+                                    let objectString = objectStrings[j].replace('${', '').replace('}', '')
+                                    try {
+                                        let value = eval(objectString)
+                                        response = replaceAll(response, objectStrings[j], value)
+                                    } catch (error) {
+                                        response = replaceAll(response, objectStrings[j], '')
+                                        console.error('PixelBite: Cannot read property from "' + objectName + '[object]" (reading "' + objectStrings[j] + '"), please check if value in the object exists.')
+                                    }
                                 }
                             }
                         }

@@ -1,0 +1,24 @@
+<div class="w-100% btop-1px-solid-rgba(128,128,128,.2) dark:btop-1px-solid-primary bbottom-1px-solid-rgba(128,128,128,.2) dark:bbottom-1px-solid-primary bg-white99 dark:bg-purple10 p-48px-12px">
+    <div class="auto-width flexColumn ta-left flexLeft">
+        <component class="pb-14px" path="../../components/rounded_icon.html" colorprimary="${colorprimary}"
+                   colorsecondary="${colorsecondary}" icon='${icon}'></component>
+        <h1>${title}</h1>
+        <div class="paragraph c-white50 w-600px pb-14px">${text}</div>
+        <button onclick="href('${href}')" class="br-500px bg-rgba(128,128,128,.5) fs-14px c-white0 dark:c-white100">
+            ${buttontext}
+        </button>
+    </div>
+</div>
+<div class="w-100%">
+    <div class="auto-width g-12px p-32px flex max1000:flexDirection-row min1000:flexDirection-column">
+        <div class="w-900px">${code}</div>
+        <div class="b-1px-solid-primary br-8px w-100% bg-white96 dark:bg-purple6">
+            <div class="bbottom-1px-solid-primary w-100% p-12px flexRow flexBottom g-6px">
+                <div class="br-50% bg-primary ar-1/1 h-12px"></div>
+                <div class="br-50% bg-primary ar-1/1 h-12px"></div>
+                <div class="br-50% bg-primary ar-1/1 h-12px"></div>
+            </div>
+            <div class="p-0-0-0-24px"><pre class="of-hidden numberedLines">${codetext}</pre></div>
+        </div>
+    </div>
+</div>

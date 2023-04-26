@@ -4,7 +4,7 @@
 - **Pixelbite CSS** is publicly free CSS and JS framework, working with **npm** package system or url-related reference in your html files
 - This Framework helps site being build faster, responsive and customizable
 - **Version:** alpha-1.5 (build 26.04.23)
-
+ 
 #### Initialization
 ```
 <meta name="viewport" content="width=device-width, initial-scale=1">

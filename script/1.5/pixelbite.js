@@ -196,7 +196,7 @@ const includeHtmlToAnElement = async (element, path, attributes) => {
     componentRequest.onreadystatechange = async function () {
         if (this.readyState === 4) {
             if (this.status === 200) {
-                let response = this.responseText.replace(/[\n\r]+/g, ' ') + ''
+                let response = this.responseText + ''
                 for (let i = 0; i < attributes.length; i++) {
                     let attribute = attributes[i]
                     if (attribute.includes('[object]')) {

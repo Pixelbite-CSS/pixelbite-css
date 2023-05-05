@@ -195,39 +195,40 @@ const customGithubMakrdown = (text) => {
     const replacements = [
         // { pattern: /</g, replacement: "&lt;" },
         // { pattern: />/g, replacement: "&gt;" },
-        {
-            pattern: /`([\s\S]*?)`/g, replacement: function (match, p1) {
-                p1 = p1.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                return "`" + p1 + "`";
-            }
-        },
         {pattern: /^#{6}\s+(.*)$/gm, replacement: "<h6>$1</h6>"},
         {pattern: /^#{5}\s+(.*)$/gm, replacement: "<h5>$1</h5>"},
-        {pattern: /^#{4}\s+(.*)$/gm, replacement: "<h4>$1</h4>"},
+        {pattern: /^#{4}\s+(.*)$/gm, replacement: "<h4 class='mt-32px'>$1</h4>"},
         {pattern: /^#{3}\s+(.*)$/gm, replacement: "<h3>$1</h3>"},
         {pattern: /^#{2}\s+(.*)$/gm, replacement: "<h2>$1</h2>"},
         {pattern: /^#{1}\s+(.*)$/gm, replacement: "<h1>$1</h1>"},
+        {
+            pattern: /```([\s\S]*?)```/g, replacement: function (match, p1) {
+                p1 = p1.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                return "```" + p1 + "```";
+            }
+        },
         {pattern: /^!~(.*?)$/gm, replacement: "<span class='highlight'>$1</span>"},
         {pattern: /^~~(.*?)$/gm, replacement: "<span>$1</span>"},
         {pattern: /~(.*?)~/g, replacement: "<code class=\"c-info\">$1</code>"},
         {pattern: /^- \[(x| )\]\s+(.*)$/gm, replacement: "<li><input type=\"checkbox\" $1> $2</li><ul>"},
-        {pattern: /^<\/li>\n(- \[(x| )\]\s+.*)$/gm, replacement: "$1"},
-        {pattern: /<\/ul><ul>$/gm, replacement: ""},
         {pattern: /\*\*(.*)\*\*/gm, replacement: "<strong>$1</strong>"},
         {pattern: /__(.*)__/gm, replacement: "<strong>$1</strong>"},
         {pattern: /\*(.*)\*/gm, replacement: "<em>$1</em>"},
         {pattern: /_(.*)_/gm, replacement: "<em>$1</em>"},
         {pattern: /~~(.*)~~/gm, replacement: "<del>$1</del>"},
         {pattern: /^>\s+(.*)$/gm, replacement: "<blockquote>$1</blockquote>"},
+        { pattern: /^- (.*)$/gm, replacement: "<li>$1</li>" },
+        { pattern: /<\/li>\n<li>/g, replacement: "</li><li>" },
+        { pattern: /<li>(.*)<\/li>/gm, replacement: "<ul><li>$1</li></ul>" },
         {pattern: /!\[(.*?)\]\((.*?)\)/gm, replacement: '<img src="$2" alt="$1">'},
         {pattern: /\[(.*?)\]\((.*?)\)/gm, replacement: '<a href="$2">$1</a>'},
         {
             pattern: /```([\w-]+)?\n([\s\S]*?)\n```/gm,
             replacement: '<pre class=\"numberedLines maxw-100% b-1px-solid-primary br-6px p-12px-16px\" $1><code>$2</code></pre>'
         },
-        {pattern: /`([^`]+)`/gm, replacement: '<code>$1</code>'},
+        // {pattern: /`([^`]+)`/gm, replacement: '<code>$1</code>'},
         {pattern: /\n---\n/gm, replacement: "<hr>"},
-        {pattern: /\n/gm, replacement: "<br>"},
+        // {pattern: /\n/gm, replacement: "<br>"},
     ];
     let html = text;
     replacements.forEach(({pattern, replacement}) => {

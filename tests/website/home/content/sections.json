@@ -5,7 +5,7 @@
     "colorsecondary": "green70",
     "title": "Customization",
     "text": "You can customize any aspect of this framework. Most values can be changed via custom functions or changing value in object to create pleasant experience for the developer.",
-    "href": "./docs/#customization",
+    "href": "./docs/#5_1_Colors",
     "buttontext": "See in docs",
     "code": "<component path=\"../../content/colors.html\"></component>",
     "codetext": "<component path=\"../../content/test.txt\"></component>"
@@ -27,7 +27,7 @@
     "colorsecondary": "pink70",
     "title": "Responsibility",
     "text": "Use custom prefixes <a class='c-info'>max:</a> and <a class='c-info'>min:</a> to make certain classes allow themselves, within selected threshold.",
-    "href": "./docs/#responsibility",
+    "href": "./docs/#4_1_Responsibility",
     "buttontext": "See in docs",
     "code": "",
     "codetext": ""
@@ -38,7 +38,7 @@
     "colorsecondary": "white70",
     "title": "Dark mode",
     "text": "Framework supports custom dark mode with its own class prefix <a class='c-info'>dark:</a>. You can create two themed websites with ease and more customization.",
-    "href": "./docs/#darkmode",
+    "href": "./docs/#4_2_Dark_mode",
     "buttontext": "See in docs",
     "code": "",
     "codetext": ""

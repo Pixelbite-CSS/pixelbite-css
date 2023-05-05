@@ -1,1 +1,15 @@
-${for(object.length::<component path="./section.html" icon='${object[i].icon}' colorprimary="${object[i].colorprimary}" colorsecondary="${object[i].colorsecondary}" title="${object[i].title}" text="${object[i].text}" href="${object[i].href}" buttontext="${object[i].buttontext}" code='${object[i].code}' codetext='${object[i].codetext}'></component>)}
+${for(
+    object.length ::
+    <component
+            path="./section.html"
+            icon='${object[i].icon}'
+            colorprimary="${object[i].colorprimary}"
+            colorsecondary="${object[i].colorsecondary}"
+            title="${object[i].title}"
+            text="${object[i].text}"
+            href="${object[i].href}"
+            buttontext="${object[i].buttontext}"
+            code='${object[i].code}'
+            codetext='${object[i].codetext}'
+    ></component>
+)}

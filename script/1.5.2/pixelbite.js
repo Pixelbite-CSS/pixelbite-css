@@ -176,7 +176,7 @@ const customComponentsCheck = (array, relativePath) => {
         let element = array[i]
         if (element.tagName.toUpperCase().includes('COMPONENT')) {
             let element_attributes = element.getAttributeNames()
-            let path = ''
+            let path = element.getAttribute('path')
             if (path.startsWith('http://') || path.startsWith('https://')) {
                 path = element.getAttribute('path')
             } else {

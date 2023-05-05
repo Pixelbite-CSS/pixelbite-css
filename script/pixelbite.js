@@ -199,6 +199,10 @@ const customGithubMakrdown = (text) => {
         { pattern: /^#{3}\s+(.*)$/gm, replacement: "<h3>$1</h3>" },
         { pattern: /^#{2}\s+(.*)$/gm, replacement: "<h2>$1</h2>" },
         { pattern: /^#{1}\s+(.*)$/gm, replacement: "<h1>$1</h1>" },
+        { pattern: /~~~(.*?)~~~/g, replacement: "<span class='highlight'>$1</span>" },
+        { pattern: /~~(.*?)~~/g, replacement: "<span>$1</span>" },
+        { pattern: /~(.*?)~/g, replacement: "<span class=\"c-info\">$1</span>" },
+        { pattern: /```(.*?)```/g, replacement: "<pre><code class=\"numberedLine of-hidden\">$1</code></pre>" },
         { pattern: /^- \[(x| )\]\s+(.*)$/gm, replacement: "<li><input type=\"checkbox\" $1> $2</li><ul>" },
         { pattern: /^<\/li>\n(- \[(x| )\]\s+.*)$/gm, replacement: "$1" },
         { pattern: /<\/ul><ul>$/gm, replacement: "" },
@@ -216,6 +220,8 @@ const customGithubMakrdown = (text) => {
         { pattern: /\n/gm, replacement: "<br>" },
     ];
     let html = text;
+    text.replaceAll('<','&#60;')
+    text.replaceAll('>','&#62;')
     replacements.forEach(({ pattern, replacement }) => {
         html = html.replace(pattern, replacement);
     });

@@ -193,35 +193,44 @@ function replaceAll(string, search, replace) {
 
 const customGithubMakrdown = (text) => {
     const replacements = [
-        { pattern: /</g, replacement: "&lt;" },
-        { pattern: />/g, replacement: "&gt;" },
-        { pattern: /^#{6}\s+(.*)$/gm, replacement: "<h6>$1</h6>" },
-        { pattern: /^#{5}\s+(.*)$/gm, replacement: "<h5>$1</h5>" },
-        { pattern: /^#{4}\s+(.*)$/gm, replacement: "<h4>$1</h4>" },
-        { pattern: /^#{3}\s+(.*)$/gm, replacement: "<h3>$1</h3>" },
-        { pattern: /^#{2}\s+(.*)$/gm, replacement: "<h2>$1</h2>" },
-        { pattern: /^#{1}\s+(.*)$/gm, replacement: "<h1>$1</h1>" },
-        { pattern: /^!~(.*?)$/gm, replacement: "<span class='highlight'>$1</span>" },
-        { pattern: /^~~(.*?)$/gm, replacement: "<span>$1</span>" },
-        { pattern: /~(.*?)~/g, replacement: "<code class=\"c-info\">$1</code>" },
-        { pattern: /^- \[(x| )\]\s+(.*)$/gm, replacement: "<li><input type=\"checkbox\" $1> $2</li><ul>" },
-        { pattern: /^<\/li>\n(- \[(x| )\]\s+.*)$/gm, replacement: "$1" },
-        { pattern: /<\/ul><ul>$/gm, replacement: "" },
-        { pattern: /\*\*(.*)\*\*/gm, replacement: "<strong>$1</strong>" },
-        { pattern: /__(.*)__/gm, replacement: "<strong>$1</strong>" },
-        { pattern: /\*(.*)\*/gm, replacement: "<em>$1</em>" },
-        { pattern: /_(.*)_/gm, replacement: "<em>$1</em>" },
-        { pattern: /~~(.*)~~/gm, replacement: "<del>$1</del>" },
-        { pattern: /^>\s+(.*)$/gm, replacement: "<blockquote>$1</blockquote>" },
-        { pattern: /!\[(.*?)\]\((.*?)\)/gm, replacement: '<img src="$2" alt="$1">' },
-        { pattern: /\[(.*?)\]\((.*?)\)/gm, replacement: '<a href="$2">$1</a>' },
-        { pattern: /```([\w-]+)?\n([\s\S]*?)\n```/gm, replacement: '<pre class=\"numberedLines maxw-100% b-1px-solid-primary br-6px p-12px-16px\" $1><code>$2</code></pre>' },
-        { pattern: /`([^`]+)`/gm, replacement: '<code>$1</code>' },
-        { pattern: /\n---\n/gm, replacement: "<hr>" },
-        { pattern: /\n/gm, replacement: "<br>" },
+        // { pattern: /</g, replacement: "&lt;" },
+        // { pattern: />/g, replacement: "&gt;" },
+        {
+            pattern: /`([\s\S]*?)`/g, replacement: function (match, p1) {
+                p1 = p1.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                return "`" + p1 + "`";
+            }
+        },
+        {pattern: /^#{6}\s+(.*)$/gm, replacement: "<h6>$1</h6>"},
+        {pattern: /^#{5}\s+(.*)$/gm, replacement: "<h5>$1</h5>"},
+        {pattern: /^#{4}\s+(.*)$/gm, replacement: "<h4>$1</h4>"},
+        {pattern: /^#{3}\s+(.*)$/gm, replacement: "<h3>$1</h3>"},
+        {pattern: /^#{2}\s+(.*)$/gm, replacement: "<h2>$1</h2>"},
+        {pattern: /^#{1}\s+(.*)$/gm, replacement: "<h1>$1</h1>"},
+        {pattern: /^!~(.*?)$/gm, replacement: "<span class='highlight'>$1</span>"},
+        {pattern: /^~~(.*?)$/gm, replacement: "<span>$1</span>"},
+        {pattern: /~(.*?)~/g, replacement: "<code class=\"c-info\">$1</code>"},
+        {pattern: /^- \[(x| )\]\s+(.*)$/gm, replacement: "<li><input type=\"checkbox\" $1> $2</li><ul>"},
+        {pattern: /^<\/li>\n(- \[(x| )\]\s+.*)$/gm, replacement: "$1"},
+        {pattern: /<\/ul><ul>$/gm, replacement: ""},
+        {pattern: /\*\*(.*)\*\*/gm, replacement: "<strong>$1</strong>"},
+        {pattern: /__(.*)__/gm, replacement: "<strong>$1</strong>"},
+        {pattern: /\*(.*)\*/gm, replacement: "<em>$1</em>"},
+        {pattern: /_(.*)_/gm, replacement: "<em>$1</em>"},
+        {pattern: /~~(.*)~~/gm, replacement: "<del>$1</del>"},
+        {pattern: /^>\s+(.*)$/gm, replacement: "<blockquote>$1</blockquote>"},
+        {pattern: /!\[(.*?)\]\((.*?)\)/gm, replacement: '<img src="$2" alt="$1">'},
+        {pattern: /\[(.*?)\]\((.*?)\)/gm, replacement: '<a href="$2">$1</a>'},
+        {
+            pattern: /```([\w-]+)?\n([\s\S]*?)\n```/gm,
+            replacement: '<pre class=\"numberedLines maxw-100% b-1px-solid-primary br-6px p-12px-16px\" $1><code>$2</code></pre>'
+        },
+        {pattern: /`([^`]+)`/gm, replacement: '<code>$1</code>'},
+        {pattern: /\n---\n/gm, replacement: "<hr>"},
+        {pattern: /\n/gm, replacement: "<br>"},
     ];
     let html = text;
-    replacements.forEach(({ pattern, replacement }) => {
+    replacements.forEach(({pattern, replacement}) => {
         html = html.replace(pattern, replacement);
     });
     return html;
@@ -419,14 +428,30 @@ const changeRootVariable = (variable, value) => {
 
 const classGenerator = () => {
     checkLoremIpsum()
-    if (pixelbite.theme.variables.primary !== document.documentElement.style.getPropertyValue('--primary-color')) {changeRootVariable('--primary-color', pixelbite.theme.variables.primary)}
-    if (pixelbite.theme.variables.secondary !== document.documentElement.style.getPropertyValue('--secondary-color')) {changeRootVariable('--secondary-color', pixelbite.theme.variables.secondary)}
-    if (pixelbite.theme.variables.success !== document.documentElement.style.getPropertyValue('--success-color')) {changeRootVariable('--success-color', pixelbite.theme.variables.success)}
-    if (pixelbite.theme.variables.info !== document.documentElement.style.getPropertyValue('--info-color')) {changeRootVariable('--info-color', pixelbite.theme.variables.info)}
-    if (pixelbite.theme.variables.danger !== document.documentElement.style.getPropertyValue('--danger-color')) {changeRootVariable('--danger-color', pixelbite.theme.variables.danger)}
-    if (pixelbite.theme.variables.warning !== document.documentElement.style.getPropertyValue('--warning-color')) {changeRootVariable('--warning-color', pixelbite.theme.variables.warning)}
-    if (pixelbite.theme.variables.fontPrimary !== document.documentElement.style.getPropertyValue('--font-family')) {changeRootVariable('--font-family', pixelbite.theme.variables.fontPrimary)}
-    if (pixelbite.theme.variables.fontMonospace !== document.documentElement.style.getPropertyValue('--font-mono-family')) {changeRootVariable('--font-mono-family', pixelbite.theme.variables.fontMonospace)}
+    if (pixelbite.theme.variables.primary !== document.documentElement.style.getPropertyValue('--primary-color')) {
+        changeRootVariable('--primary-color', pixelbite.theme.variables.primary)
+    }
+    if (pixelbite.theme.variables.secondary !== document.documentElement.style.getPropertyValue('--secondary-color')) {
+        changeRootVariable('--secondary-color', pixelbite.theme.variables.secondary)
+    }
+    if (pixelbite.theme.variables.success !== document.documentElement.style.getPropertyValue('--success-color')) {
+        changeRootVariable('--success-color', pixelbite.theme.variables.success)
+    }
+    if (pixelbite.theme.variables.info !== document.documentElement.style.getPropertyValue('--info-color')) {
+        changeRootVariable('--info-color', pixelbite.theme.variables.info)
+    }
+    if (pixelbite.theme.variables.danger !== document.documentElement.style.getPropertyValue('--danger-color')) {
+        changeRootVariable('--danger-color', pixelbite.theme.variables.danger)
+    }
+    if (pixelbite.theme.variables.warning !== document.documentElement.style.getPropertyValue('--warning-color')) {
+        changeRootVariable('--warning-color', pixelbite.theme.variables.warning)
+    }
+    if (pixelbite.theme.variables.fontPrimary !== document.documentElement.style.getPropertyValue('--font-family')) {
+        changeRootVariable('--font-family', pixelbite.theme.variables.fontPrimary)
+    }
+    if (pixelbite.theme.variables.fontMonospace !== document.documentElement.style.getPropertyValue('--font-mono-family')) {
+        changeRootVariable('--font-mono-family', pixelbite.theme.variables.fontMonospace)
+    }
     const elements = document.getElementsByTagName('*')
     for (let i = 0; i < elements.length; i++) {
         let element = elements[i]
@@ -585,7 +610,7 @@ const slideshowGenerator = async () => {
     if (slideshows !== beforeSlideshows) {
         if (slideshows.length > 0) {
             for (let i = 0; i < slideshows.length; i++) {
-                if(!beforeSlideshows.includes(slideshows[i])) {
+                if (!beforeSlideshows.includes(slideshows[i])) {
                     let slideshow = slideshows[i]
                     let slides = slideshow.getElementsByClassName('slide')
                     slideshowSlide(0, slideshow, slides)
@@ -610,7 +635,7 @@ const slideshowSlide = async (index, slideshow, slides) => {
 const setCookie = (name, value, days_to_expiration) => {
     const d = new Date()
     d.setTime(d.getTime() + (days_to_expiration * 24 * 60 * 60 * 1000))
-    let expires = "expires="+ d.toUTCString()
+    let expires = "expires=" + d.toUTCString()
     document.cookie = name + "=" + value + ";" + expires + ";path=/"
 }
 
@@ -618,9 +643,11 @@ const getCookie = (name) => {
     let n = name + "="
     let decodedCookie = decodeURIComponent(document.cookie)
     let ca = decodedCookie.split(';')
-    for(let i = 0; i <ca.length; i++) {
+    for (let i = 0; i < ca.length; i++) {
         let c = ca[i]
-        while (c.charAt(0) === ' ') { c = c.substring(1) }
+        while (c.charAt(0) === ' ') {
+            c = c.substring(1)
+        }
         if (c.indexOf(n) === 0) return c.substring(n.length, c.length)
     }
     return ""
@@ -649,6 +676,7 @@ const updateSearchbars = () => {
                     }
                 }
             }
-        } searchbarsBefore = searchbars
+        }
+        searchbarsBefore = searchbars
     }
 }

@@ -193,6 +193,8 @@ function replaceAll(string, search, replace) {
 
 const customGithubMakrdown = (text) => {
     const replacements = [
+        { pattern: /</g, replacement: "&lt;" },
+        { pattern: />/g, replacement: "&gt;" },
         { pattern: /^#{6}\s+(.*)$/gm, replacement: "<h6>$1</h6>" },
         { pattern: /^#{5}\s+(.*)$/gm, replacement: "<h5>$1</h5>" },
         { pattern: /^#{4}\s+(.*)$/gm, replacement: "<h4>$1</h4>" },
@@ -219,8 +221,6 @@ const customGithubMakrdown = (text) => {
         { pattern: /\n/gm, replacement: "<br>" },
     ];
     let html = text;
-    text.replaceAll('<','&#60;')
-    text.replaceAll('>','&#62;')
     replacements.forEach(({ pattern, replacement }) => {
         html = html.replace(pattern, replacement);
     });

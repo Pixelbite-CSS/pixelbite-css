@@ -12,8 +12,20 @@
     "js": "https://pixelbite-css.github.io/pixelbite-css/script/pixelbite.js"
   },
   {
+    "version": "1.5.2-min",
+    "text": "Components support + Github Markdown (minified)",
+    "css": "https://pixelbite-css.github.io/pixelbite-css/style/1.5.2/pixelbite-min.css",
+    "js": "https://pixelbite-css.github.io/pixelbite-css/script/1.5.2/pixelbite-min.js"
+  },
+  {
+    "version": "1.5.2",
+    "text": "Components support + Github Markdown",
+    "css": "https://pixelbite-css.github.io/pixelbite-css/style/1.5.2/pixelbite.css",
+    "js": "https://pixelbite-css.github.io/pixelbite-css/script/1.5.2/pixelbite.js"
+  },
+  {
     "version": "1.5-min",
-    "text": "Components support",
+    "text": "Components support (minified)",
     "css": "https://pixelbite-css.github.io/pixelbite-css/style/1.5/pixelbite-min.css",
     "js": "https://pixelbite-css.github.io/pixelbite-css/script/1.5/pixelbite-min.js"
   },
@@ -25,7 +37,7 @@
   },
   {
     "version": "1.4.2-min",
-    "text": "First public version",
+    "text": "First public version (minified)",
     "css": "https://pixelbite-css.github.io/pixelbite-css/style/1.4.2/pixelbite-min.css",
     "js": "https://pixelbite-css.github.io/pixelbite-css/script/1.4.2/pixelbite-min.js"
   },

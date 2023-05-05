@@ -1,3 +1,18 @@
 <div class="flexColumn flexLeft g-4px w-100%">
-    ${for(object.length::<div class="flexRow g-12px"><button class="p-8px-0 w-120px" onclick="toggleElement('toggle-${object[i].version}')">${object[i].version}</button><div class="fs-10px o-.7 w-600px">${object[i].text}</div></div><div class="toggle-${object[i].version} hidden m-4px-0-12px"><div class="b-1px-solid-primary w-800px p-2px-8px fs-12px br-4px foreach:ff-fontMonospace">&lt;link rel=&quot;stylesheet&quot; href=&quot;<span class="c-info">${object[i].css}</span>&quot;&gt;<br>&lt;script src=&quot;<span class="c-info">${object[i].js}</span>&quot;&gt;&lt;/script&gt;</div></div>)}
+    ${for(
+        object.length::
+        <div class="flexRow g-12px">
+            <button class="p-8px-0 w-120px" onclick="toggleElement('toggle-${object[i].version}')">
+                ${object[i].version}
+            </button>
+            <div class="fs-10px o-.7 w-600px">
+                ${object[i].text}
+            </div>
+        </div>
+        <div class="toggle-${object[i].version} hidden m-4px-0-12px">
+            <div class="b-1px-solid-primary w-800px p-2px-8px fs-12px br-4px foreach:ff-fontMonospace">
+                &lt;link rel=&quot;stylesheet&quot; href=&quot;<span class="c-info">${object[i].css}</span>&quot;&gt;<br>&lt;script src=&quot;<span class="c-info">${object[i].js}</span>&quot;&gt;&lt;/script&gt;
+            </div>
+        </div>
+    )}
 </div>

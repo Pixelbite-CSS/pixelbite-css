@@ -35,6 +35,11 @@ html, body {
     min-height: 100%;
 }
 
+body {
+    overflow-y: auto;
+    position: relative;
+}
+
 a {
     color: var(--primary-color);
     fill: var(--primary-color);

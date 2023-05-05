@@ -3,7 +3,14 @@
         <div class="searchbar w-320px">
             <input class="search b-1px-solid-white80 bg-white100 c-white0 dark:b-1px-solid-primary dark:bg-purple5 dark:c-white100" placeholder="Search documentation..."/>
             <div class="search-values foreach:c-black0">
-                ${for(object.length::<div><a href="#${object[i].id}" class="td-none w-100%">${object[i].title}</a></div>)}
+                ${for(
+                    object.length ::
+                    <div>
+                        <a href="#${object[i].id}" class="td-none w-100%">
+                            ${object[i].title}
+                        </a>
+                    </div>
+                )}
             </div>
         </div>
     </div>

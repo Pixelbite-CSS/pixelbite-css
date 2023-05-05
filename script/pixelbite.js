@@ -176,13 +176,50 @@ const customComponentsCheck = (array, relativePath) => {
         let element = array[i]
         if (element.tagName.toUpperCase().includes('COMPONENT')) {
             let element_attributes = element.getAttributeNames()
-            includeHtmlToAnElement(element, relativePath + element.getAttribute('path'), element_attributes)
+            let path = ''
+            if (path.startsWith('http://') || path.startsWith('https://')) {
+                path = element.getAttribute('path')
+            } else {
+                path = relativePath + element.getAttribute('path')
+            }
+            includeHtmlToAnElement(element, path, element_attributes)
         }
     }
 }
 
 function replaceAll(string, search, replace) {
     return string.split(search).join(replace);
+}
+
+const customGithubMakrdown = (text) => {
+    const replacements = [
+        { pattern: /^#{6}\s+(.*)$/gm, replacement: "<h6>$1</h6>" },
+        { pattern: /^#{5}\s+(.*)$/gm, replacement: "<h5>$1</h5>" },
+        { pattern: /^#{4}\s+(.*)$/gm, replacement: "<h4>$1</h4>" },
+        { pattern: /^#{3}\s+(.*)$/gm, replacement: "<h3>$1</h3>" },
+        { pattern: /^#{2}\s+(.*)$/gm, replacement: "<h2>$1</h2>" },
+        { pattern: /^#{1}\s+(.*)$/gm, replacement: "<h1>$1</h1>" },
+        { pattern: /^- \[(x| )\]\s+(.*)$/gm, replacement: "<li><input type=\"checkbox\" $1> $2</li><ul>" },
+        { pattern: /^<\/li>\n(- \[(x| )\]\s+.*)$/gm, replacement: "$1" },
+        { pattern: /<\/ul><ul>$/gm, replacement: "" },
+        { pattern: /\*\*(.*)\*\*/gm, replacement: "<strong>$1</strong>" },
+        { pattern: /__(.*)__/gm, replacement: "<strong>$1</strong>" },
+        { pattern: /\*(.*)\*/gm, replacement: "<em>$1</em>" },
+        { pattern: /_(.*)_/gm, replacement: "<em>$1</em>" },
+        { pattern: /~~(.*)~~/gm, replacement: "<del>$1</del>" },
+        { pattern: /^>\s+(.*)$/gm, replacement: "<blockquote>$1</blockquote>" },
+        { pattern: /!\[(.*?)\]\((.*?)\)/gm, replacement: '<img src="$2" alt="$1">' },
+        { pattern: /\[(.*?)\]\((.*?)\)/gm, replacement: '<a href="$2">$1</a>' },
+        { pattern: /```([\w-]+)?\n([\s\S]*?)\n```/gm, replacement: '<pre><code class="$1">$2</code></pre>' },
+        { pattern: /`([^`]+)`/gm, replacement: '<code>$1</code>' },
+        { pattern: /\n---\n/gm, replacement: "<hr>" },
+        { pattern: /\n/gm, replacement: "<br>" },
+    ];
+    let html = text;
+    replacements.forEach(({ pattern, replacement }) => {
+        html = html.replace(pattern, replacement);
+    });
+    return html;
 }
 
 const includeHtmlToAnElement = async (element, path, attributes) => {
@@ -216,15 +253,10 @@ const includeHtmlToAnElement = async (element, path, attributes) => {
                         objectRequest.open("GET", objectPath, true);
                         objectRequest.send();
                         while (!object) {
-                            await sleep(100)
+                            await sleep(10)
                         }
-                        const regex = /\$\{for\((.*?)\)\}/g;
-                        const objectFors = [];
-                        let match;
-                        while ((match = regex.exec(response)) !== null) {
-                            const value = match[1];
-                            objectFors.push('${for(' + value + ')}');
-                        }
+                        const regex = /\$\{for\(([\s\S]*?)\)\}/g;
+                        const objectFors = response.match(regex);
                         if (objectFors) {
                             for (let j = 0; j < objectFors.length; j++) {
                                 if (objectFors[j].includes('${for(')) {
@@ -259,6 +291,9 @@ const includeHtmlToAnElement = async (element, path, attributes) => {
                         response = replaceAll(response, attribute_syntax, element.getAttribute(attribute))
                         element.removeAttribute(attribute)
                     }
+                }
+                if (element.getAttribute('markdown') === 'github') {
+                    response = customGithubMakrdown(response)
                 }
                 element.innerHTML = response
                 if (element.getElementsByTagName('COMPONENT')) {

@@ -8,7 +8,7 @@
     "href": "./docs/#5_1_Colors",
     "buttontext": "See in docs",
     "code": "<component path=\"../../content/colors.html\"></component>",
-    "codetext": "<component path=\"../../content/test.txt\"></component>"
+    "codetext": "<component path=\"../../content/colors-code.html\"></component>"
   },
   {
     "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zM96 96H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H96c-17.7 0-32-14.3-32-32s14.3-32 32-32z\"/></svg>",
@@ -18,8 +18,8 @@
     "text": "Create websites with custom elements and components which you will create. Add custom parameters which allows you to make variations and create multiple instances of one component.",
     "href": "./comps",
     "buttontext": "See components",
-    "code": "",
-    "codetext": ""
+    "code": "<component path=\"../../content/components.html\"></component>",
+    "codetext": "<component path=\"../../content/components-code.html\"></component>"
   },
   {
     "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 384 512\"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M16 64C16 28.7 44.7 0 80 0H304c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H80c-35.3 0-64-28.7-64-64V64zM224 448a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zM304 64H80V384H304V64z\"/></svg>",
@@ -29,8 +29,8 @@
     "text": "Use custom prefixes <a class='c-info'>max:</a> and <a class='c-info'>min:</a> to make certain classes allow themselves, within selected threshold.",
     "href": "./docs/#4_1_Responsibility",
     "buttontext": "See in docs",
-    "code": "",
-    "codetext": ""
+    "code": "<component path=\"../../content/responsibility.html\"></component>",
+    "codetext": "<component path=\"../../content/responsibility-code.html\"></component>"
   },
   {
     "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M448 256c0-106-86-192-192-192V448c106 0 192-86 192-192zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z\"/></svg>",
@@ -40,7 +40,7 @@
     "text": "Framework supports custom dark mode with its own class prefix <a class='c-info'>dark:</a>. You can create two themed websites with ease and more customization.",
     "href": "./docs/#4_2_Dark_mode",
     "buttontext": "See in docs",
-    "code": "",
-    "codetext": ""
+    "code": "<component path=\"../../content/dark.html\"></component>",
+    "codetext": "<component path=\"../../content/dark-code.html\"></component>"
   }
 ]

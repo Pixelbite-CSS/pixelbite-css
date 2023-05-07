@@ -1,6 +1,7 @@
 const class_library = [
     ['c', 'color'],
     ['p', 'padding'],
+    ['pos', 'position'],
     ['o', 'opacity'],
     ['pt', 'padding-top'],
     ['pb', 'padding-bottom'],

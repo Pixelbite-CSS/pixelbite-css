@@ -204,8 +204,9 @@ img {
 }
 
 .hidden {
-    position: absolute;
-    top: -999999999px;
+    /*position: absolute;*/
+    /*top: -999999999px;*/
+    display: none !important;
 }
 
 .fixed {
@@ -569,16 +570,16 @@ img {
     from {
         background-position-x: 0;
     } to {
-        background-position-x: 100%;
-    }
+          background-position-x: 100%;
+      }
 }
 
 @keyframes rotate {
     from {
         transform: rotate(0);
     } to {
-        transform: rotate(720deg);
-    }
+          transform: rotate(720deg);
+      }
 }
 
 @media only screen and (max-width: 1200px) {

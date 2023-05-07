@@ -588,16 +588,25 @@ const href = (location, newWindow) => {
 const toggleElement = (element_class) => {
     const elements = document.getElementsByClassName(element_class)
     for (let i = 0; i < elements.length; i++) {
+        // if (elements[i].classList.contains('hidden')) {
+        //     elements[i].style.position = 'absolute'
+        //     elements[i].classList.remove('hidden')
+        // }
+        // if (elements[i].style.position !== 'absolute') {
+        //     elements[i].style.position = 'absolute'
+        //     elements[i].style.top = '-999999999px'
+        // } else {
+        //     elements[i].style.position = 'relative'
+        //     elements[i].style.top = '0px'
+        // }
         if (elements[i].classList.contains('hidden')) {
-            elements[i].style.position = 'absolute'
+            elements[i].style.display = 'none'
             elements[i].classList.remove('hidden')
         }
-        if (elements[i].style.position !== 'absolute') {
-            elements[i].style.position = 'absolute'
-            elements[i].style.top = '-999999999px'
+        if (elements[i].style.display !== 'none') {
+            elements[i].style.display = 'none'
         } else {
-            elements[i].style.position = 'relative'
-            elements[i].style.top = '0px'
+            elements[i].style.display = 'flex'
         }
     }
 }

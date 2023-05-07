@@ -204,8 +204,9 @@ img {
 }
 
 .hidden {
-    position: absolute;
-    top: -999999999px;
+    /*position: absolute;*/
+    /*top: -999999999px;*/
+    display: none !important;
 }
 
 .fixed {

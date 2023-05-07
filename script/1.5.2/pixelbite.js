@@ -57,11 +57,11 @@ const class_library = [
     ['zIndex', 'z-index'],
 ]
 
-const getRootVariable = (propertyValue) => {
+const pb_getRootVariable = (propertyValue) => {
     return getComputedStyle(document.documentElement).getPropertyValue(propertyValue).toString()
 }
 
-const putCustomFontIntoCSS = (name, url) => {
+const pb_putCustomFontIntoCSS = (name, url) => {
     let newStyle = document.createElement('style');
     newStyle.appendChild(document.createTextNode("@font-face {font-family: " + name + "; src: " + url + ";}"));
     document.head.appendChild(newStyle);
@@ -71,14 +71,14 @@ var pixelbite = {
     classes: class_library,
     theme: {
         variables: {
-            primary: getRootVariable('--primary-color').toString(),
-            secondary: getRootVariable('--secondary-color').toString(),
-            danger: getRootVariable('--danger-color').toString(),
-            info: getRootVariable('--info-color').toString(),
-            warning: getRootVariable('--warning-color').toString(),
-            success: getRootVariable('--success-color').toString(),
-            fontPrimary: getRootVariable('--font-family').toString(),
-            fontMonospace: getRootVariable('--font-mono-family').toString(),
+            primary: pb_getRootVariable('--primary-color').toString(),
+            secondary: pb_getRootVariable('--secondary-color').toString(),
+            danger: pb_getRootVariable('--danger-color').toString(),
+            info: pb_getRootVariable('--info-color').toString(),
+            warning: pb_getRootVariable('--warning-color').toString(),
+            success: pb_getRootVariable('--success-color').toString(),
+            fontPrimary: pb_getRootVariable('--font-family').toString(),
+            fontMonospace: pb_getRootVariable('--font-mono-family').toString(),
         },
         colors: {
             white: [0, '0%'],
@@ -158,19 +158,20 @@ var pixelbite = {
         "Aliquam erat volutpat.",
         "Curabitur ligula sapien, pulvinar a vestibulum quis, facilisis vel sapien.",
     ],
-    update: 500
+    update: 500,
+    version: '1.5.2'
 }
 
-const getObjectValues = (object) => {
+const pb_getObjectValues = (object) => {
     return Object.entries(object)
 }
 
-const setCustomComponents = () => {
+const pb_setCustomComponents = () => {
     let elements = document.getElementsByTagName('*')
-    customComponentsCheck(elements)
+    pb_customComponentsCheck(elements)
 }
 
-const customComponentsCheck = (array, relativePath) => {
+const pb_customComponentsCheck = (array, relativePath) => {
     if (!relativePath) relativePath = ''
     for (let i = 0; i < array.length; i++) {
         let element = array[i]
@@ -182,16 +183,16 @@ const customComponentsCheck = (array, relativePath) => {
             } else {
                 path = relativePath + element.getAttribute('path')
             }
-            includeHtmlToAnElement(element, path, element_attributes)
+            pb_includeHtmlToAnElement(element, path, element_attributes)
         }
     }
 }
 
-function replaceAll(string, search, replace) {
+function pb_replaceAll(string, search, replace) {
     return string.split(search).join(replace);
 }
 
-const customGithubMakrdown = (text) => {
+const pb_customGithubMakrdown = (text) => {
     const replacements = [
         // { pattern: /</g, replacement: "&lt;" },
         // { pattern: />/g, replacement: "&gt;" },
@@ -226,7 +227,7 @@ const customGithubMakrdown = (text) => {
             pattern: /```([\w-]+)?\n([\s\S]*?)\n```/gm,
             replacement: '<pre class=\"numberedLines maxw-100% b-1px-solid-primary br-6px p-12px-16px\" $1><code>$2</code></pre>'
         },
-        // {pattern: /`([^`]+)`/gm, replacement: '<code>$1</code>'},
+        {pattern: /`([^`]+)`/gm, replacement: '<code class="bg-rgba(128,128,128,.15) c-white50 fw-600 fs-12px p-2px-4px br-4px">$1</code>'},
         {pattern: /\n---\n/gm, replacement: "<hr>"},
         // {pattern: /\n/gm, replacement: "<br>"},
     ];
@@ -237,7 +238,7 @@ const customGithubMakrdown = (text) => {
     return html;
 }
 
-const includeHtmlToAnElement = async (element, path, attributes) => {
+const pb_includeHtmlToAnElement = async (element, path, attributes) => {
     if (!path) path = 'null'
     let relativePathSplit = path.split('/')
     let relativePath = ''
@@ -268,7 +269,7 @@ const includeHtmlToAnElement = async (element, path, attributes) => {
                         objectRequest.open("GET", objectPath, true);
                         objectRequest.send();
                         while (!object) {
-                            await sleep(10)
+                            await pb_sleep(10)
                         }
                         const regex = /\$\{for\(([\s\S]*?)\)\}/g;
                         const objectFors = response.match(regex);
@@ -278,9 +279,9 @@ const includeHtmlToAnElement = async (element, path, attributes) => {
                                     let objectForSplit = objectFors[j].substring(6, objectFors[j].length - 2).split('::')
                                     let string = ''
                                     for (let k = 0; k < eval(objectForSplit[0]); k++) {
-                                        string += replaceAll(objectForSplit[1], '[i]', '[' + k + ']')
+                                        string += pb_replaceAll(objectForSplit[1], '[i]', '[' + k + ']')
                                     }
-                                    response = replaceAll(response, objectFors[j], string)
+                                    response = pb_replaceAll(response, objectFors[j], string)
                                 }
                             }
                         }
@@ -291,9 +292,9 @@ const includeHtmlToAnElement = async (element, path, attributes) => {
                                     let objectString = objectStrings[j].replace('${', '').replace('}', '')
                                     try {
                                         let value = eval(objectString)
-                                        response = replaceAll(response, objectStrings[j], value)
+                                        response = pb_replaceAll(response, objectStrings[j], value)
                                     } catch (error) {
-                                        response = replaceAll(response, objectStrings[j], '')
+                                        response = pb_replaceAll(response, objectStrings[j], '')
                                         console.error('PixelBite: Cannot read property from "' + objectName + '[object]" (reading "' + objectStrings[j] + '"), please check if value in the object exists.')
                                     }
                                 }
@@ -303,21 +304,21 @@ const includeHtmlToAnElement = async (element, path, attributes) => {
                     let attribute_syntax = '${' + attributes[i] + '}'
                     if (response.includes(attribute_syntax)) {
                         // response = response.replace(attribute_syntax, element.getAttribute(attribute))
-                        response = replaceAll(response, attribute_syntax, element.getAttribute(attribute))
+                        response = pb_replaceAll(response, attribute_syntax, element.getAttribute(attribute))
                         element.removeAttribute(attribute)
                     }
                 }
                 if (element.getAttribute('markdown') === 'github') {
-                    response = customGithubMakrdown(response)
+                    response = pb_customGithubMakrdown(response)
                 }
                 element.innerHTML = response
                 if (element.getElementsByTagName('COMPONENT')) {
-                    customComponentsCheck(element.getElementsByTagName('COMPONENT'), relativePath)
+                    pb_customComponentsCheck(element.getElementsByTagName('COMPONENT'), relativePath)
                 }
             }
             if (this.status === 404) {
-                let toggleClass = 'toggle-' + randomString(32)
-                let toggleClassMore = 'toggle-' + randomString(32)
+                let toggleClass = 'toggle-' + pb_randomString(32)
+                let toggleClassMore = 'toggle-' + pb_randomString(32)
                 let detailsString = '';
                 for (let i = 0; i < attributes.length; i++) {
                     detailsString += '[' + attributes[i] + '="' + element.getAttribute(attributes[i]).replaceAll('<', '&lt;') + '"], <br>'
@@ -339,43 +340,43 @@ const includeHtmlToAnElement = async (element, path, attributes) => {
 let darkmode = false
 
 window.addEventListener("load", async () => {
-    await checkLoremIpsum()
-    darkmode = getCookie('darkmode')
-    checkChange(0)
-    setCustomComponents()
-    slideshowGenerator()
+    await pb_checkLoremIpsum()
+    darkmode = pb_getCookie('darkmode')
+    pb_checkChange(0)
+    pb_setCustomComponents()
+    pb_slideshowGenerator()
 })
 
 const changeThemeMode = async () => {
     if (darkmode === '0') {
         darkmode = '1'
-        setCookie('darkmode', '1', 365)
+        pb_setCookie('darkmode', '1', 365)
     } else {
         darkmode = '0'
-        setCookie('darkmode', '0', 365)
+        pb_setCookie('darkmode', '0', 365)
     }
 }
 
-const checkLoaders = async () => {
+const pb_checkLoaders = async () => {
     let loaders = document.getElementsByClassName('loader')
     if (loaders.length > 0) {
         for (let i = 0; i < loaders.length; i++) {
             loaders[i].style.opacity = '0';
-            await sleep(400);
+            await pb_sleep(400);
             loaders[i].style.display = 'none';
             loaders[i].remove()
         }
     }
 }
 
-const checkLoremIpsum = () => {
+const pb_checkLoremIpsum = () => {
     const elements = document.getElementsByTagName('*')
     for (let i = 0; i < elements.length; i++) {
         elements[i].classList.forEach((element_class) => {
             let element_class_split = element_class.split('-');
             if (element_class_split[0] === "loremIpsum") {
                 for (let k = 0; k < element_class_split[1]; k++) {
-                    elements[i].innerHTML += randomFromArray(getObjectValues(pixelbite.loremIpsum))[1] + " "
+                    elements[i].innerHTML += pb_randomFromArray(pb_getObjectValues(pixelbite.loremIpsum))[1] + " "
                 }
                 elements[i].classList.remove(element_class)
             }
@@ -384,79 +385,79 @@ const checkLoremIpsum = () => {
 }
 
 
-const checkChange = async (instances) => {
-    await sleep(pixelbite.update)
-    await classGenerator()
-    if (instances <= 0) checkLoaders()
-    await checkChange(instances + 1)
+const pb_checkChange = async (instances) => {
+    await pb_sleep(pixelbite.update)
+    await pb_classGenerator()
+    if (instances <= 0) pb_checkLoaders()
+    await pb_checkChange(instances + 1)
 }
 
-const sleep = (ms) => {
+const pb_sleep = (ms) => {
     return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-function randomString(length) {
+function pb_randomString(length) {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let counter = 0;
     while (counter < length) {
-        result += randomFromArray(characters);
+        result += pb_randomFromArray(characters);
         counter += 1;
     }
     return result;
 }
 
-const randomFromArray = (array) => {
+const pb_randomFromArray = (array) => {
     return array[Math.floor(Math.random() * array.length)]
 }
 
 window.onload = () => {
     console.log(
-        "%cThank you for using PixelbiteCSS :)",
+        "%cThank you for using PixelbiteCSS :) (version " + pixelbite.version + ")",
         "font-size:18px;font-weight:bold"
     )
     console.log(
         "%cMore information can be found on our website or GitHub\nhttps://pixelbite-css.github.io, https://github.com/Pixelbite-CSS",
         "font-weight:bold"
     )
-    addSignature()
-    classGenerator()
+    pb_addSignature()
+    pb_classGenerator()
 }
 
-const changeRootVariable = (variable, value) => {
+const pb_changeRootVariable = (variable, value) => {
     document.documentElement.style.setProperty(variable, value);
 }
 
-const classGenerator = () => {
-    checkLoremIpsum()
+const pb_classGenerator = () => {
+    pb_checkLoremIpsum()
     if (pixelbite.theme.variables.primary !== document.documentElement.style.getPropertyValue('--primary-color')) {
-        changeRootVariable('--primary-color', pixelbite.theme.variables.primary)
+        pb_changeRootVariable('--primary-color', pixelbite.theme.variables.primary)
     }
     if (pixelbite.theme.variables.secondary !== document.documentElement.style.getPropertyValue('--secondary-color')) {
-        changeRootVariable('--secondary-color', pixelbite.theme.variables.secondary)
+        pb_changeRootVariable('--secondary-color', pixelbite.theme.variables.secondary)
     }
     if (pixelbite.theme.variables.success !== document.documentElement.style.getPropertyValue('--success-color')) {
-        changeRootVariable('--success-color', pixelbite.theme.variables.success)
+        pb_changeRootVariable('--success-color', pixelbite.theme.variables.success)
     }
     if (pixelbite.theme.variables.info !== document.documentElement.style.getPropertyValue('--info-color')) {
-        changeRootVariable('--info-color', pixelbite.theme.variables.info)
+        pb_changeRootVariable('--info-color', pixelbite.theme.variables.info)
     }
     if (pixelbite.theme.variables.danger !== document.documentElement.style.getPropertyValue('--danger-color')) {
-        changeRootVariable('--danger-color', pixelbite.theme.variables.danger)
+        pb_changeRootVariable('--danger-color', pixelbite.theme.variables.danger)
     }
     if (pixelbite.theme.variables.warning !== document.documentElement.style.getPropertyValue('--warning-color')) {
-        changeRootVariable('--warning-color', pixelbite.theme.variables.warning)
+        pb_changeRootVariable('--warning-color', pixelbite.theme.variables.warning)
     }
     if (pixelbite.theme.variables.fontPrimary !== document.documentElement.style.getPropertyValue('--font-family')) {
-        changeRootVariable('--font-family', pixelbite.theme.variables.fontPrimary)
+        pb_changeRootVariable('--font-family', pixelbite.theme.variables.fontPrimary)
     }
     if (pixelbite.theme.variables.fontMonospace !== document.documentElement.style.getPropertyValue('--font-mono-family')) {
-        changeRootVariable('--font-mono-family', pixelbite.theme.variables.fontMonospace)
+        pb_changeRootVariable('--font-mono-family', pixelbite.theme.variables.fontMonospace)
     }
     const elements = document.getElementsByTagName('*')
     for (let i = 0; i < elements.length; i++) {
         let element = elements[i]
-        aliasClassReplace(element)
+        pb_aliasClassReplace(element)
         element.classList.forEach((element_class) => {
             for (let j = 0; j < class_library.length; j++) {
                 let element_class_split = element_class.split('-');
@@ -474,7 +475,7 @@ const classGenerator = () => {
                     let elementsOfElement = element.getElementsByTagName('*')
                     if (element_class_split[0] === class_library[j][0]) {
                         for (let k = 0; k < elementsOfElement.length; k++) {
-                            elementsOfElement[k].style.cssText += class_library[j][1] + ':' + classSplitToString(element_class_split, 1) + ';'
+                            elementsOfElement[k].style.cssText += class_library[j][1] + ':' + pb_classSplitToString(element_class_split, 1) + ';'
                         }
                     } else {
                         for (let k = 0; k < elementsOfElement.length; k++) {
@@ -495,16 +496,16 @@ const classGenerator = () => {
                     }
                 }
                 if (element_class_split[0] === class_library[j][0]) {
-                    element.style.cssText += class_library[j][1] + ':' + classSplitToString(element_class_split, 1) + ';'
+                    element.style.cssText += class_library[j][1] + ':' + pb_classSplitToString(element_class_split, 1) + ';'
                 }
             }
         })
-        updateSearchbars()
-        generateFloatInput(element)
+        pb_updateSearchbars()
+        pb_generateFloatInput(element)
     }
 }
 
-const generateFloatInput = (element) => {
+const pb_generateFloatInput = (element) => {
     if (element.classList.contains("floatInput")) {
         if (element.getElementsByClassName('input') && element.getElementsByClassName('label')) {
             if (element.getElementsByClassName('input') && element.getElementsByTagName('label')) {
@@ -519,10 +520,10 @@ const generateFloatInput = (element) => {
     }
 }
 
-const aliasClassReplace = (element) => {
+const pb_aliasClassReplace = (element) => {
     let x = element.classList
     for (let i = 0; i < x.length; i++) {
-        let aliasClasses = getObjectValues(pixelbite.aliases)
+        let aliasClasses = pb_getObjectValues(pixelbite.aliases)
         for (let j = 0; j < aliasClasses.length; j++) {
             if (aliasClasses[j][0] === x[i]) {
                 let classSplit = aliasClasses[j][1].split(' ')
@@ -534,17 +535,17 @@ const aliasClassReplace = (element) => {
     }
 }
 
-const classSplitToString = (array, startPosition) => {
+const pb_classSplitToString = (array, startPosition) => {
     if (array) {
-        let variables = getObjectValues(pixelbite.theme.variables)
-        let color_library_hsl = getObjectValues(pixelbite.theme.colors)
+        let variables = pb_getObjectValues(pixelbite.theme.variables)
+        let color_library_hsl = pb_getObjectValues(pixelbite.theme.colors)
         let a = ""
         for (let i = startPosition; i < array.length; i++) {
             for (let j = 0; j < variables.length; j++) {
                 if (variables[j][1].includes('url(')) {
-                    let fontName = 'font-' + randomString(32)
+                    let fontName = 'font-' + pb_randomString(32)
                     let varia = pixelbite.theme.variables
-                    putCustomFontIntoCSS(fontName, variables[j][1])
+                    pb_putCustomFontIntoCSS(fontName, variables[j][1])
                     varia[variables[j][0]] = fontName
                 }
                 if (array[i] === variables[j][0]) {
@@ -563,7 +564,7 @@ const classSplitToString = (array, startPosition) => {
     } else return ""
 }
 
-const addSignature = () => {
+const pb_addSignature = () => {
     const comment = document.createComment("This site is created via PixelbiteCSS (https://github.com/Pixelbite-CSS)");
     document.body.appendChild(comment);
 }
@@ -600,47 +601,47 @@ const toggleElement = (element_class) => {
     }
 }
 
-const changeVariable = (variable, value) => {
+const pb_changeVariable = (variable, value) => {
     document.documentElement.style.setProperty(variable, value);
 }
 
-let beforeSlideshows = []
+let pb_beforeSlideshows = []
 
-const slideshowGenerator = async () => {
+const pb_slideshowGenerator = async () => {
     let slideshows = document.getElementsByClassName('slideshow')
-    if (slideshows !== beforeSlideshows) {
+    if (slideshows !== pb_beforeSlideshows) {
         if (slideshows.length > 0) {
             for (let i = 0; i < slideshows.length; i++) {
-                if (!beforeSlideshows.includes(slideshows[i])) {
+                if (!pb_beforeSlideshows.includes(slideshows[i])) {
                     let slideshow = slideshows[i]
                     let slides = slideshow.getElementsByClassName('slide')
-                    slideshowSlide(0, slideshow, slides)
+                    pb_slideshowSlide(0, slideshow, slides)
                 }
             }
-            beforeSlideshows = slideshows
+            pb_beforeSlideshows = slideshows
         }
     }
-    await sleep(1000)
-    await slideshowGenerator()
+    await pb_sleep(1000)
+    await pb_slideshowGenerator()
 }
 
-const slideshowSlide = async (index, slideshow, slides) => {
+const pb_slideshowSlide = async (index, slideshow, slides) => {
     for (let i = 0; i < slides.length; i++) {
         slides[i].style.left = ((-i + index) * 100) + "%"
     }
     if (index >= slides.length - 1) index = -1
-    await sleep(5000)
-    await slideshowSlide(index + 1, slideshow, slides)
+    await pb_sleep(5000)
+    await pb_slideshowSlide(index + 1, slideshow, slides)
 }
 
-const setCookie = (name, value, days_to_expiration) => {
+const pb_setCookie = (name, value, days_to_expiration) => {
     const d = new Date()
     d.setTime(d.getTime() + (days_to_expiration * 24 * 60 * 60 * 1000))
     let expires = "expires=" + d.toUTCString()
     document.cookie = name + "=" + value + ";" + expires + ";path=/"
 }
 
-const getCookie = (name) => {
+const pb_getCookie = (name) => {
     let n = name + "="
     let decodedCookie = decodeURIComponent(document.cookie)
     let ca = decodedCookie.split(';')
@@ -654,10 +655,10 @@ const getCookie = (name) => {
     return ""
 }
 
-let searchbarsBefore = []
+let pb_searchbarsBefore = []
 
-const updateSearchbars = () => {
-    if (searchbarsBefore.length !== document.getElementsByClassName('searchbar').length) {
+const pb_updateSearchbars = () => {
+    if (pb_searchbarsBefore.length !== document.getElementsByClassName('searchbar').length) {
         let searchbars = document.getElementsByClassName('searchbar')
         for (let i = 0; i < searchbars.length; i++) {
             let search = searchbars[i].getElementsByClassName('search')[0]
@@ -678,6 +679,6 @@ const updateSearchbars = () => {
                 }
             }
         }
-        searchbarsBefore = searchbars
+        pb_searchbarsBefore = searchbars
     }
 }

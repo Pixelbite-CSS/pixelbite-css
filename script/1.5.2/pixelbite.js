@@ -554,6 +554,10 @@ const pb_classSplitToString = (array, startPosition) => {
                 }
             }
             for (let j = 0; j < color_library_hsl.length; j++) {
+                if (color_library_hsl[j][1].includes('#')) {
+                    let hsl = pb_colorConverter(color_library_hsl[j][1])
+                    color_library_hsl[j][1] = [hsl[0] + '', hsl[1] + '%']
+                }
                 if (array[i].includes(color_library_hsl[j][0])) {
                     array[i] = array[i].replace(color_library_hsl[j][0], "hsl(" + color_library_hsl[j][1][0] + "," + color_library_hsl[j][1][1] + ",")
                     array[i] += "%)"
@@ -563,6 +567,30 @@ const pb_classSplitToString = (array, startPosition) => {
         }
         return a
     } else return ""
+}
+
+const pb_colorConverter = (color) => {
+    let r = parseInt(color.substr(1,2), 16); // Grab the hex representation of red (chars 1-2) and convert to decimal (base 10).
+    let g = parseInt(color.substr(3,2), 16);
+    let b = parseInt(color.substr(5,2), 16);
+    r /= 255, g /= 255, b /= 255;
+    let max = Math.max(r, g, b), min = Math.min(r, g, b);
+    let h, s, l = (max + min) / 2;
+
+    if(max == min){
+        h = s = 0; // achromatic
+    }else{
+        let d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch(max){
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+    }
+
+    return [h, s, l];
 }
 
 const pb_addSignature = () => {

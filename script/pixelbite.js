@@ -188,7 +188,7 @@ var pixelbite = {
             {pattern: /^#{1}\s+(.*)$/gm, replacement: "<h1>$1</h1>"},
             {
                 pattern: /```([\s\S]*?)```/g, replacement: function (match, p1) {
-                    p1 = p1.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                    p1 = p1.replace(/</g, '&lt;').replace(/>/g, '&gt;').replaceAll('*', '&#x2A;').replaceAll('_', '&#x5F;').replaceAll('[', '&#x5B;')
                     return "```" + p1 + "```";
                 }
             },

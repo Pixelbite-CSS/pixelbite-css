@@ -559,14 +559,29 @@ const pb_classSplitToString = (array, startPosition) => {
                     color_library_hsl[j][1] = [hsl[0] * 360 + '', hsl[1] * 100 + '%']
                 }
                 if (array[i].includes(color_library_hsl[j][0])) {
-                    array[i] = array[i].replace(color_library_hsl[j][0], "hsl(" + color_library_hsl[j][1][0] + "," + color_library_hsl[j][1][1] + ",")
-                    array[i] += "%)"
+                    let lightness = array[i].replace(color_library_hsl[j][0], "")
+                    if (!lightness) lightness = 50
+                    if (pb_isNumeric(lightness)) {
+                        array[i] = "hsl(" + color_library_hsl[j][1][0] + "," + color_library_hsl[j][1][1] + "," + lightness + '%)'
+                    }
                 }
+                // if (array[i].includes(color_library_hsl[j][0])) {
+                //     let lightness = array[i].replace(color_library_hsl[j][0], "")
+                //     if (!lightness) lightness
+                //     if (pb_isNumeric(lightness))
+                //     array[i] = array[i].replace(color_library_hsl[j][0], "hsl(" + color_library_hsl[j][1][0] + "," + color_library_hsl[j][1][1] + ",")
+                //     array[i] += "%)"
+                // }
             }
             a += array[i] + " "
         }
         return a
     } else return ""
+}
+
+const pb_isNumeric = (str) => {
+    if (typeof str != "string") return false
+    return !isNaN(str) && !isNaN(parseFloat(str))
 }
 
 const pb_colorConverter = (color) => {

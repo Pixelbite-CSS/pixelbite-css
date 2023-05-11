@@ -1,0 +1,8 @@
+    let componentRequest = new XMLHttpRequest();
+    componentRequest.onreadystatechange = async function () {
+        if (this.readyState === 4) {
+            if (this.status === 200) {
+                let response = this.responseText + ''
+            }
+        }
+    }

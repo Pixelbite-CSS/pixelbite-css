@@ -160,6 +160,64 @@ var pixelbite = {
         "Curabitur ligula sapien, pulvinar a vestibulum quis, facilisis vel sapien.",
     ],
     update: 500,
+    markdowns: {
+        github: [
+            // { pattern: /</g, replacement: "&lt;" },
+            // { pattern: />/g, replacement: "&gt;" },
+            {
+                pattern: /^((?: )*)((?:-|\*|\+)\s|\d+\.\s)(.*)$/gm, replacement: function (match, p1, p2, p3) {
+                    let regex = / /g;
+                    let matches = p1.match(regex);
+                    let count = matches ? matches.length : 0;
+                    let countSize = count * 12
+                    return "<li class='ml-" + countSize + "px'>" + p3 + "</li>";
+                }
+            },
+            {pattern: /<\/li>\n<li>/g, replacement: "</li>\n$&"},
+            {pattern: /^(\t*)<\/li>\n<\/ul>/gm, replacement: "$1</li>\n$1</ul>"},
+            {pattern: /^(\t*)<\/li>\n<\/ol>/gm, replacement: "$1</li>\n$1</ol>"},
+            {pattern: /^(\t*)<\/li>\n<\/li>/gm, replacement: "$1</li>\n$1<li>"},
+            {pattern: /^(\t*)<\/ul>\n<ul>/gm, replacement: "$1</ul>\n$1<ul>"},
+            {pattern: /^(\t*)<\/ol>\n<ol>/gm, replacement: "$1</ol>\n$1<ol>"},
+
+            {pattern: /^#{6}\s+(.*)$/gm, replacement: "<h6>$1</h6>"},
+            {pattern: /^#{5}\s+(.*)$/gm, replacement: "<h5>$1</h5>"},
+            {pattern: /^#{4}\s+(.*)$/gm, replacement: "<h4 class='mt-32px'>$1</h4>"},
+            {pattern: /^#{3}\s+(.*)$/gm, replacement: "<h3>$1</h3>"},
+            {pattern: /^#{2}\s+(.*)$/gm, replacement: "<h2>$1</h2>"},
+            {pattern: /^#{1}\s+(.*)$/gm, replacement: "<h1>$1</h1>"},
+            {
+                pattern: /```([\s\S]*?)```/g, replacement: function (match, p1) {
+                    p1 = p1.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                    return "```" + p1 + "```";
+                }
+            },
+            {pattern: /^!~(.*?)$/gm, replacement: "<span class='highlight'>$1</span>"},
+            {pattern: /^~~(.*?)$/gm, replacement: "<span>$1</span>"},
+            {pattern: /~(.*?)~/g, replacement: "<code class=\"c-info\">$1</code>"},
+            {pattern: /^- \[(x| )\]\s+(.*)$/gm, replacement: "<li><input type=\"checkbox\" $1> $2</li><ul>"},
+            {pattern: /!\[([^\]]+)\]\(([^\s)]+)\)/g, replacement: '<img alt="$1" src="$2">'},
+            {pattern: /\*\*\*([^*]+)\*\*\*/g, replacement: '<strong><em>$1</em></strong>'},
+            {pattern: /\*\*([^*]+)\*\*/g, replacement: '<strong>$1</strong>'},
+            {pattern: /\*([^*]+)\*/g, replacement: '<em>$1</em>'},
+            {pattern: /___([^*]+)___/g, replacement: '<strong><em>$1</em></strong>'},
+            {pattern: /__([^_]+)__/g, replacement: '<strong>$1</strong>'},
+            {pattern: /_([^_]+)_/g, replacement: '<em>$1</em>'},
+
+            // {pattern: /~~(.*)~~/g, replacement: "<del>$1</del>"},
+            {pattern: /^>\s+(.*)$/gm, replacement: "<blockquote>$1</blockquote>"},
+            {
+                pattern: /```([\w-]+)?\n([\s\S]*?)\n```/gm,
+                replacement: '<pre class=\"numberedLines maxw-100% b-1px-solid-primary br-6px p-12px-16px\" $1><code>$2</code></pre>'
+            },
+            {
+                pattern: /`([^`]+)`/gm,
+                replacement: '<code class="bg-rgba(128,128,128,.15) c-white50 fw-600 fs-12px p-2px-4px br-4px">$1</code>'
+            },
+            {pattern: /\n---\n/gm, replacement: "<hr>"},
+            // {pattern: /\n/gm, replacement: "<br>"},
+        ]
+    },
     version: '1.5.2'
 }
 
@@ -193,45 +251,14 @@ function pb_replaceAll(string, search, replace) {
     return string.split(search).join(replace);
 }
 
-const pb_customGithubMakrdown = (text) => {
-    const replacements = [
-        // { pattern: /</g, replacement: "&lt;" },
-        // { pattern: />/g, replacement: "&gt;" },
-        {pattern: /^#{6}\s+(.*)$/gm, replacement: "<h6>$1</h6>"},
-        {pattern: /^#{5}\s+(.*)$/gm, replacement: "<h5>$1</h5>"},
-        {pattern: /^#{4}\s+(.*)$/gm, replacement: "<h4 class='mt-32px'>$1</h4>"},
-        {pattern: /^#{3}\s+(.*)$/gm, replacement: "<h3>$1</h3>"},
-        {pattern: /^#{2}\s+(.*)$/gm, replacement: "<h2>$1</h2>"},
-        {pattern: /^#{1}\s+(.*)$/gm, replacement: "<h1>$1</h1>"},
-        {
-            pattern: /```([\s\S]*?)```/g, replacement: function (match, p1) {
-                p1 = p1.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                return "```" + p1 + "```";
-            }
-        },
-        {pattern: /^!~(.*?)$/gm, replacement: "<span class='highlight'>$1</span>"},
-        {pattern: /^~~(.*?)$/gm, replacement: "<span>$1</span>"},
-        {pattern: /~(.*?)~/g, replacement: "<code class=\"c-info\">$1</code>"},
-        {pattern: /^- \[(x| )\]\s+(.*)$/gm, replacement: "<li><input type=\"checkbox\" $1> $2</li><ul>"},
-        {pattern: /\*\*(.*)\*\*/gm, replacement: "<strong>$1</strong>"},
-        {pattern: /__(.*)__/g, replacement: "<strong>$1</strong>"},
-        {pattern: /\*(.*)\*/g, replacement: "<em>$1</em>"},
-        {pattern: /_(.*)_/g, replacement: "<em>$1</em>"},
-        // {pattern: /~~(.*)~~/g, replacement: "<del>$1</del>"},
-        {pattern: /^>\s+(.*)$/gm, replacement: "<blockquote>$1</blockquote>"},
-        { pattern: /^- (.*)$/gm, replacement: "<li>$1</li>" },
-        { pattern: /<\/li>\n<li>/g, replacement: "</li><li>" },
-        { pattern: /<li>(.*)<\/li>/gm, replacement: "<ul><li>$1</li></ul>" },
-        {pattern: /!\[(.*?)\]\((.*?)\)/gm, replacement: '<img src="$2" alt="$1">'},
-        {pattern: /\[(.*?)\]\((.*?)\)/gm, replacement: '<a href="$2">$1</a>'},
-        {
-            pattern: /```([\w-]+)?\n([\s\S]*?)\n```/gm,
-            replacement: '<pre class=\"numberedLines maxw-100% b-1px-solid-primary br-6px p-12px-16px\" $1><code>$2</code></pre>'
-        },
-        {pattern: /`([^`]+)`/gm, replacement: '<code class="bg-rgba(128,128,128,.15) c-white50 fw-600 fs-12px p-2px-4px br-4px">$1</code>'},
-        {pattern: /\n---\n/gm, replacement: "<hr>"},
-        // {pattern: /\n/gm, replacement: "<br>"},
-    ];
+const pb_customMarkdown = (text, markdown) => {
+    let replacements = []
+    let markdowns = pb_getObjectValues(pixelbite.markdowns)
+    for (let i = 0; i < markdowns.length; i++) {
+        if (markdowns[i][0] === markdown) {
+            replacements = markdowns[i][1]
+        }
+    }
     let html = text;
     replacements.forEach(({pattern, replacement}) => {
         html = html.replace(pattern, replacement);
@@ -250,7 +277,7 @@ const pb_includeHtmlToAnElement = async (element, path, attributes) => {
     componentRequest.onreadystatechange = async function () {
         if (this.readyState === 4) {
             if (this.status === 200) {
-                let response = this.responseText + ''
+                let response = this.response.replaceAll('\t', '  ')
                 for (let i = 0; i < attributes.length; i++) {
                     let attribute = attributes[i]
                     if (attribute.includes('[object]')) {
@@ -309,8 +336,8 @@ const pb_includeHtmlToAnElement = async (element, path, attributes) => {
                         element.removeAttribute(attribute)
                     }
                 }
-                if (element.getAttribute('markdown') === 'github') {
-                    response = pb_customGithubMakrdown(response)
+                if (element.getAttribute('markdown')) {
+                    response = pb_customMarkdown(response, element.getAttribute('markdown'))
                 }
                 element.innerHTML = response
                 if (element.getElementsByTagName('COMPONENT')) {
@@ -347,6 +374,10 @@ window.addEventListener("load", async () => {
     pb_setCustomComponents()
     pb_slideshowGenerator()
 })
+
+const changeTheme = async () => {
+    await changeThemeMode()
+}
 
 const changeThemeMode = async () => {
     if (darkmode === '0') {
@@ -585,22 +616,28 @@ const pb_isNumeric = (str) => {
 }
 
 const pb_colorConverter = (color) => {
-    let r = parseInt(color.substr(1,2), 16); // Grab the hex representation of red (chars 1-2) and convert to decimal (base 10).
-    let g = parseInt(color.substr(3,2), 16);
-    let b = parseInt(color.substr(5,2), 16);
+    let r = parseInt(color.substr(1, 2), 16); // Grab the hex representation of red (chars 1-2) and convert to decimal (base 10).
+    let g = parseInt(color.substr(3, 2), 16);
+    let b = parseInt(color.substr(5, 2), 16);
     r /= 255, g /= 255, b /= 255;
     let max = Math.max(r, g, b), min = Math.min(r, g, b);
     let h, s, l = (max + min) / 2;
 
-    if(max == min){
+    if (max == min) {
         h = s = 0; // achromatic
-    }else{
+    } else {
         let d = max - min;
         s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-        switch(max){
-            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-            case g: h = (b - r) / d + 2; break;
-            case b: h = (r - g) / d + 4; break;
+        switch (max) {
+            case r:
+                h = (g - b) / d + (g < b ? 6 : 0);
+                break;
+            case g:
+                h = (b - r) / d + 2;
+                break;
+            case b:
+                h = (r - g) / d + 4;
+                break;
         }
         h /= 6;
     }

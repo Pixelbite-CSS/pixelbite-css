@@ -169,7 +169,7 @@ var pixelbite = {
                     let regex = / /g;
                     let matches = p1.match(regex);
                     let count = matches ? matches.length : 0;
-                    let countSize = count * 12
+                    let countSize = (count + 1) * 12
                     return "<li class='ml-" + countSize + "px'>" + p3 + "</li>";
                 }
             },

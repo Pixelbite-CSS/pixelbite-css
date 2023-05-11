@@ -556,7 +556,7 @@ const pb_classSplitToString = (array, startPosition) => {
             for (let j = 0; j < color_library_hsl.length; j++) {
                 if (color_library_hsl[j][1].includes('#')) {
                     let hsl = pb_colorConverter(color_library_hsl[j][1])
-                    color_library_hsl[j][1] = [hsl[0] + '', hsl[1] * 100 + '%']
+                    color_library_hsl[j][1] = [hsl[0] * 360 + '', hsl[1] * 100 + '%']
                 }
                 if (array[i].includes(color_library_hsl[j][0])) {
                     array[i] = array[i].replace(color_library_hsl[j][0], "hsl(" + color_library_hsl[j][1][0] + "," + color_library_hsl[j][1][1] + ",")

@@ -182,7 +182,7 @@ var pixelbite = {
 
             {pattern: /^#{6}\s+(.*)$/gm, replacement: "<h6>$1</h6>"},
             {pattern: /^#{5}\s+(.*)$/gm, replacement: "<h5>$1</h5>"},
-            {pattern: /^#{4}\s+(.*)$/gm, replacement: "<h4 class='mt-32px'>$1</h4>"},
+            {pattern: /^#{4}\s+(.*)$/gm, replacement: "<h4>$1</h4>"},
             {pattern: /^#{3}\s+(.*)$/gm, replacement: "<h3>$1</h3>"},
             {pattern: /^#{2}\s+(.*)$/gm, replacement: "<h2>$1</h2>"},
             {pattern: /^#{1}\s+(.*)$/gm, replacement: "<h1>$1</h1>"},
@@ -221,7 +221,7 @@ var pixelbite = {
                 replacement: '<code class="bg-rgba(128,128,128,.15) c-white50 fw-600 fs-12px p-2px-4px br-4px">$1</code>'
             },
             {pattern: /\n---\n/gm, replacement: "<hr>"},
-            {pattern: /\n\n/gm, replacement: "<br>"},
+            {pattern: /\n\n/gm, replacement: "<br><br>"},
         ]
     },
     version: '1.5.2'

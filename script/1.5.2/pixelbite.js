@@ -197,6 +197,12 @@ var pixelbite = {
             {pattern: /~(.*?)~/g, replacement: "<code class=\"c-info\">$1</code>"},
             {pattern: /^- \[(x| )\]\s+(.*)$/gm, replacement: "<li><input type=\"checkbox\" $1> $2</li><ul>"},
             {pattern: /!\[([^\]]+)\]\(([^\s)]+)\)/g, replacement: '<img alt="$1" src="$2">'},
+            { pattern: /(\[([^\]]+)\])?\(([^)\s]+)(?:\s"([^"]+)")?\)/g, replacement: function (match, p1, p2, p3, p4) {
+                    var text = p2 || p3; // Use the link text if available, otherwise use the URL
+                    var title = p4 ? ' title="' + p4 + '"' : ''; // Include the title attribute if available
+                    return '<a href="' + p3 + '"' + title + '>' + text + '</a>';
+                }
+            },
             {pattern: /\*\*\*([^*]+)\*\*\*/g, replacement: '<strong><em>$1</em></strong>'},
             {pattern: /\*\*([^*]+)\*\*/g, replacement: '<strong>$1</strong>'},
             {pattern: /\*([^*]+)\*/g, replacement: '<em>$1</em>'},

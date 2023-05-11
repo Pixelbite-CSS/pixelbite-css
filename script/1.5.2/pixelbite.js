@@ -221,6 +221,9 @@ var pixelbite = {
                 replacement: '<code class="bg-rgba(128,128,128,.15) c-white50 fw-600 fs-12px p-2px-4px br-4px">$1</code>'
             },
             {pattern: /\n---\n/gm, replacement: "<hr>"},
+            {pattern: /<\/li>\n\n/gm, replacement: "</li><br>"},
+            {pattern: /<\/div>\n\n/gm, replacement: "</div><br>"},
+            {pattern: /<\/pre>\n\n/gm, replacement: "</pre><br>"},
             {pattern: /\n\n/gm, replacement: "<br><br>"},
         ]
     },

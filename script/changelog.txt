@@ -1,0 +1,5 @@
+1.6
+- Made library more (doesn't use pixelbite.update anymore)
+- Fixed Component error popup
+- Fixed Darkmode and changeTheme()
+- Added configs support

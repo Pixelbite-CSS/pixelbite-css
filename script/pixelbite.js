@@ -159,7 +159,6 @@ var pixelbite = {
         "Aliquam erat volutpat.",
         "Curabitur ligula sapien, pulvinar a vestibulum quis, facilisis vel sapien.",
     ],
-    update: 500,
     markdowns: {
         github: [
             // { pattern: /</g, replacement: "&lt;" },
@@ -228,7 +227,8 @@ var pixelbite = {
             {pattern: /\n\n/gm, replacement: "<br><br>"},
         ]
     },
-    version: '1.5.2'
+    configs: [],
+    version: '1.6'
 }
 
 const pb_getObjectValues = (object) => {
@@ -359,17 +359,18 @@ const pb_includeHtmlToAnElement = async (element, path, attributes) => {
                 let toggleClassMore = 'toggle-' + pb_randomString(32)
                 let detailsString = '';
                 for (let i = 0; i < attributes.length; i++) {
-                    detailsString += '[' + attributes[i] + '="' + element.getAttribute(attributes[i]).replaceAll('<', '&lt;') + '"], <br>'
+                    detailsString += ' - [' + attributes[i] + '="' + element.getAttribute(attributes[i]).replaceAll('<', '&lt;') + '"], <br>'
                 }
                 element.innerHTML =
                     '<div class="' + toggleClass + ' fw-500 p-14px-20px bg-warning br-4px m-4px pr-48px">' +
                     '<code>Component not found [path=' + path + ']<br></code>' +
-                    '<code class="' + toggleClassMore + '" onclick="toggleElement(\'' + toggleClassMore + '\')"> - see more details</code>' +
-                    '<code class="' + toggleClassMore + ' hidden"><code onclick="toggleElement(\'' + toggleClassMore + '\')">- see less details</code><br>' + detailsString + '</code>' +
+                    '<code class="noselect ' + toggleClassMore + '" onclick="toggleElement(\'' + toggleClassMore + '\')">- see more details</code>' +
+                    '<div class="flexColumn flexLeft ' + toggleClassMore + ' hidden"><code class="noselect" onclick="toggleElement(\'' + toggleClassMore + '\')">- see less details</code><code><br>this.getAttributes():<br>' + detailsString + '</code></div>' +
                     '<button class="close-x" onclick="toggleElement(\'' + toggleClass + '\')"></button>' +
                     '</div>'
             }
         }
+        pb_classGenerator()
     }
     componentRequest.open("GET", path, true);
     componentRequest.send();
@@ -379,11 +380,62 @@ let darkmode = false
 
 window.addEventListener("load", async () => {
     await pb_checkLoremIpsum()
-    darkmode = pb_getCookie('darkmode')
-    pb_checkChange(0)
+    let darkmodeCookie = pb_getCookie('darkmode')
+    if (!darkmodeCookie) {
+        pb_setCookie('darkmode', '0', 365)
+        darkmode = '0'
+    } else {
+        darkmode = darkmodeCookie
+    }
+    pb_checkLoaders()
+    pb_configureConfigs(pixelbite.configs)
+    pb_classGenerator()
     pb_setCustomComponents()
     pb_slideshowGenerator()
 })
+
+const pb_configureConfigs = async (urls) => {
+    await pb_configEval(window.location.protocol + "//" + window.location.host + "/pixelbite.conf")
+    for (let j = 0; j < urls.length; j++) {
+        await pb_configEval(urls[j])
+    }
+    pb_classGenerator()
+}
+
+const pb_configEval = async (url) => {
+    let text = (await fetchFile(url)).replaceAll('alias.', 'aliases.')
+    if(text) {
+        let lines = text.split('\n')
+        for (let i = 0; i < lines.length; i++) {
+            if (/^\s/.test(lines[i])) {
+                lines[i] = 'pixelbite.' + lines[i]
+            }
+            try {
+                eval('pixelbite.' + lines[i].replaceAll('<', '&lt;'))
+            } catch (error) {
+                console.error('PixelBite: Syntax error on line ' + i + ' (reading "' + url + '")');
+            }
+        }
+    }
+}
+
+const fetchFile = async (url) => {
+    let res = ''
+    await fetch(url)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('File not found')
+          }
+          return response.text()
+    })
+    .then(text => {
+        res = text
+    })
+    .catch(error => {
+        console.error('PixelBite: Cannot get response from "' + url + '"');
+    });
+    return res
+}
 
 const changeTheme = async () => {
     await changeThemeMode()
@@ -397,11 +449,12 @@ const changeThemeMode = async () => {
         darkmode = '0'
         pb_setCookie('darkmode', '0', 365)
     }
+    pb_classGenerator()
 }
 
 const pb_checkLoaders = async () => {
     let loaders = document.getElementsByClassName('loader')
-    if (loaders.length > 0) {
+    if (loaders.length > 0) { 
         for (let i = 0; i < loaders.length; i++) {
             loaders[i].style.opacity = '0';
             await pb_sleep(400);
@@ -424,14 +477,6 @@ const pb_checkLoremIpsum = () => {
             }
         })
     }
-}
-
-
-const pb_checkChange = async (instances) => {
-    await pb_sleep(pixelbite.update)
-    await pb_classGenerator()
-    if (instances <= 0) pb_checkLoaders()
-    await pb_checkChange(instances + 1)
 }
 
 const pb_sleep = (ms) => {
@@ -782,3 +827,5 @@ const pb_updateSearchbars = () => {
         pb_searchbarsBefore = searchbars
     }
 }
+  
+window.addEventListener('resize', pb_classGenerator); 

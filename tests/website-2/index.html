@@ -7,7 +7,23 @@
     <link rel="stylesheet" href="../../style/pixelbite.css">
 </head>
 <body class="c-white0 dark:c-white100 bg-white96 dark:bg-black6">
-    <component path="./components/header.html"></component>
+    <component path="./components/header.html" class="fixed w-100%"></component>
+    <div class="w-100% bg-black dark:bg-white c-white dark:c-black">
+        <a href="https://codepen.io/atzedent/pen/vYrbzXL" target="_blank" class="pos-absolute bottom-20px right-20px o-.8 c-white zIndex-9">@atzedent</a>
+        <iframe src="./components/wallpaper/index.html" class="pos-absolute top-0 left-0 w-100% h-100% b-none o-.5"></iframe>
+        <div class="auto-width p-64px-32px flexRow flexCenter flexMiddle g-32px">
+            <div class="w-50% pt-128px">
+                <div class="of-hidden flex flexColumn flexLeft g-24px">
+                    <span class="fs-52px fw-800">Framework that makes website development easier.</span>
+                    <div class="flexRow g-14px">
+                        <a href="" class="b-2px-solid-white dark:b-2px-solid-black c-white dark:c-black td-none p-12px-32px br-400px d-inline_block">See more</a>
+                        <a href="" class="b-2px-solid-white dark:b-2px-solid-black bg-white dark:bg-black c-black dark:c-white td-none p-12px-32px br-400px d-inline_block">See more</a>
+                    </div>
+                </div>
+            </div>
+            <div class="w-50%">hello</div>
+        </div>
+    </div>
     <button onclick="changeTheme()">Change Theme</button>
 </body>
 <div class="loader loader-page flexCenter flexMiddle bg-custom">
@@ -15,7 +31,7 @@
 </div>
 <script src="../../script/pixelbite.js"></script>
 <script>
-    pixelbite.theme.variables.fontCustom = 'url(https://fonts.gstatic.com/s/sedgwickavedisplay/v19/xfuu0XPgU3jZPUoUo3ScvmPi-NapQ8OxM1c0fec.woff2)'
+    pixelbite.variables.fontCustom = 'url(https://fonts.gstatic.com/s/sedgwickavedisplay/v19/xfuu0XPgU3jZPUoUo3ScvmPi-NapQ8OxM1c0fec.woff2)'
 </script>
 </body>
 </html>

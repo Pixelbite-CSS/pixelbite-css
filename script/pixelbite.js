@@ -70,8 +70,7 @@ const pb_putCustomFontIntoCSS = (name, url) => {
 
 var pixelbite = {
     classes: class_library,
-    theme: {
-        variables: {
+    variables: {
             primary: pb_getRootVariable('--primary-color').toString(),
             secondary: pb_getRootVariable('--secondary-color').toString(),
             danger: pb_getRootVariable('--danger-color').toString(),
@@ -80,8 +79,8 @@ var pixelbite = {
             success: pb_getRootVariable('--success-color').toString(),
             fontPrimary: pb_getRootVariable('--font-family').toString(),
             fontMonospace: pb_getRootVariable('--font-mono-family').toString(),
-        },
-        colors: {
+    },
+    colors: {
             white: [0, '0%'],
             gray: [0, '0%'],
             black: [0, '0%'],
@@ -94,7 +93,6 @@ var pixelbite = {
             blue: [235, '100%'],
             purple: [275, '100%'],
             pink: [300, '100%'],
-        }
     },
     aliases: {},
     loremIpsum: [
@@ -228,7 +226,10 @@ var pixelbite = {
         ]
     },
     configs: [],
-    version: '1.6'
+    components: [],
+    fontawesome: 'https://kit.fontawesome.com/f474ae69e7.js',
+    debug: false,
+    version: 'beta-1.6'
 }
 
 const pb_getObjectValues = (object) => {
@@ -259,6 +260,10 @@ const pb_customComponentsCheck = (array, relativePath) => {
 
 function pb_replaceAll(string, search, replace) {
     return string.split(search).join(replace);
+}
+
+function deleteFromString(string, value) {
+    return string.replaceAll(value, '')
 }
 
 const pb_customMarkdown = (text, markdown) => {
@@ -388,10 +393,12 @@ window.addEventListener("load", async () => {
         darkmode = darkmodeCookie
     }
     pb_checkLoaders()
-    pb_configureConfigs(pixelbite.configs)
     pb_classGenerator()
+    await pb_configureConfigs(pixelbite.configs)
     pb_setCustomComponents()
     pb_slideshowGenerator()
+    pb_addFontAwesome()
+
 })
 
 const pb_configureConfigs = async (urls) => {
@@ -402,21 +409,116 @@ const pb_configureConfigs = async (urls) => {
     pb_classGenerator()
 }
 
+function pb_extractWordBeforeEquals(string) {
+    const regex = /(\w+)\s*=/;
+    const match = string.match(regex);
+    return match ? match[1] : null;
+}
+
 const pb_configEval = async (url) => {
-    let text = (await fetchFile(url)).replaceAll('alias.', 'aliases.')
-    if(text) {
-        let lines = text.split('\n')
+    const pattern = /^(http|https|ftp):\/\//;
+    if (!pattern.test(url)) {
+        url = window.location.protocol + "//" + window.location.host + "/" + url
+    }
+    const object = {
+        values: {
+            components: {},
+            aliases: {},
+            variables: {},
+            colors: {},
+            markdowns: {}
+        }
+    }
+    let text = (await fetchFile(url))
+    if (text) {
+        const lines = text
+            .replace(/\/\/(?=(?:[^'"`]*['"`][^'"`]*['"`])*[^'"`]*$).*/g, '')
+            .replace(/#(?=(?:[^'"`]*['"`][^'"`]*['"`])*[^'"`]*$).*/g, '')
+            .replace(/\r?\n|\r/g, '')
+            .replace(/(\w+)\s*=/g, '\n$&')
+            .replace(/\[\s*(\w+)\s*\]/g, '\n[$1]')
+            .split('\n')
+        let category = ''
         for (let i = 0; i < lines.length; i++) {
-            if (/^\s/.test(lines[i])) {
-                lines[i] = 'pixelbite.' + lines[i]
+            let line = lines[i]
+            if(line.match(/\[(\w+)\]/)) {
+                category = line.trim().replaceAll('[', '').replaceAll(']', '')
+            } else {
+                let variable = pb_extractWordBeforeEquals(line)
+                let value = line.replace(/^\w+\s*=\s*/, '').trim()
+                try {
+                    if(category === "informations") {
+                        eval('object.' + variable + ' = ' + value)
+                    } else if (category === "general") {
+                        eval('object.values.' + variable + ' = ' + value)
+                        eval('pixelbite.' + variable + ' = ' + value)
+                    } else if (category === "components") {
+                        eval('object.values.' + category + '.' + variable + ' = ' + value)
+                        eval('pixelbite.components.' + variable + ' = ' + value)
+                    } else if (category === "aliases") {
+                        eval('object.values.' + category + '.' + variable + ' = ' + value)
+                        eval('pixelbite.aliases.' + variable + ' = ' + value)
+                    } else if (category === "markdowns") {
+                        eval('object.values.' + category + '.' + variable + ' = ' + value)
+                        eval('pixelbite.markdowns.' + variable + ' = ' + value)
+                    } else if (category === "variables") {
+                        eval('object.values.' + category + '.' + variable + ' = ' + value)
+                        eval('pixelbite.variables.' + variable + ' = ' + value)
+                    } else if (category === "colors") {
+                        eval('object.values.' + category + '.' + variable + ' = ' + value)
+                        eval('pixelbite.colors.' + variable + ' = ' + value)
+                    }
+                 } catch (error) {
+                    console.error(error)
+                 }
             }
-            try {
-                eval('pixelbite.' + lines[i].replaceAll('<', '&lt;'))
-            } catch (error) {
-                console.error('PixelBite: Syntax error on line ' + i + ' (reading "' + url + '")');
+        }
+        let string = 'Using '
+        if (object.theme_name) string += "theme " + object.theme_name
+        else string += "config theme"
+        if (object.theme_version) {
+            string += " "
+            if (object.theme_version) string += object.theme_version
+            if (object.theme_date) string += "\nReleased: " + object.theme_date
+            if (object.theme_url) string += ", " + object.theme_url
+        }
+        if (object.author) {
+            string += "\nMade by @" + object.author
+            if (object.author_url) string += ", " + object.author_url 
+        }
+
+        let style = ""
+        if (object.style) style += object.style + ";" 
+
+        console.log(
+            "%c" + string + "",
+            style.replaceAll('!','&#x21;') + "font-size:12px;font-weight:bold"
+        )
+
+        if (pixelbite.debug) {
+            console.log(object)
+        }
+
+        let configs = object.values.configs
+        if (configs) {
+            for (let i = 0; i < configs.length; i++) {
+                pb_configEval(configs[i])
             }
         }
     }
+    // if(text) {
+    //     let lines = text.split('\n')
+    //     for (let i = 0; i < lines.length; i++) {
+    //         if (/^\s/.test(lines[i])) {
+    //             lines[i] = 'pixelbite.' + lines[i]
+    //         }
+    //         try {
+    //             eval('pixelbite.' + lines[i].replaceAll('<', '&lt;'))
+    //         } catch (error) {
+    //             console.error('PixelBite: Syntax error on line ' + i + ' (reading "' + url + '")');
+    //         }
+    //     }
+    // }
 }
 
 const fetchFile = async (url) => {
@@ -516,30 +618,31 @@ const pb_changeRootVariable = (variable, value) => {
 }
 
 const pb_classGenerator = () => {
+    debugmode()
     pb_checkLoremIpsum()
-    if (pixelbite.theme.variables.primary !== document.documentElement.style.getPropertyValue('--primary-color')) {
-        pb_changeRootVariable('--primary-color', pixelbite.theme.variables.primary)
+    if (pixelbite.variables.primary !== document.documentElement.style.getPropertyValue('--primary-color')) {
+        pb_changeRootVariable('--primary-color', pixelbite.variables.primary)
     }
-    if (pixelbite.theme.variables.secondary !== document.documentElement.style.getPropertyValue('--secondary-color')) {
-        pb_changeRootVariable('--secondary-color', pixelbite.theme.variables.secondary)
+    if (pixelbite.variables.secondary !== document.documentElement.style.getPropertyValue('--secondary-color')) {
+        pb_changeRootVariable('--secondary-color', pixelbite.variables.secondary)
     }
-    if (pixelbite.theme.variables.success !== document.documentElement.style.getPropertyValue('--success-color')) {
-        pb_changeRootVariable('--success-color', pixelbite.theme.variables.success)
+    if (pixelbite.variables.success !== document.documentElement.style.getPropertyValue('--success-color')) {
+        pb_changeRootVariable('--success-color', pixelbite.variables.success)
     }
-    if (pixelbite.theme.variables.info !== document.documentElement.style.getPropertyValue('--info-color')) {
-        pb_changeRootVariable('--info-color', pixelbite.theme.variables.info)
+    if (pixelbite.variables.info !== document.documentElement.style.getPropertyValue('--info-color')) {
+        pb_changeRootVariable('--info-color', pixelbite.variables.info)
     }
-    if (pixelbite.theme.variables.danger !== document.documentElement.style.getPropertyValue('--danger-color')) {
-        pb_changeRootVariable('--danger-color', pixelbite.theme.variables.danger)
+    if (pixelbite.variables.danger !== document.documentElement.style.getPropertyValue('--danger-color')) {
+        pb_changeRootVariable('--danger-color', pixelbite.variables.danger)
     }
-    if (pixelbite.theme.variables.warning !== document.documentElement.style.getPropertyValue('--warning-color')) {
-        pb_changeRootVariable('--warning-color', pixelbite.theme.variables.warning)
+    if (pixelbite.variables.warning !== document.documentElement.style.getPropertyValue('--warning-color')) {
+        pb_changeRootVariable('--warning-color', pixelbite.variables.warning)
     }
-    if (pixelbite.theme.variables.fontPrimary !== document.documentElement.style.getPropertyValue('--font-family')) {
-        pb_changeRootVariable('--font-family', pixelbite.theme.variables.fontPrimary)
+    if (pixelbite.variables.fontPrimary !== document.documentElement.style.getPropertyValue('--font-family')) {
+        pb_changeRootVariable('--font-family', pixelbite.variables.fontPrimary)
     }
-    if (pixelbite.theme.variables.fontMonospace !== document.documentElement.style.getPropertyValue('--font-mono-family')) {
-        pb_changeRootVariable('--font-mono-family', pixelbite.theme.variables.fontMonospace)
+    if (pixelbite.variables.fontMonospace !== document.documentElement.style.getPropertyValue('--font-mono-family')) {
+        pb_changeRootVariable('--font-mono-family', pixelbite.variables.fontMonospace)
     }
     const elements = document.getElementsByTagName('*')
     for (let i = 0; i < elements.length; i++) {
@@ -624,14 +727,14 @@ const pb_aliasClassReplace = (element) => {
 
 const pb_classSplitToString = (array, startPosition) => {
     if (array) {
-        let variables = pb_getObjectValues(pixelbite.theme.variables)
-        let color_library_hsl = pb_getObjectValues(pixelbite.theme.colors)
+        let variables = pb_getObjectValues(pixelbite.variables)
+        let color_library_hsl = pb_getObjectValues(pixelbite.colors)
         let a = ""
         for (let i = startPosition; i < array.length; i++) {
             for (let j = 0; j < variables.length; j++) {
                 if (variables[j][1].includes('url(')) {
                     let fontName = 'font-' + pb_randomString(32)
-                    let varia = pixelbite.theme.variables
+                    let varia = pixelbite.variables
                     pb_putCustomFontIntoCSS(fontName, variables[j][1])
                     varia[variables[j][0]] = fontName
                 }
@@ -705,8 +808,15 @@ const pb_addSignature = () => {
     document.body.appendChild(comment);
 }
 
-const debugmode = (boolean) => {
-    if (boolean) {
+const pb_addFontAwesome = () => {
+    const script = document.createElement('script')
+    script.setAttribute('src', pixelbite.fontawesome)
+    script.setAttribute('crossorigin', 'anonymous')
+    document.head.appendChild(script)
+}
+
+const debugmode = () => {
+    if (pixelbite.debug) {
         let elements = document.getElementsByTagName('*')
         for (let i = 0; i < elements.length; i++) {
             elements[i].setAttribute('contenteditable', 'true')

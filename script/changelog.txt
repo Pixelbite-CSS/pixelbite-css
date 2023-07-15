@@ -4,8 +4,10 @@
 - Fixed Darkmode and changeTheme()
 - Added configs support
     - Made it more better with it's own syntax
-    - Made // comments work
+    - Made // and # comments work
     - Made Configs and Fontawesome support
-    - TODO: Custom name components support
+    - Custom name components support
 - Added Fontawesome support (custom link can be changed in pixelbite.fontawesome) 
 - Changed Pixelbite Object's structure
+- Added function alocatedPath() that replaces '@/' string with site's url
+    - Changed object attributes to 'object_name:object'

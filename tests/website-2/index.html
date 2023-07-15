@@ -9,22 +9,32 @@
 <body class="c-white0 dark:c-white100 bg-white96 dark:bg-black6">
     <component path="./components/header.html" class="fixed w-100%"></component>
     <div class="w-100% bg-black dark:bg-white c-white dark:c-black">
-        <a href="https://codepen.io/atzedent/pen/vYrbzXL" target="_blank" class="pos-absolute bottom-20px right-20px o-.8 c-white zIndex-9">@atzedent</a>
-        <iframe src="./components/wallpaper/index.html" class="pos-absolute top-0 left-0 w-100% h-100% b-none o-.5"></iframe>
-        <div class="auto-width p-64px-32px flexRow flexCenter flexMiddle g-32px">
-            <div class="w-50% pt-128px">
-                <div class="of-hidden flex flexColumn flexLeft g-24px">
-                    <span class="fs-52px fw-800">Framework that makes website development easier.</span>
-                    <div class="flexRow g-14px">
-                        <a href="" class="b-2px-solid-white dark:b-2px-solid-black c-white dark:c-black td-none p-12px-32px br-400px d-inline_block">See more</a>
-                        <a href="" class="b-2px-solid-white dark:b-2px-solid-black bg-white dark:bg-black c-black dark:c-white td-none p-12px-32px br-400px d-inline_block">See more</a>
-                    </div>
+        <a href="https://codepen.io/atzedent/pen/vYrbzXL" target="_blank" class="pos-absolute bottom-20px right-20px o-.8 c-white zIndex-9 fs-12px">by @atzedent</a>
+        <iframe src="./components/wallpaper/index.html" class="pos-absolute top-0 left-0 w-100% h-100% b-none o-.25"></iframe>
+        <div class="auto-width p-164px-32px flexRow flexCenter flexMiddle g-16px mt-90px">
+            <div class="w-700px">
+                <p>
+                    <button class="b-2px-solid-primary">Version 1.6</button> 
+                </p>
+                <div class="of-hidden flex flexColumn flexLeft g-24px p-2px lh-1.2">
+                    <span class="fs-52px fw-800">Framework that makes website development <span class="c-primary">easier</span>.</span>
                 </div>
             </div>
-            <div class="w-50%">hello</div>
+            <div class="w-50% fs-16px">
+                <p>
+                    Customisable CSS and Javascript framework, that uses its own classes like <a class="c-primary fw-500">flex</a>, <a class="c-primary fw-500">ta-center</a> or <a class="c-primary fw-500">slideshow</a> to help you create websites faster and responsive.
+                </p>
+                <p>
+                    <div class="flexRow g-14px">
+                        <a href="./" class="b-2px-solid-white dark:b-2px-solid-black bg-white dark:bg-black c-black dark:c-white td-none p-8px-24px headerBorderRadius d-inline_block fw-600">Get started</a>
+                        <a href="./" class="b-2px-solid-white dark:b-2px-solid-black c-white dark:c-black td-none p-8px-24px headerBorderRadius d-inline_block">Read what's new</a>
+                    </div>
+                </p>
+            </div>
         </div>
     </div>
     <button onclick="changeTheme()">Change Theme</button>
+    <custombutton text="Hello"></custombutton>
 </body>
 <div class="loader loader-page flexCenter flexMiddle bg-custom">
     <div class="loader-line"></div>

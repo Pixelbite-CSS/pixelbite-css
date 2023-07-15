@@ -1,7 +1,13 @@
 <div class="w-100% flexRow flexSpaceBetween p-24px flexCenter bg-white96 dark:bg-black6 shadow zIndex-11">
     <a href="" class="w-240px td-none fs-22px fw-600 c-white0 dark:c-white100 flexLeft flexMiddle g-6px">PixelbiteCSS</a>
+    <div class="flexCenter flexMiddle min800:d-none max800:d-flex g-12px">
+        <a href="./" class="headerLink">Home</a>
+        <a href="./" class="headerLink">Docs</a>
+        <a href="./" class="headerLink">Components</a>
+        <a href="./" class="headerLink">News</a>
+    </div>
     <div class="w-240px flexBottom min800:d-none max800:d-flex g-8px">
-        <a href="https://github.com/Pixelbite-CSS/docs-repo" class="headerRoundedButton" target="_blank">
+        <a href="https://github.com/Pixelbite-CSS/" class="headerRoundedButton" target="_blank">
             <i class="fa-brands fa-github c-black dark:c-white fs-18px mb-1px"></i>
             Visit Github
         </a>
@@ -15,8 +21,19 @@
         </button>
     </div>
 </div>
-<div class="min800:d-flex max800:d-none flexColumn hidden headerMenu p-12px g-8px bg-white96 dark:bg-black6 shadow zIndex-10">
-    <button>a</button>
-    <button>a</button>
-    <button>a</button>
+<div class="min800:d-flex max800:d-none w-100%">
+    <div class="flexColumn hidden headerMenu p-12px g-8px bg-white96 dark:bg-black6 shadow zIndex-10 w-100%">
+        <a href="./" class="headerLink w-100%">Home</a>
+        <a href="./" class="headerLink w-100%">Docs</a>
+        <a href="./" class="headerLink w-100%">Components</a>
+        <a href="./" class="headerLink w-100%">News</a>
+        <a onclick="changeTheme()" class="headerLink w-100% ta-right pointer">
+            Change Theme
+            <i class="fa-solid fa-moon c-black dark:c-white fs-16px ml-6px"></i>
+        </a>
+        <a href="https://github.com/Pixelbite-CSS/" class="headerLink w-100% ta-right">
+            Visit Github
+            <i class="fa-brands fa-github c-black dark:c-white fs-16px ml-6px"></i>
+        </a>
+    </div>
 </div>

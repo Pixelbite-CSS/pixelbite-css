@@ -242,18 +242,26 @@ const pb_setCustomComponents = () => {
 }
 
 const pb_customComponentsCheck = (array, relativePath) => {
+    let components = pb_getObjectValues(pixelbite.components)
     if (!relativePath) relativePath = ''
     for (let i = 0; i < array.length; i++) {
         let element = array[i]
         if (element.tagName.toUpperCase().includes('COMPONENT')) {
             let element_attributes = element.getAttributeNames()
-            let path = element.getAttribute('path')
+            let path = pb_alocatePath(element.getAttribute('path'))
             if (path.startsWith('http://') || path.startsWith('https://')) {
                 path = element.getAttribute('path')
             } else {
                 path = relativePath + element.getAttribute('path')
             }
             pb_includeHtmlToAnElement(element, path, element_attributes)
+        }
+        for (let j = 0; j < components.length; j++) {
+            if (element.tagName.toUpperCase().includes(components[j][0].toLocaleUpperCase())) {
+                let element_attributes = element.getAttributeNames()
+                let path = pb_alocatePath(components[j][1])
+                pb_includeHtmlToAnElement(element, path, element_attributes)
+            }          
         }
     }
 }
@@ -281,6 +289,22 @@ const pb_customMarkdown = (text, markdown) => {
     return html;
 }
 
+const pb_componentErrorMessage = (element, attributes, message) => {
+    let toggleClass = 'toggle-' + pb_randomString(32)
+    let toggleClassMore = 'toggle-' + pb_randomString(32)
+    let detailsString = '';
+    for (let i = 0; i < attributes.length; i++) {
+        detailsString += ' - [' + attributes[i] + '="' + element.getAttribute(attributes[i]).replaceAll('<', '&lt;') + '"], <br>'
+    }
+    element.innerHTML =
+        '<div class="' + toggleClass + ' fw-500 p-14px-20px bg-warning br-4px m-4px pr-48px d-block">' +
+        '<code>' + message + '<br></code>' +
+        '<code class="noselect ' + toggleClassMore + '" onclick="toggleElement(\'' + toggleClassMore + '\')">- see more details</code>' +
+        '<div class="flexColumn flexLeft ' + toggleClassMore + ' hidden"><code class="noselect" onclick="toggleElement(\'' + toggleClassMore + '\')">- see less details</code><code><br>this.getAttributes():<br>' + detailsString + '</code></div>' +
+        '<button class="close-x" onclick="toggleElement(\'' + toggleClass + '\')"></button>' +
+        '</div>'
+}
+
 const pb_includeHtmlToAnElement = async (element, path, attributes) => {
     if (!path) path = 'null'
     let relativePathSplit = path.split('/')
@@ -295,22 +319,31 @@ const pb_includeHtmlToAnElement = async (element, path, attributes) => {
                 let response = this.response.replaceAll('\t', '  ')
                 for (let i = 0; i < attributes.length; i++) {
                     let attribute = attributes[i]
-                    if (attribute.includes('[object]')) {
+                    if (attribute.includes(':object')) {
                         let object = ''
-                        let objectName = attribute.replace('[object]', '')
+                        let objectName = attribute.replace(':object', '')
                         let objectPath = element.getAttribute(attribute)
                         let objectRequest = new XMLHttpRequest();
                         objectRequest.onreadystatechange = function () {
-                            if (this.readyState === 4 && this.status === 200) {
-                                try {
-                                    object = JSON.parse(this.responseText);
-                                } catch (error) {
-                                    console.error('PixelBite: Your "' + objectName + '[object]" has syntax error.')
+                            if (this.readyState === 4) {
+                                if (this.status === 200) {
+                                    try {
+                                        object = JSON.parse(this.responseText);
+                                    } catch (error) {
+                                        console.error('PixelBite: Attribute "' + objectName + ':object[' + objectPath + ']" in component has syntax error.')
+                                    }
                                 }
                             }
+                            if (this.status === 404) {
+                                object = null
+                            }
                         };
-                        objectRequest.open("GET", objectPath, true);
-                        objectRequest.send();
+                        try {
+                            objectRequest.open("GET", objectPath, true);
+                            objectRequest.send();
+                        } catch (err) {
+                            console.error("help")
+                        }
                         while (!object) {
                             await pb_sleep(10)
                         }
@@ -360,30 +393,23 @@ const pb_includeHtmlToAnElement = async (element, path, attributes) => {
                 }
             }
             if (this.status === 404) {
-                let toggleClass = 'toggle-' + pb_randomString(32)
-                let toggleClassMore = 'toggle-' + pb_randomString(32)
-                let detailsString = '';
-                for (let i = 0; i < attributes.length; i++) {
-                    detailsString += ' - [' + attributes[i] + '="' + element.getAttribute(attributes[i]).replaceAll('<', '&lt;') + '"], <br>'
-                }
-                element.innerHTML =
-                    '<div class="' + toggleClass + ' fw-500 p-14px-20px bg-warning br-4px m-4px pr-48px">' +
-                    '<code>Component not found [path=' + path + ']<br></code>' +
-                    '<code class="noselect ' + toggleClassMore + '" onclick="toggleElement(\'' + toggleClassMore + '\')">- see more details</code>' +
-                    '<div class="flexColumn flexLeft ' + toggleClassMore + ' hidden"><code class="noselect" onclick="toggleElement(\'' + toggleClassMore + '\')">- see less details</code><code><br>this.getAttributes():<br>' + detailsString + '</code></div>' +
-                    '<button class="close-x" onclick="toggleElement(\'' + toggleClass + '\')"></button>' +
-                    '</div>'
+                pb_componentErrorMessage(element, attributes, 'Component not found [path=' + path + ']')
             }
         }
         pb_classGenerator()
     }
-    componentRequest.open("GET", path, true);
-    componentRequest.send();
+    try {
+        componentRequest.open("GET", path, true);
+        componentRequest.send();
+    } catch (err) {
+        console.error(err)
+    }
 }
 
 let darkmode = false
 
 window.addEventListener("load", async () => {
+    await pb_alocatedPath()
     await pb_checkLoremIpsum()
     let darkmodeCookie = pb_getCookie('darkmode')
     if (!darkmodeCookie) {
@@ -392,14 +418,33 @@ window.addEventListener("load", async () => {
     } else {
         darkmode = darkmodeCookie
     }
-    pb_checkLoaders()
     pb_classGenerator()
     await pb_configureConfigs(pixelbite.configs)
     pb_setCustomComponents()
     pb_slideshowGenerator()
-    pb_addFontAwesome()
-
+    await pb_addFontAwesome()
+    pb_checkLoaders()
 })
+
+const pb_alocatedPath = () => {
+    const a = document.getElementsByTagName('*')
+    for (let i = 0; i < a.length; i++) {
+        let element = a[i]
+        let elementAttributeNames = element.getAttributeNames()
+        for (let j = 0; j < elementAttributeNames.length; j++) {
+            if(element.getAttribute(elementAttributeNames[j]).includes('@/')) {
+                element.setAttribute(
+                    elementAttributeNames[j],
+                    element.getAttribute(elementAttributeNames[j]).replace(/.*?@\/\s*/,'@/').replaceAll('@/', window.location.protocol + "//" + window.location.host + "/")
+                )
+            }
+        }
+    }
+}
+
+const pb_alocatePath = (string) => {
+    return string.replace(/.*?@\/\s*/,'@/').replaceAll('@/', window.location.protocol + "//" + window.location.host + "/")
+}
 
 const pb_configureConfigs = async (urls) => {
     await pb_configEval(window.location.protocol + "//" + window.location.host + "/pixelbite.conf")
@@ -454,6 +499,9 @@ const pb_configEval = async (url) => {
                         eval('pixelbite.' + variable + ' = ' + value)
                     } else if (category === "components") {
                         eval('object.values.' + category + '.' + variable + ' = ' + value)
+                        if (!value.includes('http://') || !value.includes('https://')) {
+                            value = value.charAt(0) + window.location.protocol + "//" + window.location.host + "/" + value.slice(1)
+                        }
                         eval('pixelbite.components.' + variable + ' = ' + value)
                     } else if (category === "aliases") {
                         eval('object.values.' + category + '.' + variable + ' = ' + value)
@@ -479,12 +527,15 @@ const pb_configEval = async (url) => {
         if (object.theme_version) {
             string += " "
             if (object.theme_version) string += object.theme_version
-            if (object.theme_date) string += "\nReleased: " + object.theme_date
+            if (object.theme_date) string += "\n- Released: " + object.theme_date
             if (object.theme_url) string += ", " + object.theme_url
         }
         if (object.author) {
-            string += "\nMade by @" + object.author
+            string += "\n- Author: @" + object.author
             if (object.author_url) string += ", " + object.author_url 
+        }
+        if(object.description) {
+            string += "\n- " + object.description
         }
 
         let style = ""
@@ -619,6 +670,7 @@ const pb_changeRootVariable = (variable, value) => {
 
 const pb_classGenerator = () => {
     debugmode()
+    pb_alocatedPath()
     pb_checkLoremIpsum()
     if (pixelbite.variables.primary !== document.documentElement.style.getPropertyValue('--primary-color')) {
         pb_changeRootVariable('--primary-color', pixelbite.variables.primary)

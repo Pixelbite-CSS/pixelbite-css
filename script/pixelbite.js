@@ -490,7 +490,7 @@ const pb_configEval = async (url) => {
                 category = line.trim().replaceAll('[', '').replaceAll(']', '')
             } else {
                 let variable = pb_extractWordBeforeEquals(line)
-                let value = line.replace(/^\w+\s*=\s*/, '').trim()
+                let value = line.replace(/^\w+\s*=\s*/, '').trim().replace(/.*?@\/\s*/,'@/').replaceAll('@/', window.location.protocol + "//" + window.location.host + "/")
                 try {
                     if(category === "informations") {
                         eval('object.' + variable + ' = ' + value)

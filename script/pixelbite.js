@@ -585,7 +585,9 @@ const fetchFile = async (url) => {
         res = text
     })
     .catch(error => {
-        console.error('PixelBite: Cannot get response from "' + url + '"');
+        if (url !== window.location.protocol + "//" + window.location.host + "/pixelbite.conf") {
+            console.error('PixelBite: Cannot get response from "' + url + '"')
+        }
     });
     return res
 }

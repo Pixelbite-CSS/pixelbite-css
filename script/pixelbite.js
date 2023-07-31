@@ -742,7 +742,7 @@ const pb_classGenerator = () => {
                 if (element_class_split[0] === class_library[j][0]) {
                     element.style.cssText += class_library[j][1] + ':' + pb_classSplitToString(element_class_split, 1) + ';'
                 }
-                if(element_class_split === "gradient") {
+                if(element_class_split[0] === "gradient") {
                     if (!element_class_split[3]) {
                         element_class_split[3] = 0
                     }

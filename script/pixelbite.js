@@ -742,6 +742,20 @@ const pb_classGenerator = () => {
                 if (element_class_split[0] === class_library[j][0]) {
                     element.style.cssText += class_library[j][1] + ':' + pb_classSplitToString(element_class_split, 1) + ';'
                 }
+                if(element_class_split === "gradient") {
+                    if (!element_class_split[3]) {
+                        element_class_split[3] = 0
+                    }
+                    let col1 = pb_variableCheck(element_class_split[1])
+                    let col2 = pb_variableCheck(element_class_split[2])
+                    let deg = pb_variableCheck(element_class_split[3])
+                    element.style.cssText += '' +
+                    'background: ' +
+                    'background: -moz-linear-gradient(' + deg + ', ' + col1 + ' 0%, ' + col2 + ' 100%);' +
+                    'background: -webkit-linear-gradient(' + deg + ', ' + col1 + ' 0%, ' + col2 + ' 100%);' +
+                    'background: linear-gradient(' + deg + ', ' + col1 + ' 0%, ' + col2 + ' 100%);' +
+                    'filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="' + col1 + '",endColorstr="' + col2 + '",GradientType=1);'
+                }
             }
         })
         pb_updateSearchbars()
@@ -820,6 +834,36 @@ const pb_classSplitToString = (array, startPosition) => {
         }
         return a
     } else return ""
+}
+
+const pb_variableCheck = (string) => {
+    let variables = pb_getObjectValues(pixelbite.variables)
+        let color_library_hsl = pb_getObjectValues(pixelbite.colors)
+        for (let j = 0; j < variables.length; j++) {
+            if (variables[j][1].includes('url(')) {
+                let fontName = 'font-' + pb_randomString(32)
+                let varia = pixelbite.variables
+                pb_putCustomFontIntoCSS(fontName, variables[j][1])
+                varia[variables[j][0]] = fontName
+            }
+            if (string === variables[j][0]) {
+                string = variables[j][1]
+            }
+        }
+        for (let j = 0; j < color_library_hsl.length; j++) {
+            if (color_library_hsl[j][1].includes('#')) {
+                let hsl = pb_colorConverter(color_library_hsl[j][1])
+                color_library_hsl[j][1] = [hsl[0] * 360 + '', hsl[1] * 100 + '%']
+            }
+            if (string.includes(color_library_hsl[j][0])) {
+                let lightness = string.replace(color_library_hsl[j][0], "")
+                if (!lightness) lightness = 50
+                if (pb_isNumeric(lightness)) {
+                    string = "hsl(" + color_library_hsl[j][1][0] + "," + color_library_hsl[j][1][1] + "," + lightness + '%)'
+                }
+            }
+        }
+        return string
 }
 
 const pb_isNumeric = (str) => {

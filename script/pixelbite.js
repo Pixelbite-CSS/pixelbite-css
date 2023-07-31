@@ -759,6 +759,7 @@ const pb_classGenerator = () => {
             }
         })
         pb_updateSearchbars()
+        pb_updateDropdowns()
         pb_generateFloatInput(element)
     }
 }
@@ -1033,6 +1034,52 @@ const pb_updateSearchbars = () => {
             }
         }
         pb_searchbarsBefore = searchbars
+    }
+}
+
+let pb_dropdownsBefore = []
+
+const pb_updateDropdowns = () => {
+    let dropdowns = document.getElementsByClassName("dropdown");
+    if(pb_dropdownsBefore.length !== dropdowns.length) {
+        for (let i = 0; i < dropdowns.length; i++) {
+            let divs = document.getElementsByTagName('div')
+            let buttons = document.getElementsByTagName('button')
+            for(let j = 0; j < divs.length; j++) {
+                divs[j].remove
+            }
+            for(let j = 0; j < buttons.length; j++) {
+                buttons[j].remove
+            }
+            let selects = dropdowns[i].getElementsByTagName('select')
+            for(let j = 0; j < selects.length; j++) {
+                selects[j].style.display = "none";
+            }
+            let options = dropdowns[i].getElementsByTagName('select')[0].getElementsByTagName('option')
+            let selectButton = document.createElement("button")
+            let dropdownClassname = "toggle-" + pb_randomString(32)
+            selectButton.onclick = () => toggleElement(dropdownClassname)
+            selectButton.innerHTML = "<div class='flexRow flexSpaceBetween g-15px w-100%'><div>" + options[0].innerHTML + "</div><i class='fa-solid fa-caret-down'></i></div>"
+            dropdowns[i].append(selectButton)
+            dropdowns[i].value = options[0].value;
+            let selectMenu = document.createElement("div")
+            selectMenu.classList.add("hidden")
+            selectMenu.classList.add(dropdownClassname)
+            for(let k = 0; k < options.length; k++) {
+                let option = document.createElement("div")
+                option.value = options[k].value
+                option.innerHTML = options[k].innerHTML
+                option.onclick = () => {
+                    dropdowns[i].value = options[k].value
+                    dropdowns[i].getElementsByTagName('button')[0].innerHTML = "<div class='flexRow flexSpaceBetween g-15px w-100%'><div>" + options[k].innerHTML + "</div><i class='fa-solid fa-caret-down'></i></div>"
+                    pb_classGenerator()
+                    toggleElement(dropdownClassname)
+                }
+                selectMenu.append(option)
+            }
+            dropdowns[i].append(selectMenu)
+        }
+        pb_dropdownsBefore = dropdowns
     }
 }
   

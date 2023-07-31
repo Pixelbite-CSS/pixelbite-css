@@ -537,6 +537,7 @@ img {
 
 .dropdown {
     position: relative;
+    z-index: 50;
 }
 
 .dropdown > button {

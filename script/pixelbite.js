@@ -229,7 +229,7 @@ var pixelbite = {
     components: [],
     fontawesome: 'https://kit.fontawesome.com/f474ae69e7.js',
     debug: false,
-    version: 'beta-1.6'
+    version: '1.6'
 }
 
 const pb_getObjectValues = (object) => {
@@ -490,7 +490,7 @@ const pb_configEval = async (url) => {
                 category = line.trim().replaceAll('[', '').replaceAll(']', '')
             } else {
                 let variable = pb_extractWordBeforeEquals(line)
-                let value = line.replace(/^\w+\s*=\s*/, '').trim()
+                let value = line.replace(/^\w+\s*=\s*/, '').trim().replace(/.*?@\/\s*/,'@/').replaceAll('@/', window.location.protocol + "//" + window.location.host + "/")
                 try {
                     if(category === "informations") {
                         eval('object.' + variable + ' = ' + value)
@@ -742,9 +742,24 @@ const pb_classGenerator = () => {
                 if (element_class_split[0] === class_library[j][0]) {
                     element.style.cssText += class_library[j][1] + ':' + pb_classSplitToString(element_class_split, 1) + ';'
                 }
+                if(element_class_split[0] === "gradient") {
+                    if (!element_class_split[3]) {
+                        element_class_split[3] = 0
+                    }
+                    let col1 = pb_variableCheck(element_class_split[1])
+                    let col2 = pb_variableCheck(element_class_split[2])
+                    let deg = pb_variableCheck(element_class_split[3])
+                    element.style.cssText += '' +
+                    'background: ' +
+                    'background: -moz-linear-gradient(' + deg + ', ' + col1 + ' 0%, ' + col2 + ' 100%);' +
+                    'background: -webkit-linear-gradient(' + deg + ', ' + col1 + ' 0%, ' + col2 + ' 100%);' +
+                    'background: linear-gradient(' + deg + ', ' + col1 + ' 0%, ' + col2 + ' 100%);' +
+                    'filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="' + col1 + '",endColorstr="' + col2 + '",GradientType=1);'
+                }
             }
         })
         pb_updateSearchbars()
+        pb_updateDropdowns()
         pb_generateFloatInput(element)
     }
 }
@@ -820,6 +835,36 @@ const pb_classSplitToString = (array, startPosition) => {
         }
         return a
     } else return ""
+}
+
+const pb_variableCheck = (string) => {
+    let variables = pb_getObjectValues(pixelbite.variables)
+        let color_library_hsl = pb_getObjectValues(pixelbite.colors)
+        for (let j = 0; j < variables.length; j++) {
+            if (variables[j][1].includes('url(')) {
+                let fontName = 'font-' + pb_randomString(32)
+                let varia = pixelbite.variables
+                pb_putCustomFontIntoCSS(fontName, variables[j][1])
+                varia[variables[j][0]] = fontName
+            }
+            if (string === variables[j][0]) {
+                string = variables[j][1]
+            }
+        }
+        for (let j = 0; j < color_library_hsl.length; j++) {
+            if (color_library_hsl[j][1].includes('#')) {
+                let hsl = pb_colorConverter(color_library_hsl[j][1])
+                color_library_hsl[j][1] = [hsl[0] * 360 + '', hsl[1] * 100 + '%']
+            }
+            if (string.includes(color_library_hsl[j][0])) {
+                let lightness = string.replace(color_library_hsl[j][0], "")
+                if (!lightness) lightness = 50
+                if (pb_isNumeric(lightness)) {
+                    string = "hsl(" + color_library_hsl[j][1][0] + "," + color_library_hsl[j][1][1] + "," + lightness + '%)'
+                }
+            }
+        }
+        return string
 }
 
 const pb_isNumeric = (str) => {
@@ -989,6 +1034,52 @@ const pb_updateSearchbars = () => {
             }
         }
         pb_searchbarsBefore = searchbars
+    }
+}
+
+let pb_dropdownsBefore = []
+
+const pb_updateDropdowns = () => {
+    let dropdowns = document.getElementsByClassName("dropdown");
+    if(pb_dropdownsBefore.length !== dropdowns.length) {
+        for (let i = 0; i < dropdowns.length; i++) {
+            let divs = document.getElementsByTagName('div')
+            let buttons = document.getElementsByTagName('button')
+            for(let j = 0; j < divs.length; j++) {
+                divs[j].remove
+            }
+            for(let j = 0; j < buttons.length; j++) {
+                buttons[j].remove
+            }
+            let selects = dropdowns[i].getElementsByTagName('select')
+            for(let j = 0; j < selects.length; j++) {
+                selects[j].style.display = "none";
+            }
+            let options = dropdowns[i].getElementsByTagName('select')[0].getElementsByTagName('option')
+            let selectButton = document.createElement("button")
+            let dropdownClassname = "toggle-" + pb_randomString(32)
+            selectButton.onclick = () => toggleElement(dropdownClassname)
+            selectButton.innerHTML = "<div class='flexRow flexSpaceBetween g-15px w-100%'><div>" + options[0].innerHTML + "</div><i class='fa-solid fa-caret-down'></i></div>"
+            dropdowns[i].append(selectButton)
+            dropdowns[i].value = options[0].value;
+            let selectMenu = document.createElement("div")
+            selectMenu.classList.add("hidden")
+            selectMenu.classList.add(dropdownClassname)
+            for(let k = 0; k < options.length; k++) {
+                let option = document.createElement("div")
+                option.value = options[k].value
+                option.innerHTML = options[k].innerHTML
+                option.onclick = () => {
+                    dropdowns[i].value = options[k].value
+                    dropdowns[i].getElementsByTagName('button')[0].innerHTML = "<div class='flexRow flexSpaceBetween g-15px w-100%'><div>" + options[k].innerHTML + "</div><i class='fa-solid fa-caret-down'></i></div>"
+                    pb_classGenerator()
+                    toggleElement(dropdownClassname)
+                }
+                selectMenu.append(option)
+            }
+            dropdowns[i].append(selectMenu)
+        }
+        pb_dropdownsBefore = dropdowns
     }
 }
   

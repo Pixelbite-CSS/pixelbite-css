@@ -1,25 +1,13 @@
 [
   {
-    "version": "Recommended",
-    "text": "Recommended newest version",
-    "css": "https://pixelbite-css.github.io/pixelbite-css/index.css",
-    "js": "https://pixelbite-css.github.io/pixelbite-css/index.js"
-  },
-  {
-    "version": "Latest",
-    "text": "Always the newest version, can contain bugs and experimental features",
-    "css": "https://pixelbite-css.github.io/pixelbite-css/style/pixelbite.css",
-    "js": "https://pixelbite-css.github.io/pixelbite-css/script/pixelbite.js"
-  },
-  {
     "version": "1.6-min",
-    "text": "Components support + Github Markdown (minified)",
+    "text": "Major overhaul (minified)",
     "css": "https://pixelbite-css.github.io/pixelbite-css/style/1.6/pixelbite-min.css",
     "js": "https://pixelbite-css.github.io/pixelbite-css/script/1.6/pixelbite-min.js"
   },
   {
     "version": "1.6",
-    "text": "Components support + Github Markdown",
+    "text": "Major overhaul",
     "css": "https://pixelbite-css.github.io/pixelbite-css/style/1.6/pixelbite.css",
     "js": "https://pixelbite-css.github.io/pixelbite-css/script/1.6/pixelbite.js"
   },
@@ -58,5 +46,17 @@
     "text": "First public version",
     "css": "https://pixelbite-css.github.io/pixelbite-css/style/1.4.2/pixelbite.css",
     "js": "https://pixelbite-css.github.io/pixelbite-css/script/1.4.2/pixelbite.js"
+  },
+  {
+    "version": "Recommended",
+    "text": "Recommended newest version",
+    "css": "https://pixelbite-css.github.io/pixelbite-css/index.css",
+    "js": "https://pixelbite-css.github.io/pixelbite-css/index.js"
+  },
+  {
+    "version": "Latest (Experimental)",
+    "text": "Always the newest version, can contain bugs and experimental features",
+    "css": "https://pixelbite-css.github.io/pixelbite-css/style/pixelbite.css",
+    "js": "https://pixelbite-css.github.io/pixelbite-css/script/pixelbite.js"
   }
 ]

@@ -11,5 +11,3 @@
 - Changed Pixelbite Object's structure
 - Added function alocatedPath() that replaces '@/' string with site's url
     - Changed object attributes to 'object_name:object'
-- Added 'gradient' support (syntax: 'gradient-col1-col2-rotation')
-- Added working dropdown

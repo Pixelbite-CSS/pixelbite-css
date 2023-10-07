@@ -229,7 +229,7 @@ var pixelbite = {
     components: [],
     fontawesome: 'https://kit.fontawesome.com/f474ae69e7.js',
     debug: false,
-    version: 'beta-1.6'
+    version: '1.6'
 }
 
 const pb_getObjectValues = (object) => {

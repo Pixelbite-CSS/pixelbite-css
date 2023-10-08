@@ -553,6 +553,7 @@ img {
 }
 
 .loader, .loader-page {
+    opacity: 1;
     transition: .4s;
 }
 

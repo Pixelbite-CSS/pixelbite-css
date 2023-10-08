@@ -1,13 +1,13 @@
 [
   {
     "version": "1.6-min",
-    "text": "Major overhaul (minified)",
+    "text": "Config/Themes support, FontAwesome implementation (minified)",
     "css": "https://pixelbite-css.github.io/pixelbite-css/style/1.6/pixelbite-min.css",
     "js": "https://pixelbite-css.github.io/pixelbite-css/script/1.6/pixelbite-min.js"
   },
   {
     "version": "1.6",
-    "text": "Major overhaul",
+    "text": "Config/Themes support, FontAwesome implementation",
     "css": "https://pixelbite-css.github.io/pixelbite-css/style/1.6/pixelbite.css",
     "js": "https://pixelbite-css.github.io/pixelbite-css/script/1.6/pixelbite.js"
   },

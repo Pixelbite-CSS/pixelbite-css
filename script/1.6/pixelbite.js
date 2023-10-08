@@ -383,6 +383,15 @@ const pb_includeHtmlToAnElement = async (element, path, attributes) => {
                         response = pb_replaceAll(response, attribute_syntax, element.getAttribute(attribute))
                         element.removeAttribute(attribute)
                     }
+                    
+                    const regex = /\${variables.(.*?)}/g;                
+                    response = response.replace(regex, (match, variableName) => {
+                        if (pixelbite.variables.hasOwnProperty(variableName)) {
+                            return pixelbite.variables[variableName];
+                        } else {
+                            return match;
+                        }
+                    });
                 }
                 if (element.getAttribute('markdown')) {
                     response = pb_customMarkdown(response, element.getAttribute('markdown'))
@@ -408,8 +417,6 @@ const pb_includeHtmlToAnElement = async (element, path, attributes) => {
 
 let darkmode = false
 
-let pb_variableReplace_check = false
-
 window.addEventListener("load", async () => {
     await pb_alocatedPath()
     await pb_checkLoremIpsum()
@@ -422,12 +429,9 @@ window.addEventListener("load", async () => {
     }
     pb_classGenerator()
     await pb_configureConfigs(pixelbite.configs)
-    pb_variableReplace()
-    pb_variableReplace_check = true
-    await pb_setCustomComponents()
+    pb_setCustomComponents()
     pb_slideshowGenerator()
     await pb_addFontAwesome()
-    pb_classGenerator()
     pb_checkLoaders()
 })
 
@@ -679,7 +683,6 @@ const pb_classGenerator = () => {
     debugmode()
     pb_alocatedPath()
     pb_checkLoremIpsum()
-    if (pb_variableReplace_check) { pb_variableReplace() }
     if (pixelbite.variables.primary !== document.documentElement.style.getPropertyValue('--primary-color')) {
         pb_changeRootVariable('--primary-color', pixelbite.variables.primary)
     }
@@ -798,21 +801,6 @@ const pb_aliasClassReplace = (element) => {
             }
         }
     }
-}
-
-const pb_variableReplace = () => {
-    const htmlContent = document.body.innerHTML;
-    const regex = /\${variables.(.*?)}/g;
-
-    const replacedContent = htmlContent.replace(regex, (match, variableName) => {
-        if (pixelbite.variables.hasOwnProperty(variableName)) {
-            return pixelbite.variables[variableName];
-        } else {
-            return match;
-        }
-    });
-
-    document.body.innerHTML = replacedContent;
 }
 
 const pb_classSplitToString = (array, startPosition) => {

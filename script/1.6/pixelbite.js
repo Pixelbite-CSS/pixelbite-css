@@ -418,6 +418,7 @@ const pb_includeHtmlToAnElement = async (element, path, attributes) => {
 let darkmode = false
 
 window.addEventListener("load", async () => {
+    pb_classGenerator()
     await pb_alocatedPath()
     await pb_checkLoremIpsum()
     let darkmodeCookie = pb_getCookie('darkmode')
@@ -429,9 +430,10 @@ window.addEventListener("load", async () => {
     }
     pb_classGenerator()
     await pb_configureConfigs(pixelbite.configs)
-    pb_setCustomComponents()
+    await pb_setCustomComponents()
     pb_slideshowGenerator()
     await pb_addFontAwesome()
+    await pb_sleep(0)
     pb_checkLoaders()
 })
 
